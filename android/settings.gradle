@@ -1,0 +1,3 @@
+rootProject.name = 'chlwd18'
+
+include ':app'
