@@ -6,10 +6,6 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { chlwd18 } from './app/Main';
+import Main from './app/Main';
 
-export default class chlwd18 extends Component {
-
-}
-
-AppRegistry.registerComponent('chlwd18', () => chlwd18);
+AppRegistry.registerComponent('chlwd18', () => Main);

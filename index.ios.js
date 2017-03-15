@@ -4,9 +4,8 @@
  * @flow
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { Main } from './app';
-
+import Main from './app/Main';
 
 AppRegistry.registerComponent('chlwd18', () => Main);
