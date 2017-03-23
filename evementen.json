@@ -1,0 +1,93 @@
+/* Row Format for news listview */
+{
+   "id":"newsitem_id",
+   "language":"nl",
+   "title": "title",
+   "summary": "summary",
+   "thumbnail": "small_img_url",
+   "thumbnail_hdpi": "small_img_url@x2",
+   "tags": [
+      "Sport",
+      "Cultuur"
+   ],
+   "published_ad":"unix-timestamp",
+   "updated_ad":"unix-timestamp",
+}
+
+/* Format for specific news item */
+{
+   "id":"event_id",
+   "language":"nl",
+   "title": "title",
+   "header_img": "larger_img_url",
+   "header_img_hdpi": "larger_img_url@x2",
+   "body":{
+      "text":"text",
+      "image":"image_url",
+      "text":"text",
+      "image":"image_url",
+      "image":"image_url"
+   },
+   "published_ad": "unix-timestamp",
+   "updated_ad":"unix-timestamp",
+   "author":"name_author",
+   "social_url":"website_url"
+}
+
+/* Row Format for event listview */
+{
+   "id":"event_id",
+   "language":"nl",
+   "title": "title",
+   "summary": "summary",
+   "thumbnail": "small_img_url",
+   "thumbnail_hdpi": "small_img_url@x2",
+   "tags": [
+      "music",
+      "theatre"
+   ],
+   "price": "event_price",
+   "dateStart":"unix-timestamp",
+   "dateEnd":"unix-timestamp",
+}
+
+
+/* Format for specific event */
+{
+   "id":"event_id",
+   "language":"nl",
+   "title": "title",
+   "header_img": "larger_img_url",
+   "header_img_hdpi": "larger_img_url@x2",
+   "ticket_prices": {
+      "adult":"14,00",
+      "kids":"5,00",
+      "seniors":"20,00",
+      "cjp": "10,00"
+   },
+   "tags": [
+      "music",
+      "theatre"
+   ],
+   "buy_tickets_link": "ticket_url",
+   "body": "event_body_text",
+   "images": {
+      "image": {
+         "url": "image_url",
+         "image_text": "image_text",
+      },
+      "image": {
+         "url": "image_url",
+         "image_text": "image_text",
+      }
+   },
+   "dateStart":"unix-timestamp",
+   "dateEnd":"unix-timestamp",
+   "longitude": "longitude",
+   "latitude": "latitude",
+   "location":"adress_string",
+   "city":"city_name",
+   "tel_number":"058-1234567",
+   "website":"website_url_event_organisation",
+   "social_url":"website_url_van_plan"
+}
