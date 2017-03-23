@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
+import { getData } from './helpers/DataAPI';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +21,16 @@ export default class Main extends Component {
       super(props);
    }
 
+   componentWillMount() {
+      // Call getData(api_link_url)
+   }
+
    render() {
      return (
        <View style={styles.container}>
-         <Text style={styles.welcome}>
-           hoi
-         </Text>
+            <Text style={styles.welcome}>
+              Hoi
+            </Text>
        </View>
      );
    }
