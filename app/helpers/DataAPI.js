@@ -4,12 +4,11 @@
  * @return [type]             Returns data fetched from API
  */
 export function getData(apiLink) {
-   return fetch(apiLink)
-      .then((response) => response.json())
+   fetch(apiLink).then((response) => response.json())
       .then((responseJson) => {
          return responseJson;
       })
       .catch((error) => {
-         console.error(error);
+         return console.error(error);
       });
 }
