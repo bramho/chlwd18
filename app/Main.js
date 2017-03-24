@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
 import { getData } from './helpers/DataAPI';
 
+import Translations from './helpers/Translations';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,7 +31,7 @@ export default class Main extends Component {
      return (
        <View style={styles.container}>
             <Text style={styles.welcome}>
-              Hoi
+              {I18n.t('greeting')}
             </Text>
        </View>
      );
