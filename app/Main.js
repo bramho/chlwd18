@@ -3,21 +3,10 @@ import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
 import { getData } from './helpers/DataAPI';
 import { getTranslation, setLocale } from './helpers/Translations.js';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+import Basic from './assets/stylesheet'
 
 export default class Main extends Component {
+
    constructor(props) {
       super(props);
    }
@@ -28,8 +17,8 @@ export default class Main extends Component {
 
    render() {
      return (
-       <View style={styles.container}>
-         <Text style={styles.welcome}>
+       <View style={Basic.container}>
+         <Text style={Basic.h1}>
            {getTranslation('greeting')}
          </Text>
        </View>
