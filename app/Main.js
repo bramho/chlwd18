@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
 import { getData } from './helpers/DataAPI';
+import { getTranslation, setLocale } from './helpers/Translations.js';
 
 import Basic from './assets/stylesheet'
 
@@ -17,9 +18,9 @@ export default class Main extends Component {
    render() {
      return (
        <View style={Basic.container}>
-            <Text style={Basic.h1}>
-              Hoi
-            </Text>
+         <Text style={Basic.h1}>
+           {getTranslation('greeting')}
+         </Text>
        </View>
      );
    }
