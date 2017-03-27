@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, View, } from 'react-native';
 import { Router, Scene } from 'react-native-router-flux';
 
+import { getTranslation } from '../helpers/Translations';
+
 import Basic from '../assets/stylesheet';
 
 import Home from '../screens/Home';
@@ -11,7 +13,7 @@ import TestNews from '../screens/TestNews'; // For testing purposes ONLY
 
 const TabIcon = ({ selected, title }) => {
    return (
-      <Text style={{fontWeight: selected ? 'bold' : 'normal '}}>{title}</Text>
+      <Text style={{fontWeight: selected ? 'bold' : 'normal'}}>{title}</Text>
    );
 }
 
@@ -39,7 +41,7 @@ export default class Menu extends Component {
                      hideNavBar
                   />
 
-                  <Scene key="events" title="EVENTS" icon={TabIcon}>
+               <Scene key="events" title={getTranslation('eventsMenuItem')} icon={TabIcon}>
 
                      <Scene
                        key="testEvents"
@@ -50,7 +52,7 @@ export default class Menu extends Component {
 
                   </Scene>
 
-                  <Scene key="news" title="NEWS" icon={TabIcon}>
+                  <Scene key="news" title={getTranslation('newsMenuItem')} icon={TabIcon}>
 
                      <Scene
                        key="testNews"
