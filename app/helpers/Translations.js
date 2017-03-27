@@ -9,11 +9,15 @@ I18n.translations = {
       greeting: 'Hi!',
       homePageTitle: 'WELCOME TO \n',
       homePageSubTitle: 'LWD2018',
+      eventsMenuItem: 'Events',
+      newsMenuItem: 'News',
    },
    'nl-NL': {
       greeting: 'Hallo!',
       homePageTitle: 'WELKOM BIJ \n',
       homePageSubTitle: 'LWD2018',
+      eventsMenuItem: 'Evenementen',
+      newsMenuItem: 'Nieuws',
    },
    'pl': {
       greeting: 'Kurwa!'
@@ -37,8 +41,8 @@ function setDefaultLocale() {
    var language = getCurrentLocale();
 
    if (language === 'nl-NL' || language === 'en') {
-      //I18n.locale = language;
-      I18n.locale = 'nl-NL';
+      I18n.locale = language;
+      // I18n.locale = 'nl-NL';
    } else {
       I18n.locale = 'nl-NL';
    }

@@ -9,12 +9,6 @@ import Basic from './assets/stylesheet';
 
 import Menu from './components/Menu';
 
-const TabIcon = ({ selected, title }) => {
-   return (
-      <Text style={{color: selected ? 'red' : 'black'}}>{title}</Text>
-   );
-}
-
 export default class Main extends Component {
 
    constructor(props) {
