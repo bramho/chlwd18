@@ -4,8 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { getTranslation, setLocale } from '../helpers/Translations.js';
 
-import Basic from '../assets/stylesheets/stylesheet-basic';
-import Colors from '../assets/stylesheets/stylesheet-colors';
+import { Basic, Colors} from '../assets/stylesheets/stylesheet-basic';
 
 export default class Main extends Component {
 
