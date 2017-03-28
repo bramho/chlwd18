@@ -31,6 +31,7 @@ export default class SearchBarComponent extends Component {
                   backgroundColor: '#FFFFFF',
                   borderRadius: 2,}}
                   placeholder={getTranslation('searchTerm')}
+               
             />
          </View>
       );
