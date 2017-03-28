@@ -11,6 +11,7 @@ import Home from '../screens/Home';
 
 import TestEvents from '../screens/TestEvents'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
+import EventsList from '../screens/EventsList';
 
 const TabIcon = ({ selected, title }) => {
    return (
@@ -39,6 +40,7 @@ export default class Menu extends Component {
                      key="home"
                      component={Home}
                      title="Home"
+                     type="switch"
                      hideNavBar
                   />
 
@@ -46,8 +48,9 @@ export default class Menu extends Component {
 
                      <Scene
                        key="testEvents"
-                       component={TestEvents}
-                       title="TestEvents"
+                       component={EventsList}
+                       title={getTranslation('eventsMenuItem')}
+                       hideNavBar
                        initial
                      />
 
@@ -58,7 +61,7 @@ export default class Menu extends Component {
                      <Scene
                        key="testNews"
                        component={TestNews}
-                       title="TestNews"
+                       title={getTranslation('newsMenuItem')}
                        initial
                      />
 
