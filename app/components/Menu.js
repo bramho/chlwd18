@@ -11,6 +11,7 @@ import Home from '../screens/Home';
 
 import TestEvents from '../screens/TestEvents'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
+import EventsList from '../screens/EventsList';
 
 const TabIcon = ({ selected, title }) => {
    return (
@@ -46,7 +47,7 @@ export default class Menu extends Component {
 
                      <Scene
                        key="testEvents"
-                       component={TestEvents}
+                       component={EventsList}
                        title="TestEvents"
                        initial
                      />

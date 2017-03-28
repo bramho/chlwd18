@@ -4,7 +4,7 @@ import { StyleSheet, Text, Image, View, ListView} from 'react-native';
 
 import Api from '../helpers/Api';
 
-import Basic from '../assets/stylesheet';
+import Basic from '../assets/stylesheets/stylesheet-basic';
 
 const Events = StyleSheet.create({
    container: {
