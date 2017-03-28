@@ -13,7 +13,7 @@ export default Basic = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
+
       backgroundColor: '#F5FCFF',
    },
    h1: {
@@ -27,5 +27,14 @@ export default Basic = StyleSheet.create({
    },
    img: {
       resizeMode: React.Image.resizeMode.cover,
+   },
+   title: {
+      marginLeft: 30,
+   },
+   subTitle: {
+      fontSize: 40,
+   },
+   bold: {
+      fontWeight:'bold',
    }
 });
