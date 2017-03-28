@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView} from 'react-native';
 
+import SearchBarComponent from '../components/SearchBar';
 
 import Api from '../helpers/Api';
 
@@ -106,6 +107,9 @@ export default class EventsList extends Component {
       </View>
    )
    }
+   _renderHeader() {
+
+   }
    render() {
        console.log("Data: ", this.state.dataSource);
       return (
@@ -113,6 +117,7 @@ export default class EventsList extends Component {
             style={Events.container}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
+            renderHeader={() => <SearchBarComponent />}
             renderSeparator={(sectionID, rowID) =>
               <View key={`${sectionID}-${rowID}`} style={Events.separator} />
             }
