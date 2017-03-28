@@ -40,6 +40,7 @@ export default class Menu extends Component {
                      key="home"
                      component={Home}
                      title="Home"
+                     type="switch"
                      hideNavBar
                   />
 
@@ -48,7 +49,8 @@ export default class Menu extends Component {
                      <Scene
                        key="testEvents"
                        component={EventsList}
-                       title="TestEvents"
+                       title={getTranslation('eventsMenuItem')}
+                       hideNavBar
                        initial
                      />
 
@@ -59,7 +61,7 @@ export default class Menu extends Component {
                      <Scene
                        key="testNews"
                        component={TestNews}
-                       title="TestNews"
+                       title={getTranslation('newsMenuItem')}
                        initial
                      />
 
