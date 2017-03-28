@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
 import { getData } from './helpers/DataAPI';
 import { getTranslation, setLocale } from './helpers/Translations.js';
 
-import Basic from './assets/stylesheets/stylesheet-basic'
+import Basic from './assets/stylesheets/stylesheet-basic';
 
 export default class Main extends Component {
 
