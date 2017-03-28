@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
 import { getData } from './helpers/DataAPI';
 
-import Basic from './assets/stylesheet'
+import Basic from './assets/stylesheets/stylesheet-basic'
 
 export default class Main extends Component {
 
