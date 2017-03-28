@@ -74,7 +74,7 @@ export default class EventsList extends Component {
        console.log("Data: ", this.state.dataSource);
       return (
          <ListView
-            style={Basic.container}
+            style={ListViewStyle.container}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
             renderHeader={() => <SearchBarComponent />}
