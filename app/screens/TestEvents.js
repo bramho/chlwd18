@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import Basic from '../assets/stylesheets/stylesheet-basic'
+import { Basic } from '../assets/stylesheets/stylesheet-basic'
 
 export default class TestEvents extends Component {
 
