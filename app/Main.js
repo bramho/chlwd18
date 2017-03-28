@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
-import { getTranslation, setLocale } from './helpers/Translations.js';
 
-import EventsList from './screens/EventsList';
-
-import Basic from './assets/stylesheet';
+import Menu from './components/Menu';
 
 export default class Main extends Component {
 
@@ -13,8 +9,8 @@ export default class Main extends Component {
    }
 
    render() {
-     return (//https://jsonplaceholder.typicode.com/posts
-       <EventsList/>
-     );
+      return (
+         <Menu />
+      );
    }
 }

@@ -2,6 +2,12 @@
  * This is a general stylesheet for common styles and variables
  */
 import React, {StyleSheet, Dimensions, PixelRatio} from "react-native";
+/**
+ * Importing other styles from stylesheets
+ */
+import Colors from "./stylesheet-colors";
+import Menu from "./stylesheet-menu";
+import ListViewStyle from "./stylesheet-listview";
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,
@@ -9,12 +15,12 @@ const {width, height, scale} = Dimensions.get("window"),
      vmin = Math.min(vw, vh),
      vmax = Math.max(vw, vh);
 
-export default Basic = StyleSheet.create({
+const Basic = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+      marginTop:60,
+      marginBottom:60
    },
    h1: {
       fontSize:32,
@@ -27,5 +33,16 @@ export default Basic = StyleSheet.create({
    },
    img: {
       resizeMode: React.Image.resizeMode.cover,
+   },
+   title: {
+      marginLeft: 30,
+   },
+   subTitle: {
+      fontSize: 40,
+   },
+   bold: {
+      fontWeight:'bold',
    }
 });
+
+export { Basic, Colors, Menu, ListViewStyle };
