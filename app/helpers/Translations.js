@@ -11,6 +11,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Events',
       newsMenuItem: 'News',
+      searchTerm: 'Search...',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -18,6 +19,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Evenementen',
       newsMenuItem: 'Nieuws',
+      searchTerm: 'Zoeken...',
    },
    'pl': {
       greeting: 'Kurwa!'

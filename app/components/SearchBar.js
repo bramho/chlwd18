@@ -20,7 +20,9 @@ export default class SearchBarComponent extends Component {
          padding: 8,
          flexDirection: 'row',
          alignItems: 'center',
-         backgroundColor: '#C1C1C1',}}>
+         backgroundColor: '#C1C1C1',
+         marginBottom:10,
+         }}>
             <TextInput
                style={{height: 30,
                   flex: 1,
@@ -28,7 +30,7 @@ export default class SearchBarComponent extends Component {
                   fontSize: 15,
                   backgroundColor: '#FFFFFF',
                   borderRadius: 2,}}
-               placeholder="Search..."
+                  placeholder={getTranslation('searchTerm')}
             />
          </View>
       );

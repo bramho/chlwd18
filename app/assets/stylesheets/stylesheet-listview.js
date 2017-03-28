@@ -6,8 +6,9 @@ import {StyleSheet} from "react-native";
  export default ListViewStyle = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor:"#F5FCFF",
-      paddingTop:10,
+      backgroundColor: "#F5FCFF",
+      paddingTop: 20,
+      marginBottom: 60
    },
    row: {
       flex: 1,
