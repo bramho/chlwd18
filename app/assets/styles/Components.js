@@ -3,7 +3,7 @@
  */
 import {StyleSheet} from "react-native";
 
-export default ComponentStyles = StyleSheet.create({
+export default ComponentStyle = StyleSheet.create({
    searchBarContainer: {
       flex: 1,
       padding: 8,

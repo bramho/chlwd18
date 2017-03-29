@@ -6,7 +6,7 @@ import { Text, View, TextInput, StyleSheet, ListView } from 'react-native';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 
-import Colors from '../assets/stylesheets/stylesheet-colors';
+import Colors from '../assets/styles/General';
 
 const styles = StyleSheet.create({
    container: {

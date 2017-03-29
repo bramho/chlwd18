@@ -3,7 +3,7 @@
  */
 import {StyleSheet} from "react-native";
 
- export default ListViewStyle = StyleSheet.create({
+ export default ListView = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: "#F5FCFF",

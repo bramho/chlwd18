@@ -5,10 +5,10 @@ import React, {StyleSheet, Dimensions, PixelRatio} from "react-native";
 /**
  * Importing other styles from stylesheets
  */
-import Colors from "./stylesheet-colors";
-import Menu from "./stylesheet-menu";
-import ListViewStyle from "./stylesheet-listview";
-import ComponentStyles from "./stylesheet-components";
+import Colors from "./Colors";
+import MenuStyle from "./Menu";
+import ListViewStyle from "./Listview";
+import {SearchBar} from "./Components";
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,
@@ -16,7 +16,7 @@ const {width, height, scale} = Dimensions.get("window"),
      vmin = Math.min(vw, vh),
      vmax = Math.max(vw, vh);
 
-const Basic = StyleSheet.create({
+const General = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
@@ -46,4 +46,4 @@ const Basic = StyleSheet.create({
    }
 });
 
-export { Basic, Colors, Menu, ListViewStyle, ComponentStyles };
+export { General, Colors, MenuStyle, ListViewStyle, ComponentStyle };
