@@ -4,8 +4,7 @@ import { Router, Scene } from 'react-native-router-flux';
 
 import { getTranslation } from '../helpers/Translations';
 
-import Colors from '../assets/stylesheets/stylesheet-colors';
-import MenuStyles from '../assets/stylesheets/stylesheet-menu';
+import {Colors, MenuStyles} from '../assets/styles/General';
 
 import Home from '../screens/Home';
 

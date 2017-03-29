@@ -3,7 +3,7 @@
  */
 import {StyleSheet} from "react-native";
 
-export default MenuStyles = StyleSheet.create({
+export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
       height: 60,
       borderTopWidth: 1,

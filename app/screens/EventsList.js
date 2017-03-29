@@ -7,7 +7,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 
-import { Basic, ListViewStyle, ComponentStyles } from '../assets/stylesheets/stylesheet-basic';
+import { General, ListViewStyle, ComponentStyles } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview

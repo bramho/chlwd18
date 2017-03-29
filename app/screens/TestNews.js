@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import { Basic } from '../assets/stylesheets/stylesheet-basic';
+import { General } from '../assets/styles/General';
 
 export default class TestNews extends Component {
 
@@ -12,8 +12,8 @@ export default class TestNews extends Component {
 
    render() {
      return (
-       <View style={Basic.container}>
-         <Text style={[Basic.h1, Basic.title]}>
+       <View style={General.container}>
+         <Text style={[General.h1, General.title]}>
             News
          </Text>
        </View>
