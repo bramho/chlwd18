@@ -5,11 +5,9 @@ import SearchBarComponent from '../components/SearchBar';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
+import { filterData } from '../helpers/Filters';
 
-/**
- * Importing stylesheets for the screen.
- */
-import { Basic, ListViewStyle } from '../assets/stylesheets/stylesheet-basic';
+import { Basic, ListViewStyle, ComponentStyles } from '../assets/stylesheets/stylesheet-basic';
 
 /**
  * Apilink for calling data for the listview
@@ -17,28 +15,10 @@ import { Basic, ListViewStyle } from '../assets/stylesheets/stylesheet-basic';
 const apiLink = "https://eric-project.c4x.nl/api/events";
 
 /**
- * New ListView datasource object
+ * New initialisation of the ListView datasource object
  */
 const ds = new ListView.DataSource({
    rowHasChanged: (row1, row2) => row1 !== row2,
-});
-
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      padding: 8,
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#C1C1C1',
-   },
-   input: {
-      height: 30,
-      flex: 1,
-      paddingHorizontal: 8,
-      fontSize: 15,
-      backgroundColor: '#FFFFFF',
-      borderRadius: 2,
-   },
 });
 
 export default class EventsList extends Component {
@@ -52,23 +32,21 @@ export default class EventsList extends Component {
       };
 
    }
+
    componentDidMount() {
-      Api.getData(apiLink).then((res)=>{
-         console.log(res);
-         this.setState({
-           dataSource: ds.cloneWithRows(res),
-           apiData: res,
-         });
-      }).catch((error) => {
-         console.error(error);
-      });;
+      this.fetchData();
    }
 
+   /**
+    * Fetches data from Api and returns the result
+    * @return [data] Data returned from Api
+    */
    fetchData() {
       Api.getData(apiLink)
          .then((data) => {
             this.setState({
-               dataSource: this.ds.cloneWithRows(data),
+               dataSource: ds.cloneWithRows(data),
+               apiData: data,
                isLoading: false,
                empty: false,
                rawData: data,
@@ -83,50 +61,18 @@ export default class EventsList extends Component {
          });
    }
 
+   /**
+    * Gets user input and sets dataSource to returned search results
+    * @param {Event} event    User input/search query
+    */
    setSearchText(event) {
       let searchText = event.nativeEvent.text;
-      console.log(this.state.apiData);
-      let filteredData = this.filterData(searchText, this.state.apiData);
-
-      console.log('Data: ' + filteredData);
+      let filteredData = filterData(searchText, this.state.apiData, 'events');
 
       this.setState({
          searchText,
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
-   }
-
-   filterData(searchText, data) {
-      let text = searchText.toLowerCase();
-      var rows = [];
-
-      var i;
-      var count = 0;
-
-      for (i in data) {
-         if (data.hasOwnProperty(i)) {
-            count++;
-         }
-      }
-
-      // console.log(count);
-
-      for (var i=0; i < count; i++) {
-
-        var stateName = data[i].title.toLowerCase();
-        if(stateName.search(text) !== -1){
-            rows.push({
-                 title : data[i].title,
-                 ticket_prices: data[i].ticket_prices,
-                 summary: data[i].summary,
-                 thumbnail: data[i].thumbnail,
-             });
-        }
-      }
-
-      console.log(rows);
-
-      return rows;
    }
 
    /**
@@ -155,25 +101,21 @@ export default class EventsList extends Component {
          </View>
       )
    }
-   _renderHeader() {
 
-   }
    render() {
-       console.log("Data: ", this.state.dataSource);
       return (
          <ListView
             style={ListViewStyle.container}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
-            renderHeader={() =>
-                                 <View style={styles.container}>
+            renderHeader={() => <View style={ComponentStyles.searchBarContainer}>
                                     <TextInput
-                                       style={styles.input}
+                                       style={ComponentStyles.searchBarInput}
                                        placeholder={getTranslation('searchTerm')}
                                        onChange={this.setSearchText.bind(this)}
                                     />
                                  </View>
-                              }
+                           }
             renderSeparator={(sectionID, rowID) =>
               <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
             }

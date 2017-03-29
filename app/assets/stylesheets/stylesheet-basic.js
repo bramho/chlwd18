@@ -8,6 +8,7 @@ import React, {StyleSheet, Dimensions, PixelRatio} from "react-native";
 import Colors from "./stylesheet-colors";
 import Menu from "./stylesheet-menu";
 import ListViewStyle from "./stylesheet-listview";
+import ComponentStyles from "./stylesheet-components";
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,
@@ -45,4 +46,4 @@ const Basic = StyleSheet.create({
    }
 });
 
-export { Basic, Colors, Menu, ListViewStyle };
+export { Basic, Colors, Menu, ListViewStyle, ComponentStyles };
