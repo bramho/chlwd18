@@ -4,7 +4,7 @@ import { Router, Scene } from 'react-native-router-flux';
 
 import { getTranslation } from '../helpers/Translations';
 
-import {Colors, MenuStyles} from '../assets/styles/General';
+import {Colors, MenuStyle} from '../assets/styles/General';
 
 import Home from '../screens/Home';
 
@@ -32,7 +32,7 @@ export default class Menu extends Component {
                <Scene
                 key="tabbar"
                 tabs
-                tabBarStyle={[MenuStyles.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
+                tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
                >
 
                   <Scene

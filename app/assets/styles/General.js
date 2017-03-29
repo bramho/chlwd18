@@ -6,9 +6,9 @@ import React, {StyleSheet, Dimensions, PixelRatio} from "react-native";
  * Importing other styles from stylesheets
  */
 import Colors from "./Colors";
-import Menu from "./Menu";
+import MenuStyle from "./Menu";
 import ListViewStyle from "./Listview";
-import ComponentStyles from "./Components";
+import {SearchBar} from "./Components";
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,

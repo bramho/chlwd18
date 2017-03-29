@@ -7,7 +7,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 
-import { General, ListViewStyle, ComponentStyles } from '../assets/styles/General';
+import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -108,9 +108,9 @@ export default class EventsList extends Component {
             style={ListViewStyle.container}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
-            renderHeader={() => <View style={ComponentStyles.searchBarContainer}>
+            renderHeader={() => <View style={ComponentStyle.searchBarContainer}>
                                     <TextInput
-                                       style={ComponentStyles.searchBarInput}
+                                       style={ComponentStyle.searchBarInput}
                                        placeholder={getTranslation('searchTerm')}
                                        onChange={this.setSearchText.bind(this)}
                                     />
