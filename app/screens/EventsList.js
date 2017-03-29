@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput} from 'react-native';
 
 import SearchBarComponent from '../components/SearchBar';
 
 import Api from '../helpers/Api';
+import { getTranslation } from '../helpers/Translations';
+import { filterData } from '../helpers/Filters';
 
-/**
- * Importing stylesheets for the screen.
- */
-import { Basic, ListViewStyle } from '../assets/stylesheets/stylesheet-basic';
+import { Basic, ListViewStyle, ComponentStyles } from '../assets/stylesheets/stylesheet-basic';
 
 /**
  * Apilink for calling data for the listview
@@ -16,7 +15,7 @@ import { Basic, ListViewStyle } from '../assets/stylesheets/stylesheet-basic';
 const apiLink = "https://eric-project.c4x.nl/api/events";
 
 /**
- * New ListView datasource object
+ * New initialisation of the ListView datasource object
  */
 const ds = new ListView.DataSource({
    rowHasChanged: (row1, row2) => row1 !== row2,
@@ -27,20 +26,55 @@ export default class EventsList extends Component {
       super(props);
 
       this.state = {
-         dataSource: ds
+         dataSource: ds,
+         rawData: '',
+         apiData: '',
       };
 
    }
+
    componentDidMount() {
-      Api.getData(apiLink).then((res)=>{
-         console.log(res);
-         this.setState({
-           dataSource: ds.cloneWithRows(res)
-         });
-      }).catch((error) => {
-         console.error(error);
-      });;
+      this.fetchData();
    }
+
+   /**
+    * Fetches data from Api and returns the result
+    * @return [data] Data returned from Api
+    */
+   fetchData() {
+      Api.getData(apiLink)
+         .then((data) => {
+            this.setState({
+               dataSource: ds.cloneWithRows(data),
+               apiData: data,
+               isLoading: false,
+               empty: false,
+               rawData: data,
+            });
+         })
+         .catch((error) => {
+            console.log(error)
+            this.setState({
+               empty: true,
+               isLoading: false,
+            });
+         });
+   }
+
+   /**
+    * Gets user input and sets dataSource to returned search results
+    * @param {Event} event    User input/search query
+    */
+   setSearchText(event) {
+      let searchText = event.nativeEvent.text;
+      let filteredData = filterData(searchText, this.state.apiData, 'events');
+
+      this.setState({
+         searchText,
+         dataSource: this.state.dataSource.cloneWithRows(filteredData),
+      });
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -67,17 +101,21 @@ export default class EventsList extends Component {
          </View>
       )
    }
-   _renderHeader() {
 
-   }
    render() {
-       console.log("Data: ", this.state.dataSource);
       return (
          <ListView
             style={ListViewStyle.container}
             dataSource={this.state.dataSource}
             renderRow={this._renderRow}
-            renderHeader={() => <SearchBarComponent />}
+            renderHeader={() => <View style={ComponentStyles.searchBarContainer}>
+                                    <TextInput
+                                       style={ComponentStyles.searchBarInput}
+                                       placeholder={getTranslation('searchTerm')}
+                                       onChange={this.setSearchText.bind(this)}
+                                    />
+                                 </View>
+                           }
             renderSeparator={(sectionID, rowID) =>
               <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
             }
