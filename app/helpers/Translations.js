@@ -21,9 +21,6 @@ I18n.translations = {
       newsMenuItem: 'Nieuws',
       searchTerm: 'Zoeken...',
    },
-   'pl': {
-      greeting: 'Kurwa!'
-   }
 }
 
 /**
