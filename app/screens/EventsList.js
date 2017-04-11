@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput} from 'react-native';
 import { Scene,Actions } from 'react-native-router-flux';
 
-import SearchBarComponent from '../components/SearchBar';
-
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
-import EventsNavbar from '../components/NavBar';
 /**
  * Apilink for calling data for the listview
  */
