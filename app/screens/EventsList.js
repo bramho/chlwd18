@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput} from 'react-native';
-
-import SearchBarComponent from '../components/SearchBar';
+import { Scene,Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -29,7 +28,9 @@ export default class EventsList extends Component {
          dataSource: ds,
          rawData: '',
          apiData: '',
+         searchText: ''
       };
+
 
    }
 
@@ -101,25 +102,26 @@ export default class EventsList extends Component {
          </View>
       )
    }
-
    render() {
       return (
-         <ListView
-            style={ListViewStyle.container}
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow}
-            renderHeader={() => <View style={ComponentStyle.searchBarContainer}>
-                                    <TextInput
-                                       style={ComponentStyle.searchBarInput}
-                                       placeholder={getTranslation('searchTerm')}
-                                       onChange={this.setSearchText.bind(this)}
-                                    />
-                                 </View>
-                           }
-            renderSeparator={(sectionID, rowID) =>
-              <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
-            }
-         />
+         <View style={General.container}>
+            <View style={ComponentStyle.searchBarContainer}>
+               <TextInput
+                  style={ComponentStyle.searchBarInput}
+                  placeholder={getTranslation('searchTerm')}
+                  onChange={this.setSearchText.bind(this)}
+               />
+            </View>
+            <ListView
+               style={ListViewStyle.container}
+               dataSource={this.state.dataSource}
+               renderRow={this._renderRow}
+               renderSeparator={(sectionID, rowID) =>
+                 <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+               }
+               renderFooter={() =><View style={ListViewStyle.footer} />}
+            />
+         </View>
       )
    }
 }

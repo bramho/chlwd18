@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Scene,Actions } from 'react-native-router-flux';
 
 import { getTranslation, setLocale } from '../helpers/Translations.js';
 

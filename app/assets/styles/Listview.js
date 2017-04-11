@@ -7,12 +7,13 @@ import {StyleSheet} from "react-native";
     container: {
       flex: 1,
       backgroundColor: "#F5FCFF",
-      marginBottom: 60
+      paddingTop:0
    },
    row: {
       flex: 1,
       marginLeft:10,
       marginRight:10,
+      marginTop:10,
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor:"#ccc"
@@ -46,6 +47,10 @@ import {StyleSheet} from "react-native";
       width: 100,
    },
    separator: {
+      flex: 1,
+      height: 0,
+   },
+   footer: {
       flex: 1,
       height: 10,
    },
