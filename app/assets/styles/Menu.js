@@ -7,5 +7,10 @@ export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
       height: 60,
       borderTopWidth: 1,
+   },
+   container: {
+      flex: 1,
+      justifyContent: 'center',
+      paddingBottom:60
    }
 });

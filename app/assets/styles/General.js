@@ -20,8 +20,6 @@ const General = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
-      marginTop:60,
-      marginBottom:60
    },
    h1: {
       fontSize:32,
