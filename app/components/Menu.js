@@ -3,6 +3,7 @@ import { Text, View, StatusBar, Platform } from 'react-native';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 
 import { getTranslation } from '../helpers/Translations';
+import { platform } from '../helpers/Platform';
 
 import {General,Colors, MenuStyle} from '../assets/styles/General';
 
@@ -64,7 +65,7 @@ export default class Menu extends Component {
 
    constructor(props) {
       super(props);
-      if(Platform.OS === 'Android') { StatusBar.setBackgroundColor('blue', true); }
+      if(platform('Android')) { StatusBar.setBackgroundColor('blue', true); }
    }
    render() {
       return (
