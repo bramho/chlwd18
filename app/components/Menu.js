@@ -37,6 +37,13 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar
                />
+
+               <Scene
+                 key="singelEvent"
+                 component={TestEvents}
+                 title={getTranslation('newsMenuItem')}
+                 sceneStyle={MenuStyle.container}
+               />
             </Scene>
 
 
@@ -50,12 +57,6 @@ const scenes = Actions.create(
                />
             </Scene>
          </Scene>
-         <Scene
-           key="singelEvent"
-           component={TestEvents}
-           title={getTranslation('newsMenuItem')}
-           sceneStyle={MenuStyle.container}
-         />
    </Scene>
 );
 
