@@ -3,6 +3,7 @@ import { Text, View, StatusBar, Platform } from 'react-native';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 
 import { getTranslation } from '../helpers/Translations';
+import { platform } from '../helpers/Platform';
 
 import {General,Colors, MenuStyle} from '../assets/styles/General';
 
@@ -26,9 +27,10 @@ const scenes = Actions.create(
          tabs
          tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
          >
-            <Scene key="eventsTab"  title="Events" icon={TabIcon}>
+            <Scene key="eventsTab" title="Events" icon={TabIcon}>
                <Scene
                  key="events"
+                 initial
                  searchText
                  component={EventsList}
                  title={getTranslation('eventsMenuItem')}
@@ -36,7 +38,16 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar
                />
+
+               <Scene
+                 key="singelEvent"
+                 component={TestEvents}
+                 title={getTranslation('newsMenuItem')}
+                 sceneStyle={MenuStyle.container}
+               />
             </Scene>
+
+
             <Scene key="newsTab" title="News" icon={TabIcon}>
                <Scene
                  key="news"
@@ -44,7 +55,6 @@ const scenes = Actions.create(
                  title={getTranslation('newsMenuItem')}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
-
                />
             </Scene>
          </Scene>
@@ -55,7 +65,7 @@ export default class Menu extends Component {
 
    constructor(props) {
       super(props);
-      if(Platform.OS === 'Android') { StatusBar.setBackgroundColor('blue', true); }
+      if(platform('Android')) { StatusBar.setBackgroundColor('blue', true); }
    }
    render() {
       return (

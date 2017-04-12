@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput} from 'react-native';
-import { Scene,Actions } from 'react-native-router-flux';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity} from 'react-native';
+import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -16,16 +16,18 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
 /**
  * New initialisation of the ListView datasource object
  */
-const ds = new ListView.DataSource({
-   rowHasChanged: (row1, row2) => row1 !== row2,
-});
+ const ds = new ListView.DataSource({
+    rowHasChanged: (row1, row2) => row1 !== row2,
+ });
+var listData = [];
 
 export default class EventsList extends Component {
    constructor(props) {
       super(props);
-
+      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
       this.state = {
-         dataSource: ds,
+         dataSource: dataSource.cloneWithRows(listData),
+         isLoading:true,
          rawData: '',
          apiData: '',
          searchText: ''
@@ -45,8 +47,9 @@ export default class EventsList extends Component {
    fetchData() {
       Api.getData(apiLink)
          .then((data) => {
+            listData = data;
             this.setState({
-               dataSource: ds.cloneWithRows(data),
+               dataSource: this.state.dataSource.cloneWithRows(data),
                apiData: data,
                isLoading: false,
                empty: false,
@@ -75,7 +78,10 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-
+   onItemPress(id) {
+            console.log('You Pressed');
+            Actions.singelEvent({eventId:id})
+       }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -83,6 +89,7 @@ export default class EventsList extends Component {
     */
    _renderRow (rowData) {
       return (
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
             <View style={ListViewStyle.body}>
@@ -98,11 +105,22 @@ export default class EventsList extends Component {
                  {rowData.summary}
                </Text>
             </View>
-
          </View>
+         </TouchableOpacity>
       )
    }
    render() {
+      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      <ListView
+         style={ListViewStyle.container}
+         dataSource={this.state.dataSource}
+         renderRow={this._renderRow.bind(this)}
+         renderSeparator={(sectionID, rowID) =>
+           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+         }
+         renderFooter={() =><View style={ListViewStyle.footer} />}
+         enableEmptySections={true}
+      />
       return (
          <View style={General.container}>
             <View style={ComponentStyle.searchBarContainer}>
@@ -112,15 +130,7 @@ export default class EventsList extends Component {
                   onChange={this.setSearchText.bind(this)}
                />
             </View>
-            <ListView
-               style={ListViewStyle.container}
-               dataSource={this.state.dataSource}
-               renderRow={this._renderRow}
-               renderSeparator={(sectionID, rowID) =>
-                 <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
-               }
-               renderFooter={() =><View style={ListViewStyle.footer} />}
-            />
+            {currentView}
          </View>
       )
    }
