@@ -7,6 +7,7 @@ export default ComponentStyle = StyleSheet.create({
    searchBarContainer: {
       padding: 8,
       height: 64,
+      top:0,
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#C1C1C1',
