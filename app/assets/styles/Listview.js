@@ -7,7 +7,8 @@ import {StyleSheet} from "react-native";
     container: {
       flex: 1,
       backgroundColor: "#F5FCFF",
-      paddingTop:0
+      paddingTop:0,
+      marginBottom:60
    },
    row: {
       flex: 1,

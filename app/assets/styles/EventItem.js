@@ -48,6 +48,8 @@ export default EventItem = StyleSheet.create({
       resizeMode: 'cover',
    },
    button: {
-      color:"#fff"
+      color:"#fff",
+      position:'relative',
+      zIndex: 2
    }
 });

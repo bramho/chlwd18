@@ -80,7 +80,7 @@ export default class EventsList extends Component {
    }
    onItemPress(id) {
             console.log('You Pressed');
-            Actions.singelEvent({eventId:id})
+            Actions.eventItem({eventId:id})
        }
    /**
     * [Set row attribute for the ListView in render()]

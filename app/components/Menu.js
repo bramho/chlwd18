@@ -38,12 +38,12 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar
                />
-
                <Scene
-                 key="singelEvent"
-                 component={TestEvents}
-                 title={getTranslation('newsMenuItem')}
+                 key="eventItem"
+                 component={EventItem}
                  sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.transparentNavbar}
                />
             </Scene>
 

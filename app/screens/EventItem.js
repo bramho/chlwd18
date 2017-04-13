@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,LinearGradient} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity} from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -22,7 +23,7 @@ export default class EventItem extends Component {
       this.state = {
          data: '',
          isLoading: true,
-         id:5//this.props.eventId,
+         id:this.props.eventId,
       };
 
    }
@@ -65,12 +66,9 @@ export default class EventItem extends Component {
              ]}
              source={{uri: this.state.data.header_img_hdpi}}
            />
-           <View style={General.navBar}>
-             <Text style={EventStyle.button}>{"<  Back"}</Text>
-           </View>
            <View style={EventStyle.headerContent}>
                <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
-               <Text style={[General.subTitle,EventStyle.headerText]}>{this.state.data.ticket_prices.adult}</Text>
+               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
                <Text style={[General.h2,EventStyle.headerText]}>{
                   formatDate(this.state.data.dateStart,'eventItem')
                }

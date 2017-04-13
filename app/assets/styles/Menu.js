@@ -11,5 +11,10 @@ export default MenuStyle = StyleSheet.create({
    sceneContainer: {
       marginTop:60,
       marginBottom:60
+   },
+   transparentNavbar: {
+      backgroundColor:'transparent',
+      borderWidth: 0,
+      borderColor: 'transparent'
    }
 });
