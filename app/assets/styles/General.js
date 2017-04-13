@@ -1,13 +1,14 @@
 /**
  * This is a general stylesheet for common styles and variables
  */
-import React, {StyleSheet, Dimensions, PixelRatio} from "react-native";
+import React, {StyleSheet, Dimensions, PixelRatio, Platform} from "react-native";
 /**
  * Importing other styles from stylesheets
  */
 import Colors from "./Colors";
 import MenuStyle from "./Menu";
 import ListViewStyle from "./Listview";
+import EventStyle from "./EventItem";
 import {SearchBar} from "./Components";
 
 const {width, height, scale} = Dimensions.get("window"),
@@ -20,8 +21,10 @@ const General = StyleSheet.create({
    container: {
       flex: 1,
       justifyContent: 'center',
-      marginTop:60,
-      marginBottom:60
+   },
+   p: {
+      fontSize:16,
+      marginBottom:20
    },
    h1: {
       fontSize:32,
@@ -36,14 +39,28 @@ const General = StyleSheet.create({
       resizeMode: React.Image.resizeMode.cover,
    },
    title: {
-      marginLeft: 30,
+      fontSize:36,
+      color:"#000"
    },
    subTitle: {
-      fontSize: 40,
+      fontSize: 24,
    },
    bold: {
       fontWeight:'bold',
+   },
+   navBar: {
+      height: 56,
+      padding:20,
+      justifyContent:'center',
+      ...Platform.select({
+         ios: {
+            paddingLeft: 5,
+         }
+      }),
+   },
+   textContainer: {
+      padding:20
    }
 });
 
-export { General, Colors, MenuStyle, ListViewStyle, ComponentStyle };
+export { General, Colors, MenuStyle, ListViewStyle, EventStyle, ComponentStyle };

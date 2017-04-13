@@ -7,5 +7,9 @@ export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
       height: 60,
       borderTopWidth: 1,
+   },
+   sceneContainer: {
+      marginTop:60,
+      marginBottom:60
    }
 });

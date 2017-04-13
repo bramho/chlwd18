@@ -8,7 +8,7 @@ import {Colors, MenuStyle} from '../assets/styles/General';
 
 import Home from '../screens/Home';
 
-import singelEvent from '../screens/singelEvent'; // For testing purposes ONLY
+import EventItem from '../screens/EventItem'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
 import EventsList from '../screens/EventsList';
 
@@ -33,13 +33,6 @@ export default class Menu extends Component {
                 tabs
                 tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
                >
-                  <Scene
-                     key="home"
-                     component={Home}
-                     title="Home"
-                     type="switch"
-                     hideNavBar
-                  />
                <Scene key="events" title={getTranslation('eventsMenuItem')} icon={TabIcon}>
 
                      <Scene
@@ -48,9 +41,7 @@ export default class Menu extends Component {
                        title={getTranslation('eventsMenuItem')}
                        hideNavBar
                        initial
-                     >
-
-                     </Scene>
+                     />
 
                   </Scene>
                   <Scene key="news" title={getTranslation('newsMenuItem')} icon={TabIcon}>
@@ -63,15 +54,16 @@ export default class Menu extends Component {
                      />
                   </Scene>
 
-                  <Scene key="Event" title={getTranslation('newsMenuItem')} icon={TabIcon}>
+
 
                      <Scene
-                       key="singelEvent"
-                       component={singelEvent}
+                       key="eventItem"
+                       component={EventItem}
                        title={getTranslation('newsMenuItem')}
                        initial
+                       hideNavBar
                      />
-                  </Scene>
+
 
                </Scene>
 
