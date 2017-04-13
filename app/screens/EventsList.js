@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
+import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -30,7 +31,8 @@ export default class EventsList extends Component {
          isLoading:true,
          rawData: '',
          apiData: '',
-         searchText: ''
+         searchText: '',
+         myKey: ''
       };
 
 
@@ -45,24 +47,50 @@ export default class EventsList extends Component {
     * @return [data] Data returned from Api
     */
    fetchData() {
-      Api.getData(apiLink)
-         .then((data) => {
-            listData = data;
-            this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(data),
-               apiData: data,
-               isLoading: false,
-               empty: false,
-               rawData: data,
+
+      var storageKey = 'eventList';
+
+      checkStorageKey(storageKey).then((isValidKey) => {
+
+         if(isValidKey) {
+            getStorageData(storageKey).then((data) => {
+
+               storageData = JSON.parse(data);
+
+               this.setState({
+                  dataSource: this.state.dataSource.cloneWithRows(storageData),
+                  apiData: storageData,
+                  isLoading: false,
+                  empty: false,
+                  rawData: storageData,
+               });
             });
-         })
-         .catch((error) => {
-            console.log(error)
-            this.setState({
-               empty: true,
-               isLoading: false,
-            });
-         });
+         } else {
+            Api.getData(apiLink)
+               .then((data) => {
+                  listData = data;
+                  this.setState({
+                     dataSource: this.state.dataSource.cloneWithRows(data),
+                     apiData: data,
+                     isLoading: false,
+                     empty: false,
+                     rawData: data,
+                  });
+
+                  console.log(listData);
+                  setStorageData(storageKey, listData);
+
+
+               })
+               .catch((error) => {
+                  console.log(error)
+                  this.setState({
+                     empty: true,
+                     isLoading: false,
+                  });
+               });
+         }
+      });
    }
 
    /**
@@ -98,7 +126,7 @@ export default class EventsList extends Component {
                     {rowData.title}
                   </Text>
                   <Text style={ListViewStyle.price}>
-                    {rowData.ticket_prices.adult}
+                     {rowData.ticket_prices.adult}
                   </Text>
                </View>
                <Text numberOfLines={2} style={ListViewStyle.description}>
