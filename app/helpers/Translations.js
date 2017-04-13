@@ -12,6 +12,20 @@ I18n.translations = {
       eventsMenuItem: 'Events',
       newsMenuItem: 'News',
       searchTerm: 'Search...',
+      month: {
+         1: 'January',
+         2: 'February',
+         3: 'March',
+         4: 'April',
+         5: 'May',
+         6: 'June',
+         7: 'July',
+         8: 'August',
+         9: 'September',
+         10: 'October',
+         11: 'November',
+         12: 'December',
+      }
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -20,6 +34,21 @@ I18n.translations = {
       eventsMenuItem: 'Evenementen',
       newsMenuItem: 'Nieuws',
       searchTerm: 'Zoeken...',
+      month: {
+         1: 'Januari',
+         2: 'Februari',
+         3: 'Maart',
+         4: 'April',
+         5: 'Mei',
+         6: 'Juni',
+         7: 'Juli',
+         8: 'Augustus',
+         9: 'September',
+         10: 'Oktober',
+         11: 'November',
+         12: 'December',
+
+      }
    },
 }
 
@@ -51,7 +80,7 @@ function setDefaultLocale() {
  * Gets the currentlocale and returns the value
  * @return currentLocale
  */
-function getCurrentLocale() {
+export function getCurrentLocale() {
    return I18n.currentLocale();
 }
 

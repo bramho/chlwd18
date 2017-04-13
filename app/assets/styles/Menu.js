@@ -8,9 +8,8 @@ export default MenuStyle = StyleSheet.create({
       height: 60,
       borderTopWidth: 1,
    },
-   container: {
-      flex: 1,
-      justifyContent: 'center',
-      paddingBottom:60
+   sceneContainer: {
+      marginTop:60,
+      marginBottom:60
    }
 });

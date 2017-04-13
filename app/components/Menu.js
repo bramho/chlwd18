@@ -10,7 +10,7 @@ import {General,Colors, MenuStyle} from '../assets/styles/General';
 
 import Home from '../screens/Home';
 
-import TestEvents from '../screens/TestEvents'; // For testing purposes ONLY
+import EventItem from '../screens/EventItem'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
 import EventsList from '../screens/EventsList';
 
