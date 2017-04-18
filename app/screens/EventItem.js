@@ -34,7 +34,7 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      Actions.refresh({ rightTitle:"Add to favorites", onRight: function(){this.addToFavorites()}.bind(this) })
+      Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addToFavorites()}.bind(this) })
    }
 
    addToFavorites() {
