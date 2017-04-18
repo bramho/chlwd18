@@ -15,6 +15,7 @@ export default MenuStyle = StyleSheet.create({
    transparentNavbar: {
       backgroundColor:'transparent',
       borderWidth: 0,
-      borderColor: 'transparent'
+      borderColor: 'transparent',
+      borderBottomWidth: 0,
    }
 });

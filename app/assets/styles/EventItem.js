@@ -29,10 +29,12 @@ export default EventItem = StyleSheet.create({
    },
    headerContent : {
       padding:20,
+      paddingTop: 60,
       marginTop: 40
    },
    headerText : {
-      color:'#fff'
+      color:'#fff',
+      backgroundColor: 'transparent',
    },
    scrollViewContent: {
       marginTop: HEADER_MAX_HEIGHT,
