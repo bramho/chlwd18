@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
+import { setFavorite } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
 import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
@@ -26,11 +27,18 @@ export default class EventItem extends Component {
          id:this.props.eventId,
       };
 
+
+
    }
 
    componentDidMount() {
       this.fetchData(this.state.id);
 
+      Actions.refresh({ rightTitle:"Add to favorites", onRight: function(){this.addToFavorites()}.bind(this) })
+   }
+
+   addToFavorites() {
+      setFavorite(this.state.id);
    }
 
    /**
