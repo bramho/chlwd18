@@ -28,7 +28,7 @@ const scenes = Actions.create(
          tabs
          tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
          >
-            <Scene key="eventsTab" title="Events" icon={TabIcon}>
+            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabIcon}>
                <Scene
                  key="events"
                  initial
@@ -49,7 +49,7 @@ const scenes = Actions.create(
             </Scene>
 
 
-            <Scene key="newsTab" title="News" icon={TabIcon}>
+            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabIcon}>
                <Scene
                  key="news"
                  component={TestNews}
@@ -59,11 +59,11 @@ const scenes = Actions.create(
                />
             </Scene>
 
-            <Scene key="favoritesTab" title="Favorites" icon={TabIcon}>
+            <Scene key="favoritesTab" title={getTranslation('favoritesMenuItem')} icon={TabIcon}>
                <Scene
                  key="favorites"
                  component={FavoriteList}
-                 title={getTranslation('newsMenuItem')}
+                 title={getTranslation('favoritesMenuItem')}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
                />

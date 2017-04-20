@@ -11,6 +11,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Events',
       newsMenuItem: 'News',
+      favoritesMenuItem: 'Favorites',
       searchTerm: 'Search...',
       month: {
          1: 'January',
@@ -35,6 +36,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Evenementen',
       newsMenuItem: 'Nieuws',
+      favoritesMenuItem: 'Favorieten',
       searchTerm: 'Zoeken...',
       month: {
          1: 'Januari',
