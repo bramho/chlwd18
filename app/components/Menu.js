@@ -67,6 +67,13 @@ const scenes = Actions.create(
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
                />
+               <Scene
+                 key="eventItemFavorites"
+                 component={EventItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.transparentNavbar}
+               />
             </Scene>
          </Scene>
    </Scene>

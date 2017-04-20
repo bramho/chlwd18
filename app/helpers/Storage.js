@@ -19,7 +19,7 @@ export function setStorageData(key, data) {
  * Sets favorite event in the local storage of the device
  * @param {int}   itemId   Id of item to be set in favorites
  */
-export function setFavorite(itemId, addToFavorites) {
+export const setFavorite = async (itemId, addToFavorites) => {
    var savedEvents = [];
 
    checkStorageKey('savedEvents').then((isValidKey) => {

@@ -36,27 +36,37 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      this.setFavoriteButton();
+      this.setFavoriteButton(false);
 
    }
 
-   addOrRemoveFavorite(addToFavorites) {
+   addOrRemoveFavorite (addToFavorites) {
       console.log('Add to favorites: ' + addToFavorites);
       setFavorite(this.state.id, addToFavorites);
+      this.setFavoriteButton(true);
    }
 
-   setFavoriteButton() {
+   setFavoriteButton(isReset) {
       checkStorageKey('savedEvents').then((isValidKey) => {
 
          if (isValidKey) {
-            console.log("Saved Events does exist");
             getStorageData('savedEvents').then((data) => {
                savedEvents = JSON.parse(data);
 
-               if (savedEvents.indexOf(this.state.id) === -1) {
-                  return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+               var index = savedEvents.indexOf(this.state.id);
+
+               if(isReset) {
+                  if (index === -1) {
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                  } else {
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                  }
                } else {
-                  return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                  if (index === -1) {
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                  } else {
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                  }
                }
 
             });

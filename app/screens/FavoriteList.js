@@ -57,6 +57,8 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
+               console.log(storageData.id);
+
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
@@ -65,30 +67,6 @@ export default class FavoriteList extends Component {
                   rawData: storageData,
                });
             });
-         } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data;
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data,
-                  });
-
-                  console.log(listData);
-                  setStorageData(storageKey, listData);
-
-
-               })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
          }
       });
    }
@@ -108,7 +86,7 @@ export default class FavoriteList extends Component {
    }
    onItemPress(id) {
             console.log('You Pressed');
-            Actions.eventItem({eventId:id})
+            Actions.eventItemFavorites({eventId:id})
        }
    /**
     * [Set row attribute for the ListView in render()]
