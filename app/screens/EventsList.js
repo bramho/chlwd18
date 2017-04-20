@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
@@ -32,7 +32,8 @@ export default class EventsList extends Component {
          rawData: '',
          apiData: '',
          searchText: '',
-         myKey: ''
+         myKey: '',
+         refreshing: false,
       };
 
 
@@ -46,11 +47,11 @@ export default class EventsList extends Component {
     * Fetches data from Api and returns the result
     * @return [data] Data returned from Api
     */
-   fetchData() {
+   fetchData = async () => {
 
       var storageKey = 'eventList';
 
-      checkStorageKey(storageKey).then((isValidKey) => {
+      await checkStorageKey(storageKey).then((isValidKey) => {
 
          if(isValidKey) {
             getStorageData(storageKey).then((data) => {
@@ -106,10 +107,21 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
+
    onItemPress(id) {
-            console.log('You Pressed');
-            Actions.eventItem({eventId:id})
-       }
+      console.log('You Pressed');
+      Actions.eventItem({eventId:id})
+   }
+
+   _onRefresh() {
+      this.setState({refreshing: true});
+
+      this.fetchData().then(() => {
+         this.setState({refreshing: false})
+      });
+
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -148,6 +160,12 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         refreshControl={
+            <RefreshControl
+               refreshing={this.state.refreshing}
+               onRefresh={this._onRefresh.bind(this)}
+            />
+         }
       />
       return (
          <View style={General.container}>
