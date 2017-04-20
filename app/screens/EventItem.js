@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
-import { setFavorite } from '../helpers/Storage';
+import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
 import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
@@ -27,6 +27,8 @@ export default class EventItem extends Component {
          id:this.props.eventId,
       };
 
+      console.log(this.props.eventId);
+
 
 
    }
@@ -34,11 +36,31 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addToFavorites()}.bind(this) })
+      this.setFavoriteButton();
+
    }
 
    addToFavorites() {
       setFavorite(this.state.id);
+   }
+
+   setFavoriteButton() {
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            console.log("Saved Events does exist");
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               if (savedEvents.indexOf(this.state.id) === -1) {
+                  return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addToFavorites()}.bind(this) })
+               } else {
+                  return Actions.refresh({ rightTitle: 'Delete from favorites', onRight: function(){this.addToFavorites()}.bind(this) })
+               }
+
+            });
+         }
+      });
    }
 
    /**

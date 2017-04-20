@@ -21,11 +21,6 @@ export function setStorageData(key, data) {
  */
 export function setFavorite(itemId) {
    var savedEvents = [];
-   console.log(itemId);
-
-   // AsyncStorage.removeItem('savedEvents')
-   //    .then(json => console.log('savedEvents is verwijderd'))
-   //    .catch(error => console.error('error'));
 
    checkStorageKey('savedEvents').then((isValidKey) => {
 
@@ -46,6 +41,33 @@ export function setFavorite(itemId) {
          setStorageData('savedEvents', savedEvents);
       }
    });
+}
+
+export const checkFavorite = async (itemId) => {
+
+   returnValue = false;
+
+   checkStorageKey('savedEvents').then((isValidKey) => {
+
+      if (isValidKey) {
+         console.log("Saved Events does exist");
+         getStorageData('savedEvents').then((data) => {
+            savedEvents = JSON.parse(data);
+
+            // Checks if itemId already exists within the savedEvents
+            if (savedEvents.indexOf(itemId) === -1) {
+               returnValue = true;
+               console.log('Return value in if ' + returnValue);
+            }
+
+            console.log('Return value after if ' + returnValue);
+
+         });
+      }
+   });
+
+   return returnValue;
+
 }
 
 /**
@@ -97,7 +119,7 @@ export const checkStorageKey = async (key) => {
  * Removes item from storage for a given key
  * @param  {string}     key      Storage key
  */
-function removeItemFromStorage(key) {
+export function removeItemFromStorage(key) {
    AsyncStorage.removeItem(key)
       .then(json => console.log(key + ' is verwijderd'))
       .catch(error => console.error('error'));

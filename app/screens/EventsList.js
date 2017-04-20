@@ -5,7 +5,7 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
-import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
