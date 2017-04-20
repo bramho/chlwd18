@@ -40,12 +40,9 @@ export default class EventItem extends Component {
 
    }
 
-   addToFavorites() {
-      setFavorite(this.state.id);
-   }
-
-   removeFromFavorites() {
-      
+   addOrRemoveFavorite(addToFavorites) {
+      console.log('Add to favorites: ' + addToFavorites);
+      setFavorite(this.state.id, addToFavorites);
    }
 
    setFavoriteButton() {
@@ -57,9 +54,9 @@ export default class EventItem extends Component {
                savedEvents = JSON.parse(data);
 
                if (savedEvents.indexOf(this.state.id) === -1) {
-                  return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addToFavorites()}.bind(this) })
+                  return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
                } else {
-                  return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.removeFromFavorites()}.bind(this) })
+                  return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
                }
 
             });

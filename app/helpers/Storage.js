@@ -19,7 +19,7 @@ export function setStorageData(key, data) {
  * Sets favorite event in the local storage of the device
  * @param {int}   itemId   Id of item to be set in favorites
  */
-export function setFavorite(itemId) {
+export function setFavorite(itemId, addToFavorites) {
    var savedEvents = [];
 
    checkStorageKey('savedEvents').then((isValidKey) => {
@@ -29,9 +29,16 @@ export function setFavorite(itemId) {
          getStorageData('savedEvents').then((data) => {
             savedEvents = JSON.parse(data);
 
+
             // Checks if itemId already exists within the savedEvents
-            if (savedEvents.indexOf(itemId) === -1) {
+            index = savedEvents.indexOf(itemId);
+            console.log('Index: ' + index);
+
+            if (index === -1) {
                savedEvents.push(itemId);
+               setStorageData('savedEvents', savedEvents);
+            } else {
+               savedEvents.splice(index, 1);
                setStorageData('savedEvents', savedEvents);
             }
 
