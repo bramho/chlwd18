@@ -11,7 +11,24 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Events',
       newsMenuItem: 'News',
+      favoritesMenuItem: 'Favorites',
       searchTerm: 'Search...',
+      month: {
+         1: 'January',
+         2: 'February',
+         3: 'March',
+         4: 'April',
+         5: 'May',
+         6: 'June',
+         7: 'July',
+         8: 'August',
+         9: 'September',
+         10: 'October',
+         11: 'November',
+         12: 'December',
+      },
+      addToFavorites: 'Add to favorites',
+      removeFromFavorites: 'Remove from favorites',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -19,7 +36,24 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Evenementen',
       newsMenuItem: 'Nieuws',
+      favoritesMenuItem: 'Favorieten',
       searchTerm: 'Zoeken...',
+      month: {
+         1: 'Januari',
+         2: 'Februari',
+         3: 'Maart',
+         4: 'April',
+         5: 'Mei',
+         6: 'Juni',
+         7: 'Juli',
+         8: 'Augustus',
+         9: 'September',
+         10: 'Oktober',
+         11: 'November',
+         12: 'December',
+      addToFavorites: 'Voeg to aan favorieten',
+      removeFromFavorites: 'Verwijderen uit favorieten',
+      }
    },
 }
 
@@ -51,7 +85,7 @@ function setDefaultLocale() {
  * Gets the currentlocale and returns the value
  * @return currentLocale
  */
-function getCurrentLocale() {
+export function getCurrentLocale() {
    return I18n.currentLocale();
 }
 

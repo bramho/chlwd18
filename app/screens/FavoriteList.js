@@ -22,7 +22,7 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
  });
 var listData = [];
 
-export default class EventsList extends Component {
+export default class FavoriteList extends Component {
    constructor(props) {
       super(props);
       var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
@@ -57,6 +57,8 @@ export default class EventsList extends Component {
 
                storageData = JSON.parse(data);
 
+               console.log(storageData.id);
+
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
@@ -65,30 +67,6 @@ export default class EventsList extends Component {
                   rawData: storageData,
                });
             });
-         } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data;
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data,
-                  });
-
-                  console.log(listData);
-                  setStorageData(storageKey, listData);
-
-
-               })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
          }
       });
    }
@@ -108,7 +86,7 @@ export default class EventsList extends Component {
    }
    onItemPress(id) {
             console.log('You Pressed');
-            Actions.eventItem({eventId:id})
+            Actions.eventItemFavorites({eventId:id})
        }
    /**
     * [Set row attribute for the ListView in render()]
