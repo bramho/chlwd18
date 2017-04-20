@@ -13,6 +13,7 @@ import Home from '../screens/Home';
 import EventItem from '../screens/EventItem'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
 import EventsList from '../screens/EventsList';
+import FavoriteList from '../screens/FavoriteList';
 
 const TabIcon = ({ selected, title }) => {
    return (
@@ -52,6 +53,16 @@ const scenes = Actions.create(
                <Scene
                  key="news"
                  component={TestNews}
+                 title={getTranslation('newsMenuItem')}
+                 icon={TabIcon}
+                 sceneStyle={MenuStyle.container}
+               />
+            </Scene>
+
+            <Scene key="favoritesTab" title="Favorites" icon={TabIcon}>
+               <Scene
+                 key="favorites"
+                 component={FavoriteList}
                  title={getTranslation('newsMenuItem')}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
