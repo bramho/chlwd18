@@ -44,6 +44,10 @@ export default class EventItem extends Component {
       setFavorite(this.state.id);
    }
 
+   removeFromFavorites() {
+      
+   }
+
    setFavoriteButton() {
       checkStorageKey('savedEvents').then((isValidKey) => {
 
@@ -55,7 +59,7 @@ export default class EventItem extends Component {
                if (savedEvents.indexOf(this.state.id) === -1) {
                   return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addToFavorites()}.bind(this) })
                } else {
-                  return Actions.refresh({ rightTitle: 'Delete from favorites', onRight: function(){this.addToFavorites()}.bind(this) })
+                  return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.removeFromFavorites()}.bind(this) })
                }
 
             });
