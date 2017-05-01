@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
+import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
 import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
@@ -26,11 +27,51 @@ export default class EventItem extends Component {
          id:this.props.eventId,
       };
 
+      console.log(this.props.eventId);
+
+
+
    }
 
    componentDidMount() {
       this.fetchData(this.state.id);
 
+      this.setFavoriteButton(false);
+
+   }
+
+   addOrRemoveFavorite (addToFavorites) {
+      console.log('Add to favorites: ' + addToFavorites);
+      setFavorite(this.state.id, addToFavorites);
+      this.setFavoriteButton(true);
+   }
+
+   setFavoriteButton(isReset) {
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               var index = savedEvents.indexOf(this.state.id);
+
+               if(isReset) {
+                  if (index === -1) {
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                  } else {
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                  }
+               } else {
+                  if (index === -1) {
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                  } else {
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                  }
+               }
+
+            });
+         }
+      });
    }
 
    /**

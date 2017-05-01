@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
@@ -22,7 +22,7 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
  });
 var listData = [];
 
-export default class EventsList extends Component {
+export default class FavoriteList extends Component {
    constructor(props) {
       super(props);
       var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
@@ -32,8 +32,7 @@ export default class EventsList extends Component {
          rawData: '',
          apiData: '',
          searchText: '',
-         myKey: '',
-         refreshing: false,
+         myKey: ''
       };
 
 
@@ -47,16 +46,18 @@ export default class EventsList extends Component {
     * Fetches data from Api and returns the result
     * @return [data] Data returned from Api
     */
-   fetchData = async () => {
+   fetchData() {
 
       var storageKey = 'eventList';
 
-      await checkStorageKey(storageKey).then((isValidKey) => {
+      checkStorageKey(storageKey).then((isValidKey) => {
 
          if(isValidKey) {
             getStorageData(storageKey).then((data) => {
 
                storageData = JSON.parse(data);
+
+               console.log(storageData.id);
 
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
@@ -66,30 +67,6 @@ export default class EventsList extends Component {
                   rawData: storageData,
                });
             });
-         } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data;
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data,
-                  });
-
-                  console.log(listData);
-                  setStorageData(storageKey, listData);
-
-
-               })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
          }
       });
    }
@@ -107,21 +84,10 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-
    onItemPress(id) {
-      console.log('You Pressed');
-      Actions.eventItem({eventId:id})
-   }
-
-   _onRefresh() {
-      this.setState({refreshing: true});
-
-      this.fetchData().then(() => {
-         this.setState({refreshing: false})
-      });
-
-   }
-
+            console.log('You Pressed');
+            Actions.eventItemFavorites({eventId:id})
+       }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -160,12 +126,6 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
-         refreshControl={
-            <RefreshControl
-               refreshing={this.state.refreshing}
-               onRefresh={this._onRefresh.bind(this)}
-            />
-         }
       />
       return (
          <View style={General.container}>
