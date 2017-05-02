@@ -10,9 +10,11 @@ import {General,Colors, MenuStyle} from '../assets/styles/General';
 
 import Home from '../screens/Home';
 
-import EventItem from '../screens/EventItem'; // For testing purposes ONLY
-import TestNews from '../screens/TestNews'; // For testing purposes ONLY
+import TestNews from '../screens/TestNews';
 import EventsList from '../screens/EventsList';
+import EventItem from '../screens/EventItem';
+import NewsList from '../screens/NewsList';
+import NewsItem from '../screens/NewsItem';
 import FavoriteList from '../screens/FavoriteList';
 
 const TabIcon = ({ selected, title }) => {
@@ -34,7 +36,6 @@ const scenes = Actions.create(
                  initial
                  searchText
                  component={EventsList}
-                 title={getTranslation('eventsMenuItem')}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
                  hideNavBar
@@ -52,10 +53,19 @@ const scenes = Actions.create(
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabIcon}>
                <Scene
                  key="news"
-                 component={TestNews}
-                 title={getTranslation('newsMenuItem')}
+                 initial
+                 searchText
+                 component={NewsList}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
+                 hideNavBar
+               />
+               <Scene
+                 key="newsItem"
+                 component={NewsItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.transparentNavbar}
                />
             </Scene>
 
@@ -83,7 +93,7 @@ export default class Menu extends Component {
 
    constructor(props) {
       super(props);
-      if(platform('Android')) { StatusBar.setBackgroundColor('blue', true); }
+      if(platform('Android')) { StatusBar.setBackgroundColor('blue', true) }
    }
    render() {
       return (
