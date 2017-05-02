@@ -12,7 +12,7 @@ const {width, height, scale} = Dimensions.get("window"),
  export default ListView = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: "#F5FCFF",
       paddingTop:0,
       marginBottom:60
    },
@@ -23,10 +23,11 @@ const {width, height, scale} = Dimensions.get("window"),
       marginTop:10,
       flexDirection: 'column',
       alignItems: 'center',
-      backgroundColor:"#fff",
+      backgroundColor:"#E81097",
       borderRadius: 5,
    },
    body: {
+     paddingLeft:20,
      paddingRight: 20,
      paddingTop: 10,
      paddingBottom: 10,
@@ -37,18 +38,9 @@ const {width, height, scale} = Dimensions.get("window"),
    dateContainer: {
       flex: 1,
       flexDirection: 'column',
-      alignItems: 'center',
-      paddingRight: 20,
-      paddingLeft: 10,
    },
-   dayText: {
-      fontSize: 16,
-      color: '#000',
-   },
+   month: {
 
-   monthText: {
-      color: 'rgb(178, 178, 178)',
-      fontSize: 14,
    },
 
    textContainer: {
@@ -56,25 +48,24 @@ const {width, height, scale} = Dimensions.get("window"),
    },
 
    title: {
-      fontSize:16,
+      fontSize:20,
       flex:4,
-      color: '#000',
+      color: '#fff',
    },
    titleContainer: {
       flex: 1,
       flexDirection: 'row',
    },
    description: {
-      color: 'rgb(178, 178, 178)',
-      fontSize: 14,
+      color: '#fff',
    },
    priceContainer: {
       position: 'absolute',
       // flex: 1,
       width: 100*vw-20,
       alignItems: 'flex-start',
-      paddingTop: 7,
-      paddingLeft: 7,
+      paddingTop: 5,
+      paddingLeft: 5,
    },
    price: {
       right:0,
@@ -89,39 +80,6 @@ const {width, height, scale} = Dimensions.get("window"),
       fontSize: 12,
       color:"#000",
    },
-
-   addToFavoritesContainer: {
-      position: 'absolute',
-      top: 10,
-      right: 5,
-      backgroundColor: 'transparent',
-   },
-
-   categoriesContainer: {
-      position: 'absolute',
-      bottom: 5,
-      left: 10,
-      flex: 1,
-      flexDirection: 'row',
-   },
-   categoryItemContainer: {
-      marginRight: 10,
-      padding: 3,
-      paddingLeft: 8,
-      paddingRight: 8,
-      borderRadius: 5,
-   },
-   categoryItem: {
-      fontSize: 12,
-      color: '#fff',
-   },
-   categoryItemDance: {
-      backgroundColor: 'rgb(77, 76, 193)',
-   },
-   categoryItemCultuur: {
-      backgroundColor: 'rgb(161, 50, 145)',
-   },
-
    text: {
       fontSize: 16,
    },
