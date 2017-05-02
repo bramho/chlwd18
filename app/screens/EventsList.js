@@ -5,6 +5,7 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
+import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
@@ -131,19 +132,52 @@ export default class EventsList extends Component {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+            <View>
+               <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+               <View style={ListViewStyle.priceContainer}>
+                  <View style={ListViewStyle.price}>
+                     <Text style={ListViewStyle.priceText}>
+                        {rowData.ticket_prices.adult}
+                     </Text>
+                  </View>
+               </View>
+               <View style={ListViewStyle.categoriesContainer}>
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        Dance
+                     </Text>
+                  </View>
+
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        Cultuur
+                     </Text>
+                  </View>
+               </View>
+            </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.title_price}>
-                  <Text style={ListViewStyle.title}>
+               <View style={ListViewStyle.dateContainer}>
+                  <View style={ListViewStyle.day}>
+                     <Text style={ListViewStyle.dayText}>
+                       {formatDate(rowData.dateStart,'eventItem-day')}
+                     </Text>
+                  </View>
+                  <View style={ListViewStyle.month}>
+                     <Text style={ListViewStyle.monthText}>
+                       {formatDate(rowData.dateStart,'eventItem-month')}
+                     </Text>
+                  </View>
+               </View>
+               <View style={ListViewStyle.textContainer}>
+                  <View style={ListViewStyle.titleContainer}>
+                     <Text style={ListViewStyle.title}>
+                       {rowData.title}
+                     </Text>
+                  </View>
+                  <Text numberOfLines={2} style={ListViewStyle.description}>
                     {rowData.title}
                   </Text>
-                  <Text style={ListViewStyle.price}>
-                     {rowData.ticket_prices.adult}
-                  </Text>
                </View>
-               <Text numberOfLines={2} style={ListViewStyle.description}>
-                 {rowData.summary}
-               </Text>
             </View>
          </View>
          </TouchableOpacity>
