@@ -21,6 +21,14 @@ export function formatDate(timestamp, view) {
             format = {hour: 'numeric', minute:'numeric', month: 'long', day: 'numeric' };
          break;
 
+         case 'eventItem-day':
+            format = {day: 'numeric'};
+         break;
+
+         case 'eventItem-month':
+            format = {month: 'short'};
+         break;
+
          default:
             format = { weekday: 'long', hour: 'numeric',minute:'numeric', month: 'long', day: 'numeric' };
       }
