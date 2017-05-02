@@ -11,6 +11,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Events',
       newsMenuItem: 'News',
+      favoritesMenuItem: 'Favorites',
       searchTerm: 'Search...',
       month: {
          1: 'January',
@@ -25,7 +26,9 @@ I18n.translations = {
          10: 'October',
          11: 'November',
          12: 'December',
-      }
+      },
+      addToFavorites: 'Add to favorites',
+      removeFromFavorites: 'Remove from favorites',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -33,6 +36,7 @@ I18n.translations = {
       homePageSubTitle: 'LWD2018',
       eventsMenuItem: 'Evenementen',
       newsMenuItem: 'Nieuws',
+      favoritesMenuItem: 'Favorieten',
       searchTerm: 'Zoeken...',
       month: {
          1: 'Januari',
@@ -47,7 +51,8 @@ I18n.translations = {
          10: 'Oktober',
          11: 'November',
          12: 'December',
-
+      addToFavorites: 'Voeg to aan favorieten',
+      removeFromFavorites: 'Verwijderen uit favorieten',
       }
    },
 }

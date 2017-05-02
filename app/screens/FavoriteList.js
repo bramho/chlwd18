@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
-import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
@@ -23,7 +22,7 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
  });
 var listData = [];
 
-export default class EventsList extends Component {
+export default class FavoriteList extends Component {
    constructor(props) {
       super(props);
       var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
@@ -33,8 +32,7 @@ export default class EventsList extends Component {
          rawData: '',
          apiData: '',
          searchText: '',
-         myKey: '',
-         refreshing: false,
+         myKey: ''
       };
 
 
@@ -48,16 +46,18 @@ export default class EventsList extends Component {
     * Fetches data from Api and returns the result
     * @return [data] Data returned from Api
     */
-   fetchData = async () => {
+   fetchData() {
 
       var storageKey = 'eventList';
 
-      await checkStorageKey(storageKey).then((isValidKey) => {
+      checkStorageKey(storageKey).then((isValidKey) => {
 
          if(isValidKey) {
             getStorageData(storageKey).then((data) => {
 
                storageData = JSON.parse(data);
+
+               console.log(storageData.id);
 
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
@@ -67,30 +67,6 @@ export default class EventsList extends Component {
                   rawData: storageData,
                });
             });
-         } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data;
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data,
-                  });
-
-                  console.log(listData);
-                  setStorageData(storageKey, listData);
-
-
-               })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
          }
       });
    }
@@ -108,21 +84,10 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-
    onItemPress(id) {
-      console.log('You Pressed');
-      Actions.eventItem({eventId:id})
-   }
-
-   _onRefresh() {
-      this.setState({refreshing: true});
-
-      this.fetchData().then(() => {
-         this.setState({refreshing: false})
-      });
-
-   }
-
+            console.log('You Pressed');
+            Actions.eventItemFavorites({eventId:id})
+       }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -132,52 +97,19 @@ export default class EventsList extends Component {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <View>
-               <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
-               <View style={ListViewStyle.priceContainer}>
-                  <View style={ListViewStyle.price}>
-                     <Text style={ListViewStyle.priceText}>
-                        {rowData.ticket_prices.adult}
-                     </Text>
-                  </View>
-               </View>
-               <View style={ListViewStyle.categoriesContainer}>
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        Dance
-                     </Text>
-                  </View>
-
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        Cultuur
-                     </Text>
-                  </View>
-               </View>
-            </View>
+            <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.dateContainer}>
-                  <View style={ListViewStyle.day}>
-                     <Text style={ListViewStyle.dayText}>
-                       {formatDate(rowData.dateStart,'eventItem-day')}
-                     </Text>
-                  </View>
-                  <View style={ListViewStyle.month}>
-                     <Text style={ListViewStyle.monthText}>
-                       {formatDate(rowData.dateStart,'eventItem-month')}
-                     </Text>
-                  </View>
-               </View>
-               <View style={ListViewStyle.textContainer}>
-                  <View style={ListViewStyle.titleContainer}>
-                     <Text style={ListViewStyle.title}>
-                       {rowData.title}
-                     </Text>
-                  </View>
-                  <Text numberOfLines={2} style={ListViewStyle.description}>
+               <View style={ListViewStyle.title_price}>
+                  <Text style={ListViewStyle.title}>
                     {rowData.title}
                   </Text>
+                  <Text style={ListViewStyle.price}>
+                     {rowData.ticket_prices.adult}
+                  </Text>
                </View>
+               <Text numberOfLines={2} style={ListViewStyle.description}>
+                 {rowData.summary}
+               </Text>
             </View>
          </View>
          </TouchableOpacity>
@@ -194,12 +126,6 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
-         refreshControl={
-            <RefreshControl
-               refreshing={this.state.refreshing}
-               onRefresh={this._onRefresh.bind(this)}
-            />
-         }
       />
       return (
          <View style={General.container}>

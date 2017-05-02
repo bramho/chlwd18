@@ -13,6 +13,7 @@ import Home from '../screens/Home';
 import EventItem from '../screens/EventItem'; // For testing purposes ONLY
 import TestNews from '../screens/TestNews'; // For testing purposes ONLY
 import EventsList from '../screens/EventsList';
+import FavoriteList from '../screens/FavoriteList';
 
 const TabIcon = ({ selected, title }) => {
    return (
@@ -27,7 +28,7 @@ const scenes = Actions.create(
          tabs
          tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
          >
-            <Scene key="eventsTab" title="Events" icon={TabIcon}>
+            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabIcon}>
                <Scene
                  key="events"
                  initial
@@ -48,13 +49,30 @@ const scenes = Actions.create(
             </Scene>
 
 
-            <Scene key="newsTab" title="News" icon={TabIcon}>
+            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabIcon}>
                <Scene
                  key="news"
                  component={TestNews}
                  title={getTranslation('newsMenuItem')}
                  icon={TabIcon}
                  sceneStyle={MenuStyle.container}
+               />
+            </Scene>
+
+            <Scene key="favoritesTab" title={getTranslation('favoritesMenuItem')} icon={TabIcon}>
+               <Scene
+                 key="favorites"
+                 component={FavoriteList}
+                 title={getTranslation('favoritesMenuItem')}
+                 icon={TabIcon}
+                 sceneStyle={MenuStyle.container}
+               />
+               <Scene
+                 key="eventItemFavorites"
+                 component={EventItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.transparentNavbar}
                />
             </Scene>
          </Scene>

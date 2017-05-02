@@ -16,6 +16,68 @@ export function setStorageData(key, data) {
 }
 
 /**
+ * Sets favorite event in the local storage of the device
+ * @param {int}   itemId   Id of item to be set in favorites
+ */
+export const setFavorite = async (itemId, addToFavorites) => {
+   var savedEvents = [];
+
+   checkStorageKey('savedEvents').then((isValidKey) => {
+
+      if (isValidKey) {
+         console.log("Saved Events does exist");
+         getStorageData('savedEvents').then((data) => {
+            savedEvents = JSON.parse(data);
+
+
+            // Checks if itemId already exists within the savedEvents
+            index = savedEvents.indexOf(itemId);
+            console.log('Index: ' + index);
+
+            if (index === -1) {
+               savedEvents.push(itemId);
+               setStorageData('savedEvents', savedEvents);
+            } else {
+               savedEvents.splice(index, 1);
+               setStorageData('savedEvents', savedEvents);
+            }
+
+         });
+      } else {
+         savedEvents.push(itemId);
+         setStorageData('savedEvents', savedEvents);
+      }
+   });
+}
+
+export const checkFavorite = async (itemId) => {
+
+   returnValue = false;
+
+   checkStorageKey('savedEvents').then((isValidKey) => {
+
+      if (isValidKey) {
+         console.log("Saved Events does exist");
+         getStorageData('savedEvents').then((data) => {
+            savedEvents = JSON.parse(data);
+
+            // Checks if itemId already exists within the savedEvents
+            if (savedEvents.indexOf(itemId) === -1) {
+               returnValue = true;
+               console.log('Return value in if ' + returnValue);
+            }
+
+            console.log('Return value after if ' + returnValue);
+
+         });
+      }
+   });
+
+   return returnValue;
+
+}
+
+/**
  * Gets data for a specific key
  * @param  {key}  string   Identifier for data storage
  * @return {value}         Data
@@ -41,7 +103,7 @@ export const getStorageData = async (key) => {
 /**
  * Checks if key exists
  * @param  {key}  string    Identifier for data storage
- * @return {value} boolean  
+ * @return {value} boolean
  */
 export const checkStorageKey = async (key) => {
    var returnValue = false;
@@ -58,4 +120,14 @@ export const checkStorageKey = async (key) => {
    }
 
    return returnValue;
+}
+
+/**
+ * Removes item from storage for a given key
+ * @param  {string}     key      Storage key
+ */
+export function removeItemFromStorage(key) {
+   AsyncStorage.removeItem(key)
+      .then(json => console.log(key + ' is verwijderd'))
+      .catch(error => console.error('error'));
 }
