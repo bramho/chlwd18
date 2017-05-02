@@ -90,6 +90,13 @@ const {width, height, scale} = Dimensions.get("window"),
       color:"#000",
    },
 
+   addToFavoritesContainer: {
+      position: 'absolute',
+      top: 10,
+      right: 5,
+      backgroundColor: 'transparent',
+   },
+
    categoriesContainer: {
       position: 'absolute',
       bottom: 5,

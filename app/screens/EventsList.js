@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -22,6 +22,8 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
     rowHasChanged: (row1, row2) => row1 !== row2,
  });
 var listData = [];
+
+var favorites = [];
 
 export default class EventsList extends Component {
    constructor(props) {
@@ -42,6 +44,8 @@ export default class EventsList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      this.setFavorites();
    }
 
    /**
@@ -52,7 +56,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage(storageKey);
+      // removeItemFromStorage(storageKey);
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -98,6 +102,45 @@ export default class EventsList extends Component {
    }
 
    /**
+    * Gets favorites from local storage and assigns them to a favorites variable.
+    */
+   setFavorites() {
+      this.setState({
+         isLoading: true
+      });
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               favorites = savedEvents;
+
+               console.log(favorites);
+
+               this.setState({
+                  isLoading: false
+               });
+            });
+         }
+      });
+   }
+
+   setFavoriteButton(id) {
+      var index = favorites.indexOf(id);
+
+      if (index === -1) {
+         return 'Add to favorites';
+      } else {
+         return 'Remove from favorites';
+      }
+   }
+
+   hoi() {
+      return 'Hallo';
+   }
+
+   /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
     */
@@ -125,6 +168,18 @@ export default class EventsList extends Component {
 
    }
 
+   addOrRemoveFavorite (id) {
+      console.log(id);
+
+      var index = favorites.indexOf(id);
+
+      if (index === -1) {
+         setFavorite(id, true);
+      } else {
+         setFavorite(id, false);
+      }
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -143,6 +198,15 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                </View>
+
+               <View style={ListViewStyle.addToFavoritesContainer}>
+                  <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData.id)}.bind(this)}>
+                     <Text>
+                        {this.setFavoriteButton(rowData.id)}
+                     </Text>
+                  </TouchableOpacity>
+               </View>
+
                <View style={ListViewStyle.categoriesContainer}>
                   <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
                      <Text style={ListViewStyle.categoryItem}>
