@@ -99,7 +99,7 @@ export default class EventItem extends Component {
     * Renders the header of the event
     */
    _renderHeader() {
-      
+
       return (
          <Animated.View style={EventStyle.header}>
            <Animated.Image

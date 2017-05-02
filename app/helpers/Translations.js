@@ -85,7 +85,7 @@ function setDefaultLocale() {
  * Gets the currentlocale and returns the value
  * @return currentLocale
  */
-export function getCurrentLocale() {
+function getCurrentLocale() {
    return I18n.currentLocale();
 }
 
@@ -93,6 +93,7 @@ export function getCurrentLocale() {
  * Sets the locale to language passed into the function
  * @param {[string]} country
  */
-export function setLocale(country) {
+function setLocale(country) {
    I18n.locale = country;
 }
+export {getTranslation,getCurrentLocale,setLocale}
