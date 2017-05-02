@@ -44,11 +44,13 @@ const {width, height, scale} = Dimensions.get("window"),
    dayText: {
       fontSize: 16,
       color: '#000',
+      fontFamily: 'Muli',
    },
 
    monthText: {
       color: 'rgb(178, 178, 178)',
       fontSize: 14,
+      fontFamily: 'Muli',
    },
 
    textContainer: {
@@ -59,6 +61,7 @@ const {width, height, scale} = Dimensions.get("window"),
       fontSize:16,
       flex:4,
       color: '#000',
+      fontFamily: 'Muli',
    },
    titleContainer: {
       flex: 1,
@@ -67,6 +70,7 @@ const {width, height, scale} = Dimensions.get("window"),
    description: {
       color: 'rgb(178, 178, 178)',
       fontSize: 14,
+      fontFamily: 'Muli',
    },
    priceContainer: {
       position: 'absolute',
@@ -88,6 +92,7 @@ const {width, height, scale} = Dimensions.get("window"),
    priceText: {
       fontSize: 12,
       color:"#000",
+      fontFamily: 'Muli',
    },
 
    addToFavoritesContainer: {
@@ -114,6 +119,7 @@ const {width, height, scale} = Dimensions.get("window"),
    categoryItem: {
       fontSize: 12,
       color: '#fff',
+      fontFamily: 'Muli',
    },
    categoryItemDance: {
       backgroundColor: 'rgb(77, 76, 193)',

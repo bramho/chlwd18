@@ -194,7 +194,7 @@ export default class EventsList extends Component {
                <View style={ListViewStyle.priceContainer}>
                   <View style={ListViewStyle.price}>
                      <Text style={ListViewStyle.priceText}>
-                        {rowData.ticket_prices.adult}
+                        € {rowData.ticket_prices.adult}
                      </Text>
                   </View>
                </View>
