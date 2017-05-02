@@ -11,7 +11,7 @@ import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://eric-project.c4x.nl/api/events/";
+const apiLink = "https://eric-project.c4x.nl/api/news/";
 
 /**
  * New initialisation of the EventItem datasource object
@@ -55,29 +55,6 @@ export default class EventItem extends Component {
          });
    }
    /**
-    * Renders the header of the event
-    */
-   _renderHeader() {
-      return (
-         <Animated.View style={EventStyle.header}>
-           <Animated.Image
-             style={[
-               EventStyle.backgroundImage
-             ]}
-             source={{uri: this.state.data.header_img_hdpi}}
-           />
-           <View style={EventStyle.headerContent}>
-               <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
-               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
-               <Text style={[General.h2,EventStyle.headerText]}>{
-                  formatDate(this.state.data.dateStart,'eventItem')
-               }
-               </Text>
-           </View>
-         </Animated.View>
-      );
-   }
-   /**
     * Renders the Scrollview content, in this case the data from the events
     */
    _renderContent() {
@@ -86,10 +63,14 @@ export default class EventItem extends Component {
          style={EventStyle.fill}
          >
             <View style={[EventStyle.scrollViewContent,General.textContainer]}>
+            <View>
+                <Text style={General.h1}>Dit is een titel haha doei</Text>
+            </View>
               <View>
-                  <Text style={General.h2}>{this.state.h1}</Text>
+
                   <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
                   <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+                  <Text style={General.h2}>Dit is een kop 2</Text>
                   <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
               </View>
             </View>
@@ -102,7 +83,6 @@ export default class EventItem extends Component {
    render() {
       var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
          <View style={{flex:1}}>
-         {this._renderHeader()}
          {this._renderContent()}
          </View>
 

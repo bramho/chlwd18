@@ -108,7 +108,7 @@ export default class NewsList extends Component {
    }
    onItemPress(id) {
             console.log('You Pressed');
-            Actions.eventItem({newsId:id})
+            Actions.newsItem({newsId:id})
        }
    /**
     * [Set row attribute for the ListView in render()]
@@ -118,22 +118,9 @@ export default class NewsList extends Component {
    _renderRow (rowData) {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
-         <View style={ListViewStyle.row}>
-            <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
-            <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.title_price}>
-                  <Text style={ListViewStyle.title}>
-                    {rowData.title}
-                  </Text>
-                  <Text style={ListViewStyle.price}>
-                     {rowData.ticket_prices.adult}
-                  </Text>
-               </View>
-               <Text numberOfLines={2} style={ListViewStyle.description}>
-                 {rowData.summary}
-               </Text>
-            </View>
-         </View>
+         <Text style={ListViewStyle.title}>
+           {rowData.title}
+         </Text>
          </TouchableOpacity>
       )
    }
