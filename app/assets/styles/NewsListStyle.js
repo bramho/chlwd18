@@ -2,6 +2,7 @@
  * This stylesheet holds all styles for rows and ListViews
  */
 import {StyleSheet, Dimensions} from "react-native";
+COLOR = require('./COLOR');
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,
@@ -78,7 +79,7 @@ const {width, height, scale} = Dimensions.get("window"),
    },
    priceText: {
       fontSize: 12,
-      color:"#000",
+      color:COLOR.DARKPURPLE,
    },
    text: {
       fontSize: 16,

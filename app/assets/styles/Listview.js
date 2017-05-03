@@ -2,6 +2,7 @@
  * This stylesheet holds all styles for rows and ListViews
  */
 import {StyleSheet, Dimensions} from "react-native";
+COLOR = require('./COLOR');
 
 const {width, height, scale} = Dimensions.get("window"),
      vw = width / 100,
@@ -43,7 +44,7 @@ const {width, height, scale} = Dimensions.get("window"),
    },
    dayText: {
       fontSize: 16,
-      color: '#000',
+      color: COLOR.DARKPURPLE,
       fontFamily: 'Muli',
    },
 

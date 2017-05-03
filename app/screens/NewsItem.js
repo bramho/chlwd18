@@ -6,7 +6,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { formatDate } from '../helpers/FormatDate';
 
-import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
+import { General, NewsStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -60,9 +60,9 @@ export default class EventItem extends Component {
    _renderContent() {
       return (
          <ScrollView
-         style={EventStyle.fill}
+         style={NewsStyle.fill}
          >
-            <View style={[EventStyle.scrollViewContent,General.textContainer]}>
+            <View style={[NewsStyle.scrollViewContent,General.textContainer]}>
             <View>
                 <Text style={General.h1}>Dit is een titel haha doei</Text>
             </View>
