@@ -20,7 +20,7 @@ const {width, height, scale} = Dimensions.get("window"),
 const General = StyleSheet.create({
    container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'center'
    },
    p: {
       fontSize:16,
