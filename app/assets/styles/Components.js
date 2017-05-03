@@ -2,6 +2,7 @@
  * This stylesheets holds all styles for (small) components
  */
 import {StyleSheet, Platform} from "react-native";
+COLOR = require('./COLOR');
 
 export default ComponentStyle = StyleSheet.create({
    searchBarContainer: {
@@ -20,7 +21,7 @@ export default ComponentStyle = StyleSheet.create({
    searchBarInput: {
       flex:1,
       fontSize: 15,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLOR.WHITE,
       borderRadius: 2,
       ...Platform.select({
          ios: {
