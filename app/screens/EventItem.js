@@ -25,12 +25,10 @@ export default class EventItem extends Component {
          data: '',
          isLoading: true,
          id:this.props.eventId,
+         rowData: this.props.rowData,
       };
 
       console.log(this.props.eventId);
-
-
-
    }
 
    componentDidMount() {
@@ -40,9 +38,9 @@ export default class EventItem extends Component {
 
    }
 
-   addOrRemoveFavorite (addToFavorites) {
+   addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
-      setFavorite(this.state.id, addToFavorites);
+      setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
       this.setFavoriteButton(true);
    }
 
@@ -53,19 +51,28 @@ export default class EventItem extends Component {
             getStorageData('savedEvents').then((data) => {
                savedEvents = JSON.parse(data);
 
-               var index = savedEvents.indexOf(this.state.id);
+               var savedEventsIds = [];
+
+               for (var i = 0; i < savedEvents.length; i++) {
+                  savedEventsIds.push(savedEvents[i].id);
+               }
+
+               console.log('Saved Event Ids:');
+               console.log(savedEventsIds);
+
+               var index = savedEventsIds.indexOf(this.state.id);
 
                if(isReset) {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
                   }
                } else {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
                   }
                }
 
