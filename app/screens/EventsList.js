@@ -6,7 +6,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite } from '../helpers/Storage';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -24,6 +24,7 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
 var listData = [];
 
 var favorites = [];
+var favoritesIds = [];
 
 export default class EventsList extends Component {
    constructor(props) {
@@ -56,7 +57,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage(storageKey);
+      // removeItemFromStorage('savedEvents');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -68,7 +69,7 @@ export default class EventsList extends Component {
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
-                  isLoading: false,
+                  // isLoading: false,
                   empty: false,
                   rawData: storageData,
                });
@@ -80,7 +81,7 @@ export default class EventsList extends Component {
                   this.setState({
                      dataSource: this.state.dataSource.cloneWithRows(data),
                      apiData: data,
-                     isLoading: false,
+                     // isLoading: false,
                      empty: false,
                      rawData: data,
                   });
@@ -116,28 +117,36 @@ export default class EventsList extends Component {
 
                favorites = savedEvents;
 
-               console.log(favorites);
+               setFavoriteIds(favorites).then((result) => {
+                  favoritesIds = result;
 
-               this.setState({
-                  isLoading: false
+
+                  this.setState({
+                     isLoading: false
+                  });
                });
             });
          }
       });
    }
 
-   setFavoriteButton(id) {
-      var index = favorites.indexOf(id);
+   setFavoriteButton(id, isReset) {
 
-      if (index === -1) {
-         return 'Add to favorites';
+      var index = favoritesIds.indexOf(id);
+
+      if (isReset) {
+         if (index === -1) {
+            return 'Remove from favorites';
+         } else {
+            return 'Add to favorites';
+         }
       } else {
-         return 'Remove from favorites';
+         if (index === -1) {
+            return 'Add to favorites';
+         } else {
+            return 'Remove from favorites';
+         }
       }
-   }
-
-   hoi() {
-      return 'Hallo';
    }
 
    /**
@@ -154,9 +163,9 @@ export default class EventsList extends Component {
       });
    }
 
-   onItemPress(id) {
+   onItemPress(id, data) {
       console.log('You Pressed');
-      Actions.eventItem({eventId:id})
+      Actions.eventItem({eventId:id, rowData:data})
    }
 
    _onRefresh() {
@@ -171,12 +180,12 @@ export default class EventsList extends Component {
    addOrRemoveFavorite (id) {
       console.log(id);
 
-      var index = favorites.indexOf(id);
+      var index = favoritesIds.indexOf(id);
 
       if (index === -1) {
-         setFavorite(id, true);
+         setFavorite(id, true, favoritesIds);
       } else {
-         setFavorite(id, false);
+         setFavorite(id, false, favoritesIds);
       }
    }
 
@@ -187,7 +196,7 @@ export default class EventsList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <View>
                <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
@@ -202,7 +211,7 @@ export default class EventsList extends Component {
                <View style={ListViewStyle.addToFavoritesContainer}>
                   <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData.id)}.bind(this)}>
                      <Text>
-                        {this.setFavoriteButton(rowData.id)}
+                        {this.setFavoriteButton(rowData.id, false)}
                      </Text>
                   </TouchableOpacity>
                </View>
