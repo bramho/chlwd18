@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, } from 'react-native';
 
-import {General,Colors, MenuStyle} from '../assets/styles/General';
+import {General, MenuStyle} from '../assets/styles/General';
 
 const TabItem = ({ selected, title }) => {
    return (

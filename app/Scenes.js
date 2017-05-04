@@ -4,6 +4,7 @@ import { Scene, Actions } from 'react-native-router-flux';
 // Import helpers
 import { getTranslation } from './helpers/Translations';
 
+import { General } from './assets/styles/General';
 // Import Components
 import TabItem from './components/TabBar';
 
@@ -20,7 +21,7 @@ const scenes = Actions.create(
          <Scene
             key="tabbar"
             tabs
-            tabBarStyle={[MenuStyle.basicMenuStyles, Colors.grayBackground, Colors.grayBorderTop]}
+            tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBackground, General.grayBorderTop]}
          >
             <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
