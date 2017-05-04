@@ -25,12 +25,10 @@ export default class EventItem extends Component {
          data: '',
          isLoading: true,
          id:this.props.eventId,
+         rowData: this.props.rowData,
       };
 
       console.log(this.props.eventId);
-
-
-
    }
 
    componentDidMount() {
@@ -42,7 +40,7 @@ export default class EventItem extends Component {
 
    addOrRemoveFavorite (addToFavorites) {
       console.log('Add to favorites: ' + addToFavorites);
-      setFavorite(this.state.id, addToFavorites);
+      setFavorite(this.state.rowData, addToFavorites);
       this.setFavoriteButton(true);
    }
 
@@ -53,19 +51,19 @@ export default class EventItem extends Component {
             getStorageData('savedEvents').then((data) => {
                savedEvents = JSON.parse(data);
 
-               var index = savedEvents.indexOf(this.state.id);
+               for (var i = 0; i < savedEvents.length; i++) {
 
-               if(isReset) {
-                  if (index === -1) {
+                  if (savedEvents[i].id === this.state.id) {
+
                      return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+
+                     if(isReset) {
+                        return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                     } else {
+                        return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                     }
                   } else {
                      return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
-                  }
-               } else {
-                  if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
-                  } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
                   }
                }
 
@@ -99,7 +97,7 @@ export default class EventItem extends Component {
     * Renders the header of the event
     */
    _renderHeader() {
-      
+
       return (
          <Animated.View style={EventStyle.header}>
            <Animated.Image

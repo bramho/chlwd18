@@ -56,7 +56,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage(storageKey);
+      // removeItemFromStorage('savedEvents');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -154,9 +154,9 @@ export default class EventsList extends Component {
       });
    }
 
-   onItemPress(id) {
+   onItemPress(id, data) {
       console.log('You Pressed');
-      Actions.eventItem({eventId:id})
+      Actions.eventItem({eventId:id, rowData:data})
    }
 
    _onRefresh() {
@@ -187,7 +187,7 @@ export default class EventsList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <View>
                <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
