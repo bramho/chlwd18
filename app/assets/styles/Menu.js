@@ -17,6 +17,7 @@ export default MenuStyle = StyleSheet.create({
       backgroundColor:'transparent',
       borderWidth: 0,
       borderColor: 'transparent',
-      borderBottomWidth: 0,
+      borderBottomColor: COLOR.WHITE24,
+      borderBottomWidth: StyleSheet.hairlineWidth,
    }
 });

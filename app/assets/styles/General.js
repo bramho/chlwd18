@@ -27,6 +27,7 @@ const General = StyleSheet.create({
       fontSize:12,
       lineHeight:21,
       marginBottom:20,
+      fontFamily: 'Muli',
       color:COLOR.DARKPURPLE
    },
    h1: {

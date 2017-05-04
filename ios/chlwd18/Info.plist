@@ -62,6 +62,12 @@
       <string>Octicons.ttf</string>
       <string>SimpleLineIcons.ttf</string>
       <string>Zocial.ttf</string>
+      <string>HindSiliguri-Light.ttf</string>
+      <string>HindSiliguri-Regular.ttf</string>
+      <string>Muli-Bold.ttf</string>
+      <string>Muli-ExtraBold.ttf</string>
+      <string>Muli-Regular.ttf</string>
+      <string>Muli-SemiBold.ttf</string>
     </array>
   </dict>
 </plist>
