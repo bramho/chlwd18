@@ -136,10 +136,6 @@ export default class EventsList extends Component {
       }
    }
 
-   hoi() {
-      return 'Hallo';
-   }
-
    /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
@@ -225,12 +221,12 @@ export default class EventsList extends Component {
                <View style={ListViewStyle.dateContainer}>
                   <View style={ListViewStyle.day}>
                      <Text style={ListViewStyle.dayText}>
-                       {formatDate(rowData.dateStart,'eventItem-day')}
+                       {formatDate(rowData.dateStart,'eventList-day')}
                      </Text>
                   </View>
                   <View style={ListViewStyle.month}>
                      <Text style={ListViewStyle.monthText}>
-                       {formatDate(rowData.dateStart,'eventItem-month')}
+                       {formatDate(rowData.dateStart,'eventList-month')}
                      </Text>
                   </View>
                </View>
