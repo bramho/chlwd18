@@ -48,6 +48,11 @@ const General = StyleSheet.create({
       color:COLOR.DARKPURPLE,
       marginBottom:10,
    },
+   h4: {
+      fontSize: 16,
+      fontFamily: 'Muli-ExtraBold',
+      color: COLOR.GRAYBROWN,
+   },
    img: {
       resizeMode: React.Image.resizeMode.cover,
    },
@@ -70,11 +75,8 @@ const General = StyleSheet.create({
    backgroundStandard: {
       backgroundColor: COLOR.PALEGRAY,
    },
-   grayBackground: {
-      backgroundColor: '#ccc',
-   },
    grayBorderTop: {
-      borderTopColor: "#666666",
+      borderTopColor: COLOR.GRAY,
    }
 });
 

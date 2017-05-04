@@ -7,6 +7,8 @@ COLOR = require('./COLOR');
 export default ComponentStyle = StyleSheet.create({
    headerContainer: {
       padding: 8,
+      paddingLeft: 20,
+      paddingRight: 20,
       height: 80,
       top:0,
       alignItems: 'center',
@@ -57,7 +59,7 @@ export default ComponentStyle = StyleSheet.create({
    headerTitle: {
       fontSize: 16,
       color: COLOR.GRAYBROWN,
-      fontWeight: 'bold',
+      fontFamily: 'Muli-ExtraBold',
    }
 
 });

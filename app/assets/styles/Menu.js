@@ -8,6 +8,7 @@ export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
       height: 60,
       borderTopWidth: 1,
+      backgroundColor: COLOR.WHITE,
    },
    sceneContainer: {
       marginTop:60,
@@ -19,5 +20,12 @@ export default MenuStyle = StyleSheet.create({
       borderColor: 'transparent',
       borderBottomColor: COLOR.WHITE24,
       borderBottomWidth: StyleSheet.hairlineWidth,
-   }
+   },
+   menuItemText: {
+      fontSize: 11,
+      fontFamily: 'Muli-Regular'
+   },
+   tabbarItemContainer: {
+      alignItems: 'center',
+   },
 });
