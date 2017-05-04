@@ -5,7 +5,7 @@ import {StyleSheet, Platform} from "react-native";
 COLOR = require('./COLOR');
 
 export default ComponentStyle = StyleSheet.create({
-   searchBarContainer: {
+   headerContainer: {
       padding: 8,
       height: 80,
       top:0,
@@ -49,5 +49,15 @@ export default ComponentStyle = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 50,
       justifyContent: 'center',
+   },
+
+   headerTitleContainer: {
+      flex: 5,
+   },
+   headerTitle: {
+      fontSize: 16,
+      color: COLOR.GRAYBROWN,
+      fontWeight: 'bold',
    }
+
 });
