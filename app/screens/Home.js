@@ -4,7 +4,7 @@ import { Scene,Actions } from 'react-native-router-flux';
 
 import { getTranslation, setLocale } from '../helpers/Translations.js';
 
-import { General, Colors} from '../assets/styles/General';
+import { General} from '../assets/styles/General';
 
 export default class Main extends Component {
 
@@ -14,7 +14,7 @@ export default class Main extends Component {
 
    render() {
      return (
-       <View style={[General.container, Colors.backgroundStandard]}>
+       <View style={[General.container]}>
          <Text style={[General.h1, General.title]}>
             <Text>
                {getTranslation('homePageTitle')}
