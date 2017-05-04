@@ -24,27 +24,29 @@ const General = StyleSheet.create({
       justifyContent: 'center'
    },
    p: {
-      fontSize:12,
-      lineHeight:21,
+      fontSize: 16,
+      lineHeight:24,
       marginBottom:20,
+      fontFamily: 'HindSiliguri-Regular',
       color:COLOR.DARKPURPLE
    },
    h1: {
-      fontSize:18,
-      fontWeight:'bold',
+      fontSize:22,
+      fontFamily:'Muli-ExtraBold',
       marginBottom:16,
       color:COLOR.DARKPURPLE
    },
    h2: {
-      fontSize:16,
-      fontWeight:'bold',
+      fontSize:20,
+      fontFamily:'Muli-ExtraBold',
       marginBottom:8,
       color:COLOR.DARKPURPLE
    },
    h3: {
-      fontSize:14,
-      fontWeight:'bold',
-      color:COLOR.DARKPURPLE
+      fontSize:18,
+      fontFamily:'Muli-ExtraBold',
+      color:COLOR.DARKPURPLE,
+      marginBottom:10,
    },
    img: {
       resizeMode: React.Image.resizeMode.cover,

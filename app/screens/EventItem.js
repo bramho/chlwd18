@@ -115,8 +115,9 @@ export default class EventItem extends Component {
              ]}
              source={{uri: this.state.data.header_img_hdpi}}
            />
+           <View style={EventStyle.overlay}></View>
            <View style={EventStyle.headerContent}>
-               <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
+               <Text style={[General.h1,EventStyle.headerText]}>{this.state.data.title}</Text>
                <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
                <Text style={[General.h2,EventStyle.headerText]}>{
                   formatDate(this.state.data.dateStart,'eventItem')
@@ -136,6 +137,7 @@ export default class EventItem extends Component {
          >
             <View style={[EventStyle.scrollViewContent,General.textContainer]}>
               <View>
+              <Text style={General.h3}>Dit is een begin titel tekst</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
 
