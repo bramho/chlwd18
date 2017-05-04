@@ -280,6 +280,18 @@ export default class FavoriteList extends Component {
       />
       return (
          <View style={General.container}>
+            <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={ComponentStyle.headerTitle}>
+                     {getTranslation('favoritesMenuItem')}
+                  </Text>
+               </View>
+               <View style={ComponentStyle.filterIconContainer}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Text>F</Text>
+                  </View>
+               </View>
+            </View>
             {currentView}
          </View>
       )

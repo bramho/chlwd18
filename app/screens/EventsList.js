@@ -278,7 +278,7 @@ export default class EventsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.searchBarContainer}>
+            <View style={ComponentStyle.headerContainer}>
                <TextInput
                   style={ComponentStyle.searchBarInput}
                   placeholder={getTranslation('searchTerm')}

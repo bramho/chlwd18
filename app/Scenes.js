@@ -69,6 +69,7 @@ const scenes = Actions.create(
                  title={getTranslation('favoritesMenuItem')}
                  icon={TabItem}
                  sceneStyle={MenuStyle.container}
+                 hideNavBar
                />
                <Scene
                  key="eventItemFavorites"
