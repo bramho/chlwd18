@@ -62,9 +62,8 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
+               console.log('Favorites:');
                console.log(storageData);
-
-               console.log(storageData[0].id);
 
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
@@ -236,12 +235,12 @@ export default class FavoriteList extends Component {
                   <View style={ListViewStyle.dateContainer}>
                      <View style={ListViewStyle.day}>
                         <Text style={ListViewStyle.dayText}>
-                          {formatDate(rowData.dateStart,'eventItem-day')}
+                          {formatDate(rowData.dateStart,'eventList-day')}
                         </Text>
                      </View>
                      <View style={ListViewStyle.month}>
                         <Text style={ListViewStyle.monthText}>
-                          {formatDate(rowData.dateStart,'eventItem-month')}
+                          {formatDate(rowData.dateStart,'eventList-month')}
                         </Text>
                      </View>
                   </View>
@@ -282,7 +281,7 @@ export default class FavoriteList extends Component {
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={ComponentStyle.headerTitle}>
+                  <Text style={General.h4}>
                      {getTranslation('favoritesMenuItem')}
                   </Text>
                </View>

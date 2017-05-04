@@ -117,6 +117,8 @@ export default class EventsList extends Component {
 
                favorites = savedEvents;
 
+               console.log(favorites);
+
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
