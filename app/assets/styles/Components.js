@@ -11,21 +11,21 @@ export default ComponentStyle = StyleSheet.create({
       top:0,
       alignItems: 'center',
       flexDirection: 'row',
-      backgroundColor: '#fff',
+      backgroundColor: COLOR.WHITE,
       ...Platform.select({
          ios: {
             paddingTop: 25
          }
       }),
       borderBottomWidth: 1,
-      borderColor: 'rgb(246, 249, 249)',
+      borderColor: COLOR.DARKWHITE,
    },
    searchBarInput: {
       flex:5,
       fontSize: 15,
       borderRadius: 20,
       borderWidth: 1,
-      borderColor: 'rgb(178,178,178)',
+      borderColor: COLOR.GRAY,
       backgroundColor: COLOR.WHITE,
       ...Platform.select({
          ios: {
@@ -45,7 +45,7 @@ export default ComponentStyle = StyleSheet.create({
       width: 50,
       height: 50,
       borderWidth: 1,
-      borderColor: 'rgb(178, 178, 178)',
+      borderColor: COLOR.GRAY,
       alignItems: 'center',
       borderRadius: 50,
       justifyContent: 'center',
