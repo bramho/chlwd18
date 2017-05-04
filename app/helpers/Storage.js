@@ -15,6 +15,16 @@ export function setStorageData(key, data) {
    }
 }
 
+export const setFavoriteIds = async (favorites) => {
+   var favoritesIds = [];
+
+   for (var i = 0; i < favorites.length; i++) {
+      favoritesIds.push(favorites[i].id);
+   }
+
+   return favoritesIds;
+}
+
 /**
  * Sets favorite event in the local storage of the device
  * @param {int}   itemId   Id of item to be set in favorites
