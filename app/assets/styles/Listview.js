@@ -147,4 +147,7 @@ const {width, height, scale} = Dimensions.get("window"),
       flex: 1,
       height: 10,
    },
+   favoritesContainer: {
+      marginTop: 70
+   }
  });
