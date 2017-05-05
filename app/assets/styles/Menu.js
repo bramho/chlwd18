@@ -16,6 +16,8 @@ export default MenuStyle = StyleSheet.create({
    },
    transparentNavbar: {
       backgroundColor:'transparent',
+      height: 80,
+      paddingTop: 5,
       borderWidth: 0,
       borderColor: 'transparent',
       borderBottomColor: COLOR.WHITE24,
@@ -28,4 +30,13 @@ export default MenuStyle = StyleSheet.create({
    tabbarItemContainer: {
       alignItems: 'center',
    },
+   backButtonTextStyle: {
+      color: COLOR.WHITE,
+      fontFamily: 'Muli-Regular',
+      fontSize: 15,
+      marginLeft: 10,
+   },
+   backButtonIconStyle: {
+      tintColor: COLOR.WHITE,
+   }
 });

@@ -29,6 +29,7 @@ I18n.translations = {
       },
       addToFavorites: 'Add to favorites',
       removeFromFavorites: 'Remove from favorites',
+      navBarBackTitle: 'Back',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -53,6 +54,7 @@ I18n.translations = {
          12: 'December',
       addToFavorites: 'Voeg to aan favorieten',
       removeFromFavorites: 'Verwijderen uit favorieten',
+      navBarBackTitle: 'Terug',
       }
    },
 }
