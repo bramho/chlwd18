@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^3.7.2",
+    "moment": "^2.18.1",
     "react": "15.4.2",
     "react-native": "0.42.0",
     "react-native-i18n": "^1.0.0",
@@ -23,5 +24,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./app/assets/fonts"
+    ]
   }
 }

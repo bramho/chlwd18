@@ -1,16 +1,10 @@
 /**
  * This stylesheets holds all colors
  */
-import {StyleSheet,Dimensions} from "react-native";
+import {StyleSheet} from "react-native";
 COLOR = require('./COLOR');
 
-const {width, height, scale} = Dimensions.get("window"),
-     vw = width / 100,
-     vh = height / 100,
-     vmin = Math.min(vw, vh),
-     vmax = Math.max(vw, vh);
-
-const HEADER_MAX_HEIGHT = 60*vh;
+const HEADER_MAX_HEIGHT = 240;
 const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -59,13 +53,5 @@ export default EventItem = StyleSheet.create({
       color:"#fff",
       position:'relative',
       zIndex: 2
-   },
-   overlay: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom:0,
-      backgroundColor:COLOR.BLACK40,
    }
 });

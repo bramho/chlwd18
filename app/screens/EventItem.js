@@ -25,12 +25,10 @@ export default class EventItem extends Component {
          data: '',
          isLoading: true,
          id:this.props.eventId,
+         rowData: this.props.rowData,
       };
 
       console.log(this.props.eventId);
-
-
-
    }
 
    componentDidMount() {
@@ -40,9 +38,9 @@ export default class EventItem extends Component {
 
    }
 
-   addOrRemoveFavorite (addToFavorites) {
+   addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
-      setFavorite(this.state.id, addToFavorites);
+      setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
       this.setFavoriteButton(true);
    }
 
@@ -53,19 +51,28 @@ export default class EventItem extends Component {
             getStorageData('savedEvents').then((data) => {
                savedEvents = JSON.parse(data);
 
-               var index = savedEvents.indexOf(this.state.id);
+               var savedEventsIds = [];
+
+               for (var i = 0; i < savedEvents.length; i++) {
+                  savedEventsIds.push(savedEvents[i].id);
+               }
+
+               console.log('Saved Event Ids:');
+               console.log(savedEventsIds);
+
+               var index = savedEventsIds.indexOf(this.state.id);
 
                if(isReset) {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
                   }
                } else {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false)}.bind(this) })
+                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
                   }
                }
 
@@ -99,7 +106,7 @@ export default class EventItem extends Component {
     * Renders the header of the event
     */
    _renderHeader() {
-      
+
       return (
          <Animated.View style={EventStyle.header}>
            <Animated.Image
@@ -108,8 +115,9 @@ export default class EventItem extends Component {
              ]}
              source={{uri: this.state.data.header_img_hdpi}}
            />
+           <View style={EventStyle.overlay}></View>
            <View style={EventStyle.headerContent}>
-               <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
+               <Text style={[General.h1,EventStyle.headerText]}>{this.state.data.title}</Text>
                <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
                <Text style={[General.h2,EventStyle.headerText]}>{
                   formatDate(this.state.data.dateStart,'eventItem')
@@ -129,6 +137,7 @@ export default class EventItem extends Component {
          >
             <View style={[EventStyle.scrollViewContent,General.textContainer]}>
               <View>
+              <Text style={General.h3}>Dit is een begin titel tekst</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
 

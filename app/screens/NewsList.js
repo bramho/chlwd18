@@ -5,6 +5,7 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
+import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
@@ -118,9 +119,33 @@ export default class NewsList extends Component {
    _renderRow (rowData) {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
-         <Text style={ListViewStyle.title}>
-           {rowData.title}
-         </Text>
+            <View style={[ListViewStyle.row, ListViewStyle.newsBody]}>
+               <View>
+                  <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+
+               </View>
+               <View style={ListViewStyle.body}>
+                  <View style={[ListViewStyle.dateContainer, ListViewStyle.newsDateContainer]}>
+                     <View style={ListViewStyle.month}>
+                        <Text style={[ListViewStyle.monthText, ListViewStyle.newsMonth]}>
+                          Mei
+                        </Text>
+                     </View>
+                     <View style={ListViewStyle.day}>
+                        <Text style={[ListViewStyle.dayText, ListViewStyle.newsDay]}>
+                          2
+                        </Text>
+                     </View>
+                  </View>
+                  <View style={ListViewStyle.textContainer}>
+                     <View style={ListViewStyle.titleContainer}>
+                        <Text numberOfLines={2} style={[ListViewStyle.title, ListViewStyle.newsTitle]}>
+                          {rowData.summary}
+                        </Text>
+                     </View>
+                  </View>
+               </View>
+            </View>
          </TouchableOpacity>
       )
    }
@@ -144,6 +169,9 @@ export default class NewsList extends Component {
                   placeholder={getTranslation('searchTerm')}
                   onChange={this.setSearchText.bind(this)}
                />
+            </View>
+            <View style={ListViewStyle.listViewTitleContainer}>
+               <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
             </View>
             {currentView}
          </View>

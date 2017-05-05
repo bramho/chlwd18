@@ -15,11 +15,21 @@ export function setStorageData(key, data) {
    }
 }
 
+export const setFavoriteIds = async (favorites) => {
+   var favoritesIds = [];
+
+   for (var i = 0; i < favorites.length; i++) {
+      favoritesIds.push(favorites[i].id);
+   }
+
+   return favoritesIds;
+}
+
 /**
  * Sets favorite event in the local storage of the device
  * @param {int}   itemId   Id of item to be set in favorites
  */
-export const setFavorite = async (itemId, addToFavorites) => {
+export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
    var savedEvents = [];
 
    checkStorageKey('savedEvents').then((isValidKey) => {
@@ -31,13 +41,15 @@ export const setFavorite = async (itemId, addToFavorites) => {
 
 
             // Checks if itemId already exists within the savedEvents
-            index = savedEvents.indexOf(itemId);
+            index = savedEventsIds.indexOf(item.id);
             console.log('Index: ' + index);
 
             if (index === -1) {
-               savedEvents.push(itemId);
+               console.log('Adding item: ' + item.id);
+               savedEvents.push(item);
                setStorageData('savedEvents', savedEvents);
             } else {
+               console.log('Removing item: ' + item.id);
                savedEvents.splice(index, 1);
                setStorageData('savedEvents', savedEvents);
             }

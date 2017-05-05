@@ -2,6 +2,7 @@
  * This stylesheet holds all the menu styles
  */
 import {StyleSheet} from "react-native";
+COLOR = require('./COLOR');
 
 export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
@@ -16,6 +17,7 @@ export default MenuStyle = StyleSheet.create({
       backgroundColor:'transparent',
       borderWidth: 0,
       borderColor: 'transparent',
-      borderBottomWidth: 0,
+      borderBottomColor: COLOR.WHITE24,
+      borderBottomWidth: StyleSheet.hairlineWidth,
    }
 });

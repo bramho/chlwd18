@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { formatDate } from '../helpers/FormatDate';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -21,6 +22,9 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
     rowHasChanged: (row1, row2) => row1 !== row2,
  });
 var listData = [];
+
+var favorites = [];
+var favoritesIds = [];
 
 export default class EventsList extends Component {
    constructor(props) {
@@ -41,6 +45,8 @@ export default class EventsList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      this.setFavorites();
    }
 
    /**
@@ -51,7 +57,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage(storageKey);
+      // removeItemFromStorage('savedEvents');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -63,7 +69,7 @@ export default class EventsList extends Component {
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
-                  isLoading: false,
+                  // isLoading: false,
                   empty: false,
                   rawData: storageData,
                });
@@ -75,7 +81,7 @@ export default class EventsList extends Component {
                   this.setState({
                      dataSource: this.state.dataSource.cloneWithRows(data),
                      apiData: data,
-                     isLoading: false,
+                     // isLoading: false,
                      empty: false,
                      rawData: data,
                   });
@@ -97,6 +103,53 @@ export default class EventsList extends Component {
    }
 
    /**
+    * Gets favorites from local storage and assigns them to a favorites variable.
+    */
+   setFavorites() {
+      this.setState({
+         isLoading: true
+      });
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               favorites = savedEvents;
+
+               setFavoriteIds(favorites).then((result) => {
+                  favoritesIds = result;
+
+
+                  this.setState({
+                     isLoading: false
+                  });
+               });
+            });
+         }
+      });
+   }
+
+   setFavoriteButton(id, isReset) {
+
+      var index = favoritesIds.indexOf(id);
+
+      if (isReset) {
+         if (index === -1) {
+            return 'Remove from favorites';
+         } else {
+            return 'Add to favorites';
+         }
+      } else {
+         if (index === -1) {
+            return 'Add to favorites';
+         } else {
+            return 'Remove from favorites';
+         }
+      }
+   }
+
+   /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
     */
@@ -110,9 +163,9 @@ export default class EventsList extends Component {
       });
    }
 
-   onItemPress(id) {
+   onItemPress(id, data) {
       console.log('You Pressed');
-      Actions.eventItem({eventId:id})
+      Actions.eventItem({eventId:id, rowData:data})
    }
 
    _onRefresh() {
@@ -124,6 +177,18 @@ export default class EventsList extends Component {
 
    }
 
+   addOrRemoveFavorite (id) {
+      console.log(id);
+
+      var index = favoritesIds.indexOf(id);
+
+      if (index === -1) {
+         setFavorite(id, true, favoritesIds);
+      } else {
+         setFavorite(id, false, favoritesIds);
+      }
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -131,21 +196,63 @@ export default class EventsList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+            <View>
+               <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+               <View style={ListViewStyle.priceContainer}>
+                  <View style={ListViewStyle.price}>
+                     <Text style={ListViewStyle.priceText}>
+                        € {rowData.ticket_prices.adult}
+                     </Text>
+                  </View>
+               </View>
+
+               <View style={ListViewStyle.addToFavoritesContainer}>
+                  <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData.id)}.bind(this)}>
+                     <Text>
+                        {this.setFavoriteButton(rowData.id, false)}
+                     </Text>
+                  </TouchableOpacity>
+               </View>
+
+               <View style={ListViewStyle.categoriesContainer}>
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        Dance
+                     </Text>
+                  </View>
+
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        Cultuur
+                     </Text>
+                  </View>
+               </View>
+            </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.title_price}>
-                  <Text style={ListViewStyle.title}>
+               <View style={ListViewStyle.dateContainer}>
+                  <View style={ListViewStyle.day}>
+                     <Text style={ListViewStyle.dayText}>
+                       {formatDate(rowData.dateStart,'eventList-day')}
+                     </Text>
+                  </View>
+                  <View style={ListViewStyle.month}>
+                     <Text style={ListViewStyle.monthText}>
+                       {formatDate(rowData.dateStart,'eventList-month')}
+                     </Text>
+                  </View>
+               </View>
+               <View style={ListViewStyle.textContainer}>
+                  <View style={ListViewStyle.titleContainer}>
+                     <Text style={ListViewStyle.title}>
+                       {rowData.title}
+                     </Text>
+                  </View>
+                  <Text numberOfLines={2} style={ListViewStyle.description}>
                     {rowData.title}
                   </Text>
-                  <Text style={ListViewStyle.price}>
-                     {rowData.ticket_prices.adult}
-                  </Text>
                </View>
-               <Text numberOfLines={2} style={ListViewStyle.description}>
-                 {rowData.summary}
-               </Text>
             </View>
          </View>
          </TouchableOpacity>
@@ -171,12 +278,17 @@ export default class EventsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.searchBarContainer}>
+            <View style={ComponentStyle.headerContainer}>
                <TextInput
                   style={ComponentStyle.searchBarInput}
                   placeholder={getTranslation('searchTerm')}
                   onChange={this.setSearchText.bind(this)}
                />
+               <View style={ComponentStyle.filterIconContainer}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Text>F</Text>
+                  </View>
+               </View>
             </View>
             {currentView}
          </View>
