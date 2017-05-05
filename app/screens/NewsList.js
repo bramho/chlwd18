@@ -138,12 +138,17 @@ export default class NewsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.searchBarContainer}>
+            <View style={ComponentStyle.headerContainer}>
                <TextInput
                   style={ComponentStyle.searchBarInput}
                   placeholder={getTranslation('searchTerm')}
                   onChange={this.setSearchText.bind(this)}
                />
+               <View style={ComponentStyle.filterIconContainer}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Text>F</Text>
+                  </View>
+               </View>
             </View>
             {currentView}
          </View>
