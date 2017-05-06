@@ -8,7 +8,7 @@ module.exports = {
    LIGHTGREEN: '#9dd61e',
    GREEN:      '#47c34f',
    LIGHTBLUE:  '#489adf',
-   GREYBLUE:   '#6b6f91',
+   GRAYBLUE:   '#6b6f91',
    BLUE:       '#4d4cc1',
    PURPLE:     '#a13291',
    PINK:       '#f06aa7',
