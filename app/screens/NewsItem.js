@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { formatDate } from '../helpers/FormatDate';
+import { StatusBar } from './helpers/StatusBar';
 
 import { General, NewsStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -31,6 +32,7 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
+      StatusBar();
    }
 
    /**

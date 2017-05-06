@@ -61,6 +61,9 @@ const General = StyleSheet.create({
       ...Platform.select({
          ios: {
             paddingLeft: 5,
+         },
+         android: {
+            paddingTop: 40,
          }
       }),
    },

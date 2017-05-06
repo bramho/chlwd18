@@ -7,6 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { StatusBar } from './helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -45,6 +46,8 @@ export default class FavoriteList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      StatusBar();
    }
 
    /**
