@@ -57,7 +57,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('savedEvents');
+      // removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -252,7 +252,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                    {rowData.title}
+                     {rowData.title}
                   </Text>
                </View>
             </View>

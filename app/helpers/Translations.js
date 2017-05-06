@@ -41,7 +41,8 @@ I18n.translations = {
       kids: 'Kids',
       seniors: 'Seniors (65+)',
       cjp: 'CJP',
-
+      buyTickets: 'Buy tickets',
+      usefulLinks: 'Useful links',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -79,6 +80,8 @@ I18n.translations = {
       kids: 'Kinderen',
       seniors: '65 plus',
       cjp: 'CJP',
+      buyTickets: 'Bestel tickets',
+      usefulLinks: 'Handige links',
    },
 }
 
