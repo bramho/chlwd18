@@ -69,14 +69,30 @@ const General = StyleSheet.create({
          }
       }),
    },
-   textContainer: {
-      padding:20
+   itemContent: {
+      lineHeight: 25,
    },
    backgroundStandard: {
       backgroundColor: COLOR.PALEGRAY,
    },
    grayBorderTop: {
       borderTopColor: COLOR.GRAY,
+   },
+   subTitle: {
+      fontFamily: 'Muli-Regular',
+      fontSize: 13,
+   },
+   boldText: {
+      fontFamily: 'Muli-ExtraBold'
+   },
+   redText: {
+      color: COLOR.RED
+   },
+   rightText: {
+      textAlign: 'right'
+   },
+   leftText: {
+      textAlign: 'left'
    }
 });
 
