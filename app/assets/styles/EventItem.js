@@ -130,4 +130,17 @@ export default EventItem = StyleSheet.create({
    dateAndTimes: {
       marginTop: 20,
    },
+   buyTicketsButton: {
+      backgroundColor: COLOR.RED,
+      alignSelf: 'center',
+      width: 220,
+      marginTop: 30,
+      paddingTop: 15,
+      paddingBottom: 15,
+      borderRadius: 30,
+   },
+   buyTicketsButtonText: {
+      color: COLOR.WHITE,
+      textAlign: 'center',
+   },
 });

@@ -147,4 +147,36 @@ const {width, height, scale} = Dimensions.get("window"),
       flex: 1,
       height: 10,
    },
+
+   listViewTitleContainer: {
+      marginLeft: 20,
+      marginTop: 20,
+   },
+   listViewTitle: {
+      color: COLOR.RED,
+      fontFamily: 'Muli-Bold',
+      fontSize: 16,
+   },
+
+   newsBody: {
+      backgroundColor: COLOR.GRAYBLUE,
+   },
+   newsTitle: {
+      color: COLOR.WHITE,
+      fontSize: 16,
+      fontFamily: 'Muli-Regular',
+      lineHeight: 22,
+   },
+   newsDateContainer: {
+      marginTop: 2,
+   },
+   newsMonth: {
+      fontFamily: 'Muli-ExtraBold',
+      color: COLOR.DARKPURPLE,
+   },
+   newsDay: {
+      fontFamily: 'Muli-ExtraBold',
+      color: COLOR.DARKPURPLE,
+      fontSize: 19,
+   }
  });
