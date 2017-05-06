@@ -69,8 +69,8 @@ const General = StyleSheet.create({
          }
       }),
    },
-   textContainer: {
-      padding:20
+   itemContent: {
+      lineHeight: 25,
    },
    backgroundStandard: {
       backgroundColor: COLOR.PALEGRAY,

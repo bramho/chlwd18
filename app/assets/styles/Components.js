@@ -80,4 +80,17 @@ export default ComponentStyle = StyleSheet.create({
       backgroundColor: 'rgb(161, 50, 145)',
    },
 
+   tabelRow: {
+      flexDirection: 'row',
+   },
+   tabelCellOne: {
+      flex: 1,
+   },
+   tabelCellTwo: {
+      flex: 2,
+   },
+   tabelCellThree: {
+      flex: 3,
+   }
+
 });

@@ -144,7 +144,7 @@ export default class EventItem extends Component {
 
                      <View>
                         <Text style={[General.subTitle, EventStyle.headerText, EventStyle.headerCityText]}>
-                           Leeuwarden
+                           {this.state.data.city}
                         </Text>
                      </View>
 
@@ -167,7 +167,7 @@ export default class EventItem extends Component {
               </View>
 
                <View style={EventStyle.bottomHeaderPrice}>
-                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{"Vanaf €"+this.state.data.ticket_prices.adult}</Text>
+                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{getTranslation('fromText') + " €"+this.state.data.ticket_prices.adult}</Text>
                </View>
 
                <View style={EventStyle.bottomHeaderTicket}>
@@ -183,19 +183,36 @@ export default class EventItem extends Component {
     */
    _renderContent() {
       return (
-         <ScrollView
-         style={EventStyle.fill}
-         >
-            <View style={[EventStyle.scrollViewContent,General.textContainer]}>
-              <View>
-              <Text style={General.h3}>Dit is een begin titel tekst</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+         <ScrollView style={EventStyle.fill}>
+            <View style={EventStyle.scrollViewContent}>
+               <View style={EventStyle.section}>
+                 <Text style={General.h3}>Zorg dat het veilig is.</Text>
+                 <Text style={[General.p, General.itemContent]}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+                 <Text style={[General.p, General.itemContent]}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+               </View>
 
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('datesAndTimes')}</Text>
+
+                  <View style={ComponentStyle.tabelRow}>
+
+                        <Text style={ComponentStyle.tabelCellThree}>
+                           TITEL
+                        </Text>
+
+                        <Text style={ComponentStyle.tabelCellOne}>
+                           TITEL
+                        </Text>
+
+                        <Text style={ComponentStyle.tabelCellOne}>
+                           TITEL
+                        </Text>
                   </View>
+               </View>
+
             </View>
+
+
          </ScrollView>
       );
    }

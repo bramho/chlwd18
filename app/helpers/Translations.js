@@ -30,6 +30,8 @@ I18n.translations = {
       addToFavorites: 'Add to favorites',
       removeFromFavorites: 'Remove from favorites',
       navBarBackTitle: 'Back',
+      fromText: 'From',
+      datesAndTimes: 'Date and times',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -55,6 +57,8 @@ I18n.translations = {
       addToFavorites: 'Voeg to aan favorieten',
       removeFromFavorites: 'Verwijderen uit favorieten',
       navBarBackTitle: 'Terug',
+      fromText: 'Vanaf',
+      datesAndTimes: 'Data en tijden',
       }
    },
 }

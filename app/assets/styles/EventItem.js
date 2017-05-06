@@ -72,6 +72,11 @@ export default EventItem = StyleSheet.create({
       bottom:0,
       backgroundColor:COLOR.BLACK40,
    },
+   section: {
+      borderBottomWidth: 1,
+      borderColor: COLOR.GRAY,
+      padding: 20,
+   },
    dateTimeTextContainer: {
       backgroundColor: 'transparent',
    },
