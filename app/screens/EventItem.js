@@ -194,19 +194,65 @@ export default class EventItem extends Component {
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('datesAndTimes')}</Text>
 
-                  <View style={ComponentStyle.tabelRow}>
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
 
-                        <Text style={ComponentStyle.tabelCellThree}>
-                           TITEL
-                        </Text>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('dateText')}</Text>
 
-                        <Text style={ComponentStyle.tabelCellOne}>
-                           TITEL
-                        </Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('fromText')}</Text>
 
-                        <Text style={ComponentStyle.tabelCellOne}>
-                           TITEL
-                        </Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('untilText')}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+
+                     <Text style={ComponentStyle.tabelCellThree}>{formatDate(this.state.data.dateStart,'eventItemDate')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText]}>{formatDate(this.state.data.dateStart,'eventItemTime')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText]}>{formatDate(this.state.data.dateEnd,'eventItemTime')}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+
+                     <Text style={ComponentStyle.tabelCellThree}>{formatDate(this.state.data.dateStart,'eventItemDate')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText]}>{formatDate(this.state.data.dateStart,'eventItemTime')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText]}>{formatDate(this.state.data.dateEnd,'eventItemTime')}</Text>
+                  </View>
+               </View>
+
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('pricing')}</Text>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}></Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('preSale')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('regular')}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('adults')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.adult}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.adult}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('kids')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.kids}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.kids}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('seniors')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.seniors}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.seniors}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('cjp')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.CJP}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.CJP}</Text>
                   </View>
                </View>
 

@@ -127,4 +127,7 @@ export default EventItem = StyleSheet.create({
       textAlign: 'left',
       alignSelf: 'stretch'
    },
+   dateAndTimes: {
+      marginTop: 20,
+   },
 });

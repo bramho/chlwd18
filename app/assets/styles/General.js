@@ -81,6 +81,18 @@ const General = StyleSheet.create({
    subTitle: {
       fontFamily: 'Muli-Regular',
       fontSize: 13,
+   },
+   boldText: {
+      fontFamily: 'Muli-ExtraBold'
+   },
+   redText: {
+      color: COLOR.RED
+   },
+   rightText: {
+      textAlign: 'right'
+   },
+   leftText: {
+      textAlign: 'left'
    }
 });
 

@@ -91,6 +91,6 @@ export default ComponentStyle = StyleSheet.create({
    },
    tabelCellThree: {
       flex: 3,
-   }
+   },
 
 });
