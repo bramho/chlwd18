@@ -7,7 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
-import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -109,20 +109,71 @@ export default class EventItem extends Component {
 
       return (
          <Animated.View style={EventStyle.header}>
-           <Animated.Image
-             style={[
-               EventStyle.backgroundImage
-             ]}
-             source={{uri: this.state.data.header_img_hdpi}}
-           />
-           <View style={EventStyle.overlay}></View>
-           <View style={EventStyle.headerContent}>
-               <Text style={[General.h1,EventStyle.headerText]}>{this.state.data.title}</Text>
-               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
-               <Text style={[General.h2,EventStyle.headerText]}>{
-                  formatDate(this.state.data.dateStart,'eventItem')
-               }
-               </Text>
+            <View style={EventStyle.innerContainer}>
+
+               <Animated.Image
+                style={[
+                   EventStyle.backgroundImage
+                ]}
+                source={{uri: this.state.data.header_img_hdpi}}
+               />
+              <View style={EventStyle.overlay}></View>
+              <View style={EventStyle.headerContent}>
+                  <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
+                  <View style={{flexDirection: 'row'}}>
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>{
+                           formatDate(this.state.data.dateStart,'eventItem')
+                        }
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>
+                           Oldehoven
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.headerCityText]}>
+                           Leeuwarden
+                        </Text>
+                     </View>
+
+                  </View>
+
+                  <View style={EventStyle.categoriesContainer}>
+                     <View style={[ComponentStyle.categoryItemContainer, ComponentStyle.categoryItemDance]}>
+                        <Text style={ComponentStyle.categoryItem}>
+                           Dance
+                        </Text>
+                     </View>
+
+                     <View style={[ComponentStyle.categoryItemContainer, ComponentStyle.categoryItemCultuur]}>
+                        <Text style={ComponentStyle.categoryItem}>
+                           Cultuur
+                        </Text>
+                     </View>
+                  </View>
+
+              </View>
+
+               <View style={EventStyle.bottomHeaderPrice}>
+                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{"Vanaf €"+this.state.data.ticket_prices.adult}</Text>
+               </View>
+
+               <View style={EventStyle.bottomHeaderTicket}>
+                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}>Tickets</Text>
+               </View>
+
            </View>
          </Animated.View>
       );
@@ -138,6 +189,8 @@ export default class EventItem extends Component {
             <View style={[EventStyle.scrollViewContent,General.textContainer]}>
               <View>
               <Text style={General.h3}>Dit is een begin titel tekst</Text>
+              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
               <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
 

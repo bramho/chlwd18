@@ -5,7 +5,7 @@ import {StyleSheet,Dimensions} from "react-native";
 COLOR = require('./COLOR');
 
 const {width, height, scale} = Dimensions.get("window"),
-     vw = width / 100,
+     vw = width,
      vh = height / 100,
      vmin = Math.min(vw, vh),
      vmax = Math.max(vw, vh);
@@ -25,6 +25,10 @@ export default EventItem = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
    },
+   innerContainer: {
+      flex: 1,
+      position: 'relative'
+   },
    header: {
       position: 'absolute',
       top: 0,
@@ -36,7 +40,7 @@ export default EventItem = StyleSheet.create({
    headerContent : {
       padding:20,
       paddingTop: 60,
-      marginTop: 40
+      marginTop: 40,
    },
    headerText : {
       color:'#fff',
@@ -67,5 +71,55 @@ export default EventItem = StyleSheet.create({
       right: 0,
       bottom:0,
       backgroundColor:COLOR.BLACK40,
-   }
+   },
+   dateTimeTextContainer: {
+      backgroundColor: 'transparent',
+   },
+   dotSeperatorContainer: {
+      marginLeft: 5,
+      marginRight: 5,
+      justifyContent: 'center'
+   },
+   dotSeperator: {
+      fontSize: 8,
+   },
+   headerCityText: {
+      fontFamily: 'Muli-Bold',
+   },
+   title: {
+      marginBottom: 3
+   },
+   categoriesContainer: {
+      flexDirection: 'row',
+      marginTop: 12
+   },
+   bottomHeaderPrice: {
+      position: 'absolute',
+      bottom: 0,
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingBottom: 10,
+   },
+   price: {
+      paddingTop: 5,
+      paddingBottom: 5,
+      paddingLeft: 10,
+      paddingRight: 10,
+      borderWidth: 1,
+      borderColor: COLOR.WHITE,
+      borderRadius: 5,
+      textAlign: 'right'
+   },
+   bottomHeaderTicket: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      paddingLeft: 20,
+      paddingRight: 20,
+      paddingBottom: 15,
+   },
+   headerTicketLink: {
+      textAlign: 'left',
+      alignSelf: 'stretch'
+   },
 });

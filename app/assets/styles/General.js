@@ -77,6 +77,10 @@ const General = StyleSheet.create({
    },
    grayBorderTop: {
       borderTopColor: COLOR.GRAY,
+   },
+   subTitle: {
+      fontFamily: 'Muli-Regular',
+      fontSize: 13,
    }
 });
 
