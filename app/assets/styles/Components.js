@@ -60,6 +60,37 @@ export default ComponentStyle = StyleSheet.create({
       fontSize: 16,
       color: COLOR.GRAYBROWN,
       fontFamily: 'Muli-ExtraBold',
-   }
+   },
+   categoryItemContainer: {
+      marginRight: 10,
+      padding: 3,
+      paddingLeft: 8,
+      paddingRight: 8,
+      borderRadius: 5,
+   },
+   categoryItem: {
+      fontSize: 12,
+      color: COLOR.WHITE,
+      fontFamily: 'Muli-Regular',
+   },
+   categoryItemDance: {
+      backgroundColor: 'rgb(77, 76, 193)',
+   },
+   categoryItemCultuur: {
+      backgroundColor: 'rgb(161, 50, 145)',
+   },
+
+   tabelRow: {
+      flexDirection: 'row',
+   },
+   tabelCellOne: {
+      flex: 1,
+   },
+   tabelCellTwo: {
+      flex: 2,
+   },
+   tabelCellThree: {
+      flex: 3,
+   },
 
 });

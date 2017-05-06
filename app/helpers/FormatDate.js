@@ -24,6 +24,14 @@ export function formatDate(timestamp, view) {
             format = 'D MMMM HH:mm'
          break;
 
+         case 'eventItemDate':
+            format = 'D MMMM'
+         break;
+
+         case 'eventItemTime':
+            format = 'HH:mm'
+         break;
+
          case 'eventList-day':
             //format = {day: 'numeric'};
             format = 'D'
