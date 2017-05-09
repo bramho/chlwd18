@@ -6,6 +6,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { formatDate } from '../helpers/FormatDate';
 import { statusBar } from '../helpers/StatusBar';
+import { shareItem } from '../helpers/Share';
 
 import { General, NewsStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -33,6 +34,16 @@ export default class EventItem extends Component {
       this.fetchData(this.state.id);
 
       statusBar();
+
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareArticle()}.bind(this)})
+   }
+
+   shareArticle() {
+      shareItem(
+         this.state.data.title,
+         this.state.data.social_url,
+         this.state.data.title
+      );
    }
 
    /**
