@@ -41,6 +41,7 @@ I18n.translations = {
       kids: 'Kids',
       seniors: 'Seniors (65+)',
       cjp: 'CJP',
+      readLength: 'Readlength',
 
    },
    'nl-NL': {
@@ -79,6 +80,7 @@ I18n.translations = {
       kids: 'Kinderen',
       seniors: '65 plus',
       cjp: 'CJP',
+      readLength: 'Leeslengte',
    },
 }
 

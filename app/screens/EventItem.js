@@ -45,6 +45,8 @@ export default class EventItem extends Component {
    }
 
    setFavoriteButton(isReset) {
+      
+
       checkStorageKey('savedEvents').then((isValidKey) => {
 
          if (isValidKey) {

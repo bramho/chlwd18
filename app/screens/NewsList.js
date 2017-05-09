@@ -111,6 +111,13 @@ export default class NewsList extends Component {
             console.log('You Pressed');
             Actions.newsItem({newsId:id})
        }
+
+   _renderHeader() {
+      <View style={ListViewStyle.listViewTitleContainer}>
+         <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
+      </View>
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -122,7 +129,11 @@ export default class NewsList extends Component {
             <View style={[ListViewStyle.row, ListViewStyle.newsBody]}>
                <View>
                   <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
-
+                  <View style={ListViewStyle.readLenghtContainer}>
+                     <Text style={ListViewStyle.readLengthText}>
+                        {getTranslation('readLength')} • 5 min
+                     </Text>
+                  </View>
                </View>
                <View style={ListViewStyle.body}>
                   <View style={[ListViewStyle.dateContainer, ListViewStyle.newsDateContainer]}>
@@ -160,6 +171,9 @@ export default class NewsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         renderHeader={() => <View style={ListViewStyle.listViewTitleContainer}>
+            <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
+         </View>}
       />
       return (
          <View style={General.container}>
@@ -174,9 +188,6 @@ export default class NewsList extends Component {
                      <Text>F</Text>
                   </View>
                </View>
-            </View>
-            <View style={ListViewStyle.listViewTitleContainer}>
-               <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
             </View>
             {currentView}
          </View>

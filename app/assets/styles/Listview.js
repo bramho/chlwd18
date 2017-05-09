@@ -178,5 +178,16 @@ const {width, height, scale} = Dimensions.get("window"),
       fontFamily: 'Muli-ExtraBold',
       color: COLOR.DARKPURPLE,
       fontSize: 19,
-   }
+   },
+   readLenghtContainer: {
+      position: 'absolute',
+      top: 5,
+      right: 10,
+   },
+   readLengthText: {
+      color: COLOR.WHITE,
+      backgroundColor: 'transparent',
+      fontFamily: 'HindSiliguri-Regular',
+      fontSize: 14,
+   },
  });
