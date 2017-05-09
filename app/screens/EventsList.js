@@ -60,7 +60,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('savedEvents');
+      // removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -119,6 +119,8 @@ export default class EventsList extends Component {
                savedEvents = JSON.parse(data);
 
                favorites = savedEvents;
+
+               console.log(favorites);
 
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
@@ -253,7 +255,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                    {rowData.title}
+                     {rowData.title}
                   </Text>
                </View>
             </View>
@@ -282,11 +284,11 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-               <TextInput
-                  style={ComponentStyle.searchBarInput}
-                  placeholder={getTranslation('searchTerm')}
-                  onChange={this.setSearchText.bind(this)}
-               />
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={General.h4}>
+                     {getTranslation('eventsMenuItem')}
+                  </Text>
+               </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
                      <Text>F</Text>
