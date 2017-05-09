@@ -31,7 +31,7 @@ export default class EventItem extends Component {
 
    componentDidMount() {
       this.fetchData(this.state.id);
-     
+
       statusBar();
    }
 
