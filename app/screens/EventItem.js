@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button, Share} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
 
@@ -8,6 +8,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 import { openLink } from '../helpers/Links';
+import { shareItem } from '../helpers/Share';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
@@ -45,7 +46,15 @@ export default class EventItem extends Component {
       this.setFavoriteButton(false);
       statusBar('transparent');
 
-      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){console.log(this)}.bind(this) })
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareEvent()}.bind(this) })
+   }
+
+   shareEvent() {
+      shareItem(
+         this.state.data.title,
+         this.state.data.social_url,
+         this.state.data.title
+      );
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
