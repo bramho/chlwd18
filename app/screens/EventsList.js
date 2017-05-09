@@ -117,6 +117,8 @@ export default class EventsList extends Component {
 
                favorites = savedEvents;
 
+               console.log(favorites);
+
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
@@ -279,11 +281,11 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-               <TextInput
-                  style={ComponentStyle.searchBarInput}
-                  placeholder={getTranslation('searchTerm')}
-                  onChange={this.setSearchText.bind(this)}
-               />
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={General.h4}>
+                     {getTranslation('eventsMenuItem')}
+                  </Text>
+               </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
                      <Text>F</Text>

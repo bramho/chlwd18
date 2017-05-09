@@ -8,7 +8,8 @@ import React, {StyleSheet, Dimensions, PixelRatio, Platform} from "react-native"
 import MenuStyle from "./Menu";
 import ListViewStyle from "./Listview";
 import EventStyle from "./EventItem";
-import NewsStyle from "./EventItem";
+import NewsStyle from "./NewsItem";
+import Tags from "./Tags";
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -48,6 +49,11 @@ const General = StyleSheet.create({
       color:COLOR.DARKPURPLE,
       marginBottom:10,
    },
+   h4: {
+      fontSize: 16,
+      fontFamily: 'Muli-ExtraBold',
+      color: COLOR.GRAYBROWN,
+   },
    img: {
       resizeMode: React.Image.resizeMode.cover,
    },
@@ -64,18 +70,34 @@ const General = StyleSheet.create({
          }
       }),
    },
-   textContainer: {
-      padding:20
+   itemContent: {
+      lineHeight: 25,
    },
    backgroundStandard: {
       backgroundColor: COLOR.PALEGRAY,
    },
-   grayBackground: {
-      backgroundColor: '#ccc',
-   },
    grayBorderTop: {
-      borderTopColor: "#666666",
+      borderTopColor: COLOR.GRAY,
+   },
+   subTitle: {
+      fontFamily: 'Muli-Regular',
+      fontSize: 13,
+   },
+   boldText: {
+      fontFamily: 'Muli-ExtraBold'
+   },
+   redText: {
+      color: COLOR.RED
+   },
+   rightText: {
+      textAlign: 'right'
+   },
+   leftText: {
+      textAlign: 'left'
+   },
+   generalPadding: {
+      padding: 15,
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags };
