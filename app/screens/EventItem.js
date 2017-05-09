@@ -7,7 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
-import { General, EventStyle, ComponentStyle, ListViewStyle, Tags } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -262,9 +262,9 @@ export default class EventItem extends Component {
                      <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.CJP}</Text>
                   </View>
 
-                  <View style={EventStyle.buyTicketsButton}>
+                  <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
                      <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets()}}>
-                        <Text style={EventStyle.buyTicketsButtonText}>{getTranslation('buyTickets')}</Text>
+                        <Text style={Buttons.buttonText}>{getTranslation('buyTickets')}</Text>
                      </TouchableOpacity>
                   </View>
 
