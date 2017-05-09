@@ -9,6 +9,7 @@ import MenuStyle from "./Menu";
 import ListViewStyle from "./Listview";
 import EventStyle from "./EventItem";
 import NewsStyle from "./NewsItem";
+import Tags from "./Tags";
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -99,4 +100,4 @@ const General = StyleSheet.create({
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags };

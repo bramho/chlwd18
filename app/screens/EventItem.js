@@ -7,7 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
-import { General, EventStyle, ComponentStyle, ListViewStyle } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle, Tags } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -45,7 +45,7 @@ export default class EventItem extends Component {
    }
 
    setFavoriteButton(isReset) {
-      
+
 
       checkStorageKey('savedEvents').then((isValidKey) => {
 
@@ -152,15 +152,15 @@ export default class EventItem extends Component {
 
                   </View>
 
-                  <View style={EventStyle.categoriesContainer}>
-                     <View style={[ComponentStyle.categoryItemContainer, ComponentStyle.categoryItemDance]}>
-                        <Text style={ComponentStyle.categoryItem}>
+                  <View style={Tags.categoriesContainer}>
+                     <View style={[Tags.categoryItemContainer, Tags.dance]}>
+                        <Text style={Tags.categoryItem}>
                            Dance
                         </Text>
                      </View>
 
-                     <View style={[ComponentStyle.categoryItemContainer, ComponentStyle.categoryItemCultuur]}>
-                        <Text style={ComponentStyle.categoryItem}>
+                     <View style={[Tags.categoryItemContainer, Tags.culture]}>
+                        <Text style={Tags.categoryItem}>
                            Cultuur
                         </Text>
                      </View>

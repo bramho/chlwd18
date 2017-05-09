@@ -94,10 +94,6 @@ export default EventItem = StyleSheet.create({
    title: {
       marginBottom: 3
    },
-   categoriesContainer: {
-      flexDirection: 'row',
-      marginTop: 12
-   },
    bottomHeaderPrice: {
       position: 'absolute',
       bottom: 0,

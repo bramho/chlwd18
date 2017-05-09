@@ -1,12 +1,18 @@
 /**
  * This stylesheets holds all colors
  */
-import {StyleSheet} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
 COLOR = require('./COLOR');
 
 const HEADER_MAX_HEIGHT = 240;
 const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+const {width, height, scale} = Dimensions.get("window"),
+     vw = width / 100,
+     vh = height / 100,
+     vmin = Math.min(vw, vh),
+     vmax = Math.max(vw, vh);
 
 export default NewsStyle = StyleSheet.create({
    fill: {
@@ -56,7 +62,6 @@ export default NewsStyle = StyleSheet.create({
    },
    articleInfo: {
       flexDirection: 'row',
-      marginBottom: 20,
    },
    articleInfoText: {
       fontFamily: 'HindSiliguri-Regular',
@@ -66,5 +71,39 @@ export default NewsStyle = StyleSheet.create({
       fontFamily: 'Muli-Bold',
       color: COLOR.RED,
       marginTop: 2,
+   },
+   imageContainer: {
+
+   },
+   image: {
+      height:(100*vw)/2,
+      width: 100*vw,
+   },
+   inlineImage: {
+      height:(100*vw-30)/2,
+      width: 100*vw-30,
+   },
+   imageDescription: {
+      height: 40,
+      lineHeight: 40,
+      backgroundColor: COLOR.GRAYBLUE,
+      color: COLOR.WHITE,
+      fontFamily: 'HindSiliguri-Regular',
+      paddingLeft: 20
+   },
+   textSection: {
+      paddingTop: 25,
+   },
+   quoteContainer: {
+      backgroundColor: COLOR.DARKWHITE,
+      padding: 15,
+      borderLeftWidth: 1,
+      borderLeftColor: COLOR.GRAYBLUE,
+   },
+   quoteText: {
+      fontFamily: 'HindSiliguri-Regular',
+      fontSize: 18,
+      color: COLOR.GRAYBLUE,
+
    }
 });

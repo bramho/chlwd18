@@ -30,7 +30,6 @@ export default class EventItem extends Component {
 
    componentDidMount() {
       this.fetchData(this.state.id);
-
    }
 
    /**
@@ -63,8 +62,8 @@ export default class EventItem extends Component {
 
       return (
          <ScrollView>
-            <View style={[NewsStyle.scrollViewContent, General.generalPadding]}>
-               <View>
+            <View style={[NewsStyle.scrollViewContent]}>
+               <View style={General.generalPadding}>
                   <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
                   <View style={NewsStyle.articleInfo}>
                      <Text style={NewsStyle.articleInfoText}>{getTranslation('readLength')} • 5 min • </Text>
@@ -72,14 +71,24 @@ export default class EventItem extends Component {
                   </View>
                </View>
                <View style={NewsStyle.imageContainer}>
-                  <Image style={{height: 100, flex:1}} source={{uri: this.state.data.header_img}}/>
+                  <Image style={NewsStyle.image} source={{uri: this.state.data.header_img}}/>
+                     <Text style={NewsStyle.imageDescription}>Rob's paleis. FOTO ARCHIEF LC</Text>
                </View>
-              <View>
-
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-                  <Text style={General.h2}>Dit is een kop 2</Text>
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+              <View style={General.generalPadding}>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
+                  <View style={NewsStyle.imageContainer}>
+                     <Image style={NewsStyle.inlineImage} source={{uri: this.state.data.header_img}}/>
+                        <Text style={NewsStyle.imageDescription}>Rob's paleis. FOTO ARCHIEF LC</Text>
+                  </View>
+                  <Text style={[General.h2, NewsStyle.textSection]}>Dit is een kop 2</Text>
+                  <Text style={General.p}>{this.state.data.body}</Text>
+                  <View style={NewsStyle.quoteContainer}>
+                     <Text style={NewsStyle.quoteText}>
+                        {'"'+this.state.data.body+'"'}
+                     </Text>
+                  </View>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
               </View>
             </View>
          </ScrollView>
