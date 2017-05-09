@@ -44,6 +44,7 @@ I18n.translations = {
       readLength: 'minute read',
       buyTickets: 'Buy tickets',
       usefulLinks: 'Useful links',
+      shareText: 'Share',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -84,6 +85,7 @@ I18n.translations = {
       readLength: 'minuten leeslengte',
       buyTickets: 'Bestel tickets',
       usefulLinks: 'Handige links',
+      shareText: 'Delen',
    },
 }
 

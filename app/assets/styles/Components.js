@@ -38,16 +38,30 @@ export default ComponentStyle = StyleSheet.create({
          }
       }),
       paddingLeft: 30,
-      
+
    },
    filterIconContainer: {
       flex: 1,
-      marginLeft: 15,
       height: 50,
-
+      width: 50,
 
    },
    filterIcon: {
+      width: 50,
+      height: 50,
+      borderWidth: 1,
+      borderColor: COLOR.GRAY,
+      alignItems: 'center',
+      borderRadius: 50,
+      justifyContent: 'center',
+   },
+   shareIconContainer: {
+      flex: 1,
+      height: 50,
+      width: 50,
+
+   },
+   shareIcon: {
       width: 50,
       height: 50,
       borderWidth: 1,

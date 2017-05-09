@@ -18,6 +18,10 @@ const apiLink = "https://eric-project.c4x.nl/api/events/";
 
 var favorite;
 
+var test =  <View style={ComponentStyle.shareIconContainer}>
+               <Text style={ComponentStyle.shareIcon}>F</Text>
+            </View>;
+
 /**
  * New initialisation of the EventItem datasource object
  */
@@ -40,6 +44,8 @@ export default class EventItem extends Component {
 
       this.setFavoriteButton(false);
       statusBar('transparent');
+
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){console.log(this)}.bind(this) })
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
@@ -308,6 +314,7 @@ export default class EventItem extends Component {
          <View style={[General.container,{marginBottom:60}]}>
          {currentView}
          </View>
+
 
       )
    }
