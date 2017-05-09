@@ -97,6 +97,12 @@ const General = StyleSheet.create({
    },
    generalPadding: {
       padding: 15,
+   },
+   linkText: {
+      color: COLOR.RED,
+      textDecorationLine: 'underline',
+      lineHeight: 20,
+      marginBottom: 15,
    }
 });
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
@@ -104,6 +104,11 @@ export default class EventItem extends Component {
             });
          });
    }
+
+   buyTickets() {
+      console.log('BUY TICKETS');
+   }
+
    /**
     * Renders the header of the event
     */
@@ -256,6 +261,19 @@ export default class EventItem extends Component {
                      <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.CJP}</Text>
                      <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.CJP}</Text>
                   </View>
+
+                  <View style={EventStyle.buyTicketsButton}>
+                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets()}}>
+                        <Text style={EventStyle.buyTicketsButtonText}>{getTranslation('buyTickets')}</Text>
+                     </TouchableOpacity>
+                  </View>
+
+               </View>
+
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
+                  <Text style={General.linkText}>{this.state.data.website}</Text>
+                  <Text style={General.linkText}>{this.state.data.social_url}</Text>
                </View>
 
             </View>
