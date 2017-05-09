@@ -65,9 +65,8 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
+               console.log('Favorites:');
                console.log(storageData);
-
-               console.log(storageData[0].id);
 
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
@@ -285,7 +284,7 @@ export default class FavoriteList extends Component {
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={ComponentStyle.headerTitle}>
+                  <Text style={General.h4}>
                      {getTranslation('favoritesMenuItem')}
                   </Text>
                </View>

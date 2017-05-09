@@ -22,27 +22,8 @@ const scenes = Actions.create(
          <Scene
             key="tabbar"
             tabs
-            tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBackground, General.grayBorderTop]}
+            tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBorderTop]}
          >
-            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
-               <Scene
-                 key="events"
-                 initial
-                 searchText
-                 component={EventsList}
-                 icon={TabItem}
-                 sceneStyle={MenuStyle.container}
-                 hideNavBar
-               />
-               <Scene
-                 key="eventItem"
-                 component={EventItem}
-                 sceneStyle={MenuStyle.container}
-                 hideNavBar = {false}
-                 navigationBarStyle={MenuStyle.transparentNavbar}
-                 onBack={()=>{statusBar(),Actions.pop()}}
-               />
-            </Scene>
 
 
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItem}>
@@ -60,7 +41,35 @@ const scenes = Actions.create(
                  component={NewsItem}
                  sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.newsNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+               />
+            </Scene>
+
+            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem} initial>
+               <Scene
+                 key="events"
+                 initial
+                 searchText
+                 component={EventsList}
+                 icon={TabItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar
+               />
+               <Scene
+                 key="eventItem"
+                 component={EventItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 onBack={()=>{statusBar(),Actions.pop()}}
+                 backButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.backButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.backButtonTextStyle}
                />
             </Scene>
 
@@ -79,6 +88,10 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.backButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.backButtonTextStyle}
                />
             </Scene>
          </Scene>

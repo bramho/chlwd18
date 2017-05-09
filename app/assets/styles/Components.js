@@ -7,6 +7,9 @@ COLOR = require('./COLOR');
 export default ComponentStyle = StyleSheet.create({
    headerContainer: {
       padding: 8,
+      paddingLeft: 20,
+      paddingRight: 20,
+      height: 80,
       top:0,
       alignItems: 'center',
       flexDirection: 'row',
@@ -60,7 +63,19 @@ export default ComponentStyle = StyleSheet.create({
    headerTitle: {
       fontSize: 16,
       color: COLOR.GRAYBROWN,
-      fontWeight: 'bold',
-   }
+      fontFamily: 'Muli-ExtraBold',
+   },
+   tabelRow: {
+      flexDirection: 'row',
+   },
+   tabelCellOne: {
+      flex: 1,
+   },
+   tabelCellTwo: {
+      flex: 2,
+   },
+   tabelCellThree: {
+      flex: 3,
+   },
 
 });

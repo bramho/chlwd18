@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
 
@@ -8,7 +8,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 
-import { General, EventStyle, ComponentStyle } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle, Tags } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
@@ -46,6 +46,8 @@ export default class EventItem extends Component {
    }
 
    setFavoriteButton(isReset) {
+
+
       checkStorageKey('savedEvents').then((isValidKey) => {
 
          if (isValidKey) {
@@ -103,6 +105,11 @@ export default class EventItem extends Component {
             });
          });
    }
+
+   buyTickets() {
+      console.log('BUY TICKETS');
+   }
+
    /**
     * Renders the header of the event
     */
@@ -110,20 +117,71 @@ export default class EventItem extends Component {
 
       return (
          <Animated.View style={EventStyle.header}>
-           <Animated.Image
-             style={[
-               EventStyle.backgroundImage
-             ]}
-             source={{uri: this.state.data.header_img_hdpi}}
-           />
-           <View style={EventStyle.overlay}></View>
-           <View style={EventStyle.headerContent}>
-               <Text style={[General.h1,EventStyle.headerText]}>{this.state.data.title}</Text>
-               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
-               <Text style={[General.h2,EventStyle.headerText]}>{
-                  formatDate(this.state.data.dateStart,'eventItem')
-               }
-               </Text>
+            <View style={EventStyle.innerContainer}>
+
+               <Animated.Image
+                style={[
+                   EventStyle.backgroundImage
+                ]}
+                source={{uri: this.state.data.header_img_hdpi}}
+               />
+              <View style={EventStyle.overlay}></View>
+              <View style={EventStyle.headerContent}>
+                  <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
+                  <View style={{flexDirection: 'row'}}>
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>{
+                           formatDate(this.state.data.dateStart,'eventItem')
+                        }
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>
+                           Oldehoven
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.headerCityText]}>
+                           {this.state.data.city}
+                        </Text>
+                     </View>
+
+                  </View>
+
+                  <View style={Tags.categoriesContainer}>
+                     <View style={[Tags.categoryItemContainer, Tags.dance]}>
+                        <Text style={Tags.categoryItem}>
+                           Dance
+                        </Text>
+                     </View>
+
+                     <View style={[Tags.categoryItemContainer, Tags.culture]}>
+                        <Text style={Tags.categoryItem}>
+                           Cultuur
+                        </Text>
+                     </View>
+                  </View>
+
+              </View>
+
+               <View style={EventStyle.bottomHeaderPrice}>
+                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{getTranslation('fromText') + " €"+this.state.data.ticket_prices.adult}</Text>
+               </View>
+
+               <View style={EventStyle.bottomHeaderTicket}>
+                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}>Tickets</Text>
+               </View>
+
            </View>
          </Animated.View>
       );
@@ -133,17 +191,95 @@ export default class EventItem extends Component {
     */
    _renderContent() {
       return (
-         <ScrollView
-         style={EventStyle.fill}
-         >
-            <View style={[EventStyle.scrollViewContent,General.textContainer]}>
-              <View>
-              <Text style={General.h3}>Dit is een begin titel tekst</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-              <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+         <ScrollView style={EventStyle.fill}>
+            <View style={EventStyle.scrollViewContent}>
+               <View style={EventStyle.section}>
+                 <Text style={General.h3}>Zorg dat het veilig is.</Text>
+                 <Text style={[General.p, General.itemContent]}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+                 <Text style={[General.p, General.itemContent]}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+               </View>
 
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('datesAndTimes')}</Text>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('dateText')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('fromText')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('untilText')}</Text>
                   </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+
+                     <Text style={ComponentStyle.tabelCellThree}>{formatDate(this.state.data.dateStart,'eventItemDate')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText]}>{formatDate(this.state.data.dateStart,'eventItemTime')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText]}>{formatDate(this.state.data.dateEnd,'eventItemTime')}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+
+                     <Text style={ComponentStyle.tabelCellThree}>{formatDate(this.state.data.dateStart,'eventItemDate')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText]}>{formatDate(this.state.data.dateStart,'eventItemTime')}</Text>
+
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText]}>{formatDate(this.state.data.dateEnd,'eventItemTime')}</Text>
+                  </View>
+               </View>
+
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('pricing')}</Text>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}></Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('preSale')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('regular')}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('adults')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.adult}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.adult}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('kids')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.kids}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.kids}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('seniors')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.seniors}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.seniors}</Text>
+                  </View>
+
+                  <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
+                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('cjp')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticket_prices.CJP}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.CJP}</Text>
+                  </View>
+
+                  <View style={EventStyle.buyTicketsButton}>
+                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets()}}>
+                        <Text style={EventStyle.buyTicketsButtonText}>{getTranslation('buyTickets')}</Text>
+                     </TouchableOpacity>
+                  </View>
+
+               </View>
+
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
+                  <Text style={General.linkText}>{this.state.data.website}</Text>
+                  <Text style={General.linkText}>{this.state.data.social_url}</Text>
+               </View>
+
             </View>
+
+
          </ScrollView>
       );
    }

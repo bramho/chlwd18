@@ -8,6 +8,7 @@ export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
       height: 60,
       borderTopWidth: 1,
+      backgroundColor: COLOR.WHITE,
    },
    sceneContainer: {
       marginTop:60,
@@ -15,6 +16,8 @@ export default MenuStyle = StyleSheet.create({
    },
    transparentNavbar: {
       backgroundColor:'transparent',
+      height: 80,
+      paddingTop: 5,
       borderWidth: 0,
       borderColor: 'transparent',
       borderBottomColor: COLOR.WHITE24,
@@ -25,6 +28,36 @@ export default MenuStyle = StyleSheet.create({
             paddingTop:20
          }
       }),
+   },
+   menuItemText: {
+      fontSize: 11,
+      fontFamily: 'Muli-Regular'
+   },
+   tabbarItemContainer: {
+      alignItems: 'center',
+   },
+   backButtonTextStyle: {
+      color: COLOR.WHITE,
+      fontFamily: 'Muli-Regular',
+      fontSize: 15,
+      marginLeft: 10,
+   },
+   newsBackButtonTextStyle: {
+      color: COLOR.RED,
+      fontFamily: 'Muli-Regular',
+      fontSize: 15,
+      marginLeft: 10,
+   },
+   backButtonIconStyle: {
+      tintColor: COLOR.WHITE,
+   },
+   newsBackButtonIconStyle: {
+      tintColor: COLOR.RED,
+   },
+   newsNavbar: {
+      backgroundColor: COLOR.WHITE,
+      height: 80,
+      paddingTop: 5,
    },
 
 });
