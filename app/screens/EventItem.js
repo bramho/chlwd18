@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { statusBar } from '../helpers/StatusBar';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -35,7 +36,7 @@ export default class EventItem extends Component {
       this.fetchData(this.state.id);
 
       this.setFavoriteButton(false);
-
+      statusBar('transparent');
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
