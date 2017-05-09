@@ -16,6 +16,8 @@ import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } fro
  */
 const apiLink = "https://eric-project.c4x.nl/api/events/";
 
+var favorite;
+
 /**
  * New initialisation of the EventItem datasource object
  */
@@ -68,15 +70,16 @@ export default class EventItem extends Component {
 
                if(isReset) {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   }
                } else {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   }
                }
 
@@ -132,6 +135,9 @@ export default class EventItem extends Component {
                />
               <View style={EventStyle.overlay}></View>
               <View style={EventStyle.headerContent}>
+                  <View style={EventStyle.favoriteButtonContainer}>
+                     {favorite}
+                  </View>
                   <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
                   <View style={{flexDirection: 'row'}}>
                      <View>
