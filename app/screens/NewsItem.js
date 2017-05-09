@@ -31,7 +31,7 @@ export default class EventItem extends Component {
 
    componentDidMount() {
       this.fetchData(this.state.id);
-     
+
       statusBar();
    }
 
@@ -69,7 +69,7 @@ export default class EventItem extends Component {
                <View style={General.generalPadding}>
                   <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
                   <View style={NewsStyle.articleInfo}>
-                     <Text style={NewsStyle.articleInfoText}>{getTranslation('readLength')} • 5 min • </Text>
+                     <Text style={NewsStyle.articleInfoText}>5 {getTranslation('readLength')} • </Text>
                      <Text style={[NewsStyle.articleInfoText, NewsStyle.category]}>Friesland</Text>
                   </View>
                </View>

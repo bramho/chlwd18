@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button, Share} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
 
@@ -8,6 +8,7 @@ import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
 import { openLink } from '../helpers/Links';
+import { shareItem } from '../helpers/Share';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
@@ -15,6 +16,12 @@ import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } fro
  * Apilink for calling data for the listview
  */
 const apiLink = "https://eric-project.c4x.nl/api/events/";
+
+var favorite;
+
+var test =  <View style={ComponentStyle.shareIconContainer}>
+               <Text style={ComponentStyle.shareIcon}>F</Text>
+            </View>;
 
 /**
  * New initialisation of the EventItem datasource object
@@ -38,6 +45,16 @@ export default class EventItem extends Component {
 
       this.setFavoriteButton(false);
       statusBar('transparent');
+
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareEvent()}.bind(this) })
+   }
+
+   shareEvent() {
+      shareItem(
+         this.state.data.title,
+         this.state.data.social_url,
+         this.state.data.title
+      );
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
@@ -68,15 +85,16 @@ export default class EventItem extends Component {
 
                if(isReset) {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   }
                } else {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   }
                }
 
@@ -132,6 +150,9 @@ export default class EventItem extends Component {
                />
               <View style={EventStyle.overlay}></View>
               <View style={EventStyle.headerContent}>
+                  <View style={EventStyle.favoriteButtonContainer}>
+                     {favorite}
+                  </View>
                   <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
                   <View style={{flexDirection: 'row'}}>
                      <View>
@@ -302,6 +323,7 @@ export default class EventItem extends Component {
          <View style={[General.container,{marginBottom:60}]}>
          {currentView}
          </View>
+
 
       )
    }

@@ -134,7 +134,7 @@ export default class NewsList extends Component {
                   <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
                   <View style={ListViewStyle.readLenghtContainer}>
                      <Text style={ListViewStyle.readLengthText}>
-                        {getTranslation('readLength')} • 5 min
+                        5 {getTranslation('readLength')}
                      </Text>
                   </View>
                </View>
