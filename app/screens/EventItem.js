@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button, Dimensions} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
 
@@ -7,13 +7,21 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
+import { openLink } from '../helpers/Links';
+import { shareItem } from '../helpers/Share';
 
-import { General, EventStyle, ComponentStyle, ListViewStyle, Tags } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
  */
 const apiLink = "https://eric-project.c4x.nl/api/events/";
+
+var favorite;
+
+var test =  <View style={ComponentStyle.shareIconContainer}>
+               <Text style={ComponentStyle.shareIcon}>F</Text>
+            </View>;
 
 /**
  * New initialisation of the EventItem datasource object
@@ -38,6 +46,16 @@ export default class EventItem extends Component {
 
       this.setFavoriteButton(false);
       statusBar('transparent');
+
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareEvent()}.bind(this) })
+   }
+
+   shareEvent() {
+      shareItem(
+         this.state.data.title,
+         this.state.data.social_url,
+         this.state.data.title
+      );
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
@@ -68,15 +86,16 @@ export default class EventItem extends Component {
 
                if(isReset) {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   }
                } else {
                   if (index === -1) {
-                     return Actions.refresh({ rightTitle: getTranslation('addToFavorites'), onRight: function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
                   } else {
-                     return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
                   }
                }
 
@@ -111,25 +130,10 @@ export default class EventItem extends Component {
       console.log('BUY TICKETS');
    }
 
-   /**
-    * Renders the header of the event
-    */
-   // _renderHeader() {
-   //    const imageOpacity = this.state.scrollY.interpolate({
-   //      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-   //      outputRange: [1, 1, 0],
-   //      extrapolate: 'clamp',
-   //    });
-   //    const imageTranslate = this.state.scrollY.interpolate({
-   //      inputRange: [0, HEADER_SCROLL_DISTANCE],
-   //      outputRange: [0, -50],
-   //      extrapolate: 'clamp',
-   //   });
-   //
-   //    return (
-   //
-   //    );
-   // }
+   openUrl(url) {
+      openLink(url);
+   }
+
    /**
     * Renders the Scrollview content, in this case the data from the events
     */
@@ -240,9 +244,9 @@ export default class EventItem extends Component {
                      <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticket_prices.CJP}</Text>
                   </View>
 
-                  <View style={EventStyle.buyTicketsButton}>
+                  <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
                      <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets()}}>
-                        <Text style={EventStyle.buyTicketsButtonText}>{getTranslation('buyTickets')}</Text>
+                        <Text style={Buttons.buttonText}>{getTranslation('buyTickets')}</Text>
                      </TouchableOpacity>
                   </View>
 
@@ -250,8 +254,8 @@ export default class EventItem extends Component {
 
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
-                  <Text style={General.linkText}>{this.state.data.website}</Text>
-                  <Text style={General.linkText}>{this.state.data.social_url}</Text>
+                  <Text style={General.linkText} onPress={function(){this.openUrl(this.state.data.website)}.bind(this)}>{this.state.data.website}</Text>
+                  <Text style={General.linkText} onPress={function(){this.openUrl(this.state.data.social_url)}.bind(this)}>{this.state.data.social_url}</Text>
                </View>
 
             </View>
@@ -269,6 +273,9 @@ export default class EventItem extends Component {
                />
               <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
               <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
+                  <View style={EventStyle.favoriteButtonContainer}>
+                     {favorite}
+                  </View>
                   <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
                   <View style={{flexDirection: 'row'}}>
                      <View>

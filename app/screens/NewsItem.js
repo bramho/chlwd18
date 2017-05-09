@@ -6,6 +6,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { formatDate } from '../helpers/FormatDate';
 import { statusBar } from '../helpers/StatusBar';
+import { shareItem } from '../helpers/Share';
 
 import { General, NewsStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -33,6 +34,16 @@ export default class EventItem extends Component {
       this.fetchData(this.state.id);
 
       statusBar();
+
+      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareArticle()}.bind(this)})
+   }
+
+   shareArticle() {
+      shareItem(
+         this.state.data.title,
+         this.state.data.social_url,
+         this.state.data.title
+      );
    }
 
    /**
@@ -69,7 +80,7 @@ export default class EventItem extends Component {
                <View style={General.generalPadding}>
                   <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
                   <View style={NewsStyle.articleInfo}>
-                     <Text style={NewsStyle.articleInfoText}>{getTranslation('readLength')} • 5 min • </Text>
+                     <Text style={NewsStyle.articleInfoText}>5 {getTranslation('readLength')} • </Text>
                      <Text style={[NewsStyle.articleInfoText, NewsStyle.category]}>Friesland</Text>
                   </View>
                </View>
