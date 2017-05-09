@@ -8,7 +8,8 @@ import React, {StyleSheet, Dimensions, PixelRatio, Platform} from "react-native"
 import MenuStyle from "./Menu";
 import ListViewStyle from "./Listview";
 import EventStyle from "./EventItem";
-import NewsStyle from "./EventItem";
+import NewsStyle from "./NewsItem";
+import Tags from "./Tags";
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -94,6 +95,9 @@ const General = StyleSheet.create({
    leftText: {
       textAlign: 'left'
    },
+   generalPadding: {
+      padding: 15,
+   },
    linkText: {
       color: COLOR.RED,
       textDecorationLine: 'underline',
@@ -102,4 +106,4 @@ const General = StyleSheet.create({
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags };

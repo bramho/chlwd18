@@ -40,7 +40,11 @@ const scenes = Actions.create(
                  component={NewsItem}
                  sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
-                 navigationBarStyle={MenuStyle.transparentNavbar}
+                 navigationBarStyle={MenuStyle.newsNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
                />
             </Scene>
 
@@ -82,6 +86,10 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.backButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.backButtonTextStyle}
                />
             </Scene>
          </Scene>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, Image, View, TextInput, ScrollView,TouchableOpacity} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Api from '../helpers/Api';
@@ -23,14 +23,13 @@ export default class EventItem extends Component {
       this.state = {
          data: '',
          isLoading: true,
-         id:this.props.eventId,
+         id:this.props.newsId,
       };
 
    }
 
    componentDidMount() {
       this.fetchData(this.state.id);
-
    }
 
    /**
@@ -40,6 +39,8 @@ export default class EventItem extends Component {
    fetchData(id) {
       Api.getData(apiLink+id)
          .then((data) => {
+            console.log(data);
+
             this.setState({
                data: data,
                isLoading: false,
@@ -58,20 +59,36 @@ export default class EventItem extends Component {
     * Renders the Scrollview content, in this case the data from the events
     */
    _renderContent() {
-      return (
-         <ScrollView
-         style={NewsStyle.fill}
-         >
-            <View style={[NewsStyle.scrollViewContent,General.textContainer]}>
-            <View>
-                <Text style={General.h1}>Dit is een titel haha doei</Text>
-            </View>
-              <View>
 
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-                  <Text style={General.h2}>Dit is een kop 2</Text>
-                  <Text style={General.p}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+      return (
+         <ScrollView>
+            <View style={[NewsStyle.scrollViewContent]}>
+               <View style={General.generalPadding}>
+                  <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
+                  <View style={NewsStyle.articleInfo}>
+                     <Text style={NewsStyle.articleInfoText}>{getTranslation('readLength')} • 5 min • </Text>
+                     <Text style={[NewsStyle.articleInfoText, NewsStyle.category]}>Friesland</Text>
+                  </View>
+               </View>
+               <View style={NewsStyle.imageContainer}>
+                  <Image style={NewsStyle.image} source={{uri: this.state.data.header_img}}/>
+                     <Text style={NewsStyle.imageDescription}>Rob's paleis. FOTO ARCHIEF LC</Text>
+               </View>
+              <View style={General.generalPadding}>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
+                  <View style={NewsStyle.imageContainer}>
+                     <Image style={NewsStyle.inlineImage} source={{uri: this.state.data.header_img}}/>
+                        <Text style={NewsStyle.imageDescription}>Rob's paleis. FOTO ARCHIEF LC</Text>
+                  </View>
+                  <Text style={[General.h2, NewsStyle.textSection]}>Dit is een kop 2</Text>
+                  <Text style={General.p}>{this.state.data.body}</Text>
+                  <View style={NewsStyle.quoteContainer}>
+                     <Text style={NewsStyle.quoteText}>
+                        {'"'+this.state.data.body+'"'}
+                     </Text>
+                  </View>
+                  <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
               </View>
             </View>
          </ScrollView>
