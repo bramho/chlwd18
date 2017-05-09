@@ -93,6 +93,12 @@ const General = StyleSheet.create({
    },
    leftText: {
       textAlign: 'left'
+   },
+   linkText: {
+      color: COLOR.RED,
+      textDecorationLine: 'underline',
+      lineHeight: 20,
+      marginBottom: 15,
    }
 });
 
