@@ -36,7 +36,22 @@ export default MenuStyle = StyleSheet.create({
       fontSize: 15,
       marginLeft: 10,
    },
+   newsBackButtonTextStyle: {
+      color: COLOR.RED,
+      fontFamily: 'Muli-Regular',
+      fontSize: 15,
+      marginLeft: 10,
+   },
    backButtonIconStyle: {
       tintColor: COLOR.WHITE,
-   }
+   },
+   newsBackButtonIconStyle: {
+      tintColor: COLOR.RED,
+   },
+   newsNavbar: {
+      backgroundColor: COLOR.WHITE,
+      height: 80,
+      paddingTop: 5,
+   },
+
 });
