@@ -7,6 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
+import { statusBar } from '../helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -41,6 +42,8 @@ export default class NewsList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      statusBar();
    }
 
    /**
@@ -179,7 +182,7 @@ export default class NewsList extends Component {
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
                <TextInput
-                  style={ComponentStyle.searchBarInput}
+                  style={[ComponentStyle.searchBarInput]}
                   placeholder={getTranslation('searchTerm')}
                   onChange={this.setSearchText.bind(this)}
                />

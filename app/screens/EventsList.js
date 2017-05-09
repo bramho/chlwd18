@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import { statusBar } from '../helpers/StatusBar';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -47,6 +48,8 @@ export default class EventsList extends Component {
       this.fetchData();
 
       this.setFavorites();
+
+      statusBar();
    }
 
    /**

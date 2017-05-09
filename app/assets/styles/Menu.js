@@ -1,7 +1,7 @@
 /**
  * This stylesheet holds all the menu styles
  */
-import {StyleSheet} from "react-native";
+import {StyleSheet,Platform} from "react-native";
 COLOR = require('./COLOR');
 
 export default MenuStyle = StyleSheet.create({
@@ -22,6 +22,12 @@ export default MenuStyle = StyleSheet.create({
       borderColor: 'transparent',
       borderBottomColor: COLOR.WHITE24,
       borderBottomWidth: StyleSheet.hairlineWidth,
+      ...Platform.select({
+         android: {
+            height: 80,
+            paddingTop:20
+         }
+      }),
    },
    menuItemText: {
       fontSize: 11,

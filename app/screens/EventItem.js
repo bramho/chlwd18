@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { statusBar } from '../helpers/StatusBar';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
 import { formatDate } from '../helpers/FormatDate';
+import { openLink } from '../helpers/Links';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
@@ -35,7 +37,7 @@ export default class EventItem extends Component {
       this.fetchData(this.state.id);
 
       this.setFavoriteButton(false);
-
+      statusBar('transparent');
    }
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
@@ -107,6 +109,10 @@ export default class EventItem extends Component {
 
    buyTickets() {
       console.log('BUY TICKETS');
+   }
+
+   openUrl(url) {
+      openLink(url);
    }
 
    /**
@@ -272,8 +278,8 @@ export default class EventItem extends Component {
 
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
-                  <Text style={General.linkText}>{this.state.data.website}</Text>
-                  <Text style={General.linkText}>{this.state.data.social_url}</Text>
+                  <Text style={General.linkText} onPress={function(){this.openUrl(this.state.data.website)}.bind(this)}>{this.state.data.website}</Text>
+                  <Text style={General.linkText} onPress={function(){this.openUrl(this.state.data.social_url)}.bind(this)}>{this.state.data.social_url}</Text>
                </View>
 
             </View>

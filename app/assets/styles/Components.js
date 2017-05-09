@@ -13,10 +13,13 @@ export default ComponentStyle = StyleSheet.create({
       top:0,
       alignItems: 'center',
       flexDirection: 'row',
-      backgroundColor: COLOR.WHITE,
+      backgroundColor: COLOR.PEALGRAY,
       ...Platform.select({
          ios: {
             paddingTop: 25
+         },
+         android: {
+            paddingTop: 40,
          }
       }),
       borderBottomWidth: 1,
@@ -35,6 +38,7 @@ export default ComponentStyle = StyleSheet.create({
          }
       }),
       paddingLeft: 30,
+      
    },
    filterIconContainer: {
       flex: 1,
