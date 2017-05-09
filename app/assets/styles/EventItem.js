@@ -139,4 +139,13 @@ export default EventItem = StyleSheet.create({
       color: COLOR.WHITE,
       textAlign: 'center',
    },
+   favoriteButtonContainer: {
+      position: 'absolute',
+      top: 68,
+      right: 10,
+   },
+   favoriteButton: {
+      backgroundColor: 'transparent',
+      color: COLOR.WHITE,
+   },
 });

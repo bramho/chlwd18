@@ -194,6 +194,10 @@ export default class EventsList extends Component {
       }
    }
 
+   shareEvent() {
+      console.log('SHARE EVENT');
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -289,11 +293,11 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <View style={ComponentStyle.filterIconContainer}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
                      <Text>F</Text>
                   </View>
-               </View>
+               </TouchableOpacity>
             </View>
             {currentView}
          </View>
