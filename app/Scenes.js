@@ -15,6 +15,7 @@ import EventItem from './screens/EventItem';
 import NewsList from './screens/NewsList';
 import NewsItem from './screens/NewsItem';
 import FavoriteList from './screens/FavoriteList';
+import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
    <Scene key="root" tabs={true}>
@@ -39,6 +40,7 @@ const scenes = Actions.create(
                  sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
+                 onBack={()=>{statusBar(),Actions.pop()}}
                />
             </Scene>
 

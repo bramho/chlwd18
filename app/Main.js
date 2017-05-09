@@ -4,7 +4,7 @@ import { Router } from 'react-native-router-flux';
 import Scenes from './Scenes';
 
 import { checkStorageKey, setStorageData } from './helpers/Storage';
-import { StatusBar } from './helpers/StatusBar';
+import { statusBar } from './helpers/StatusBar';
 
 export default class Main extends Component {
 
@@ -18,7 +18,7 @@ export default class Main extends Component {
          if (!isValidKey) {
             setStorageData('savedEvents', []);
          }
-         StatusBar('translucent');
+         statusBar('translucent');
       });
 
    }

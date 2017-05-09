@@ -6,7 +6,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
-import { StatusBar } from './helpers/StatusBar';
+import { statusBar } from '../helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -42,7 +42,7 @@ export default class NewsList extends Component {
    componentDidMount() {
       this.fetchData();
 
-      StatusBar();
+      statusBar();
    }
 
    /**
@@ -143,7 +143,7 @@ export default class NewsList extends Component {
          <View style={General.container}>
             <View style={ComponentStyle.searchBarContainer}>
                <TextInput
-                  style={[ComponentStyle.searchBarInput,underlineColorAndroid: 'transparent']}
+                  style={[ComponentStyle.searchBarInput]}
                   placeholder={getTranslation('searchTerm')}
                   onChange={this.setSearchText.bind(this)}
                />
