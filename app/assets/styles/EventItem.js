@@ -35,12 +35,13 @@ export default EventItem = StyleSheet.create({
       left: 0,
       right: 0,
       overflow: 'hidden',
-      height:HEADER_MAX_HEIGHT,
+      backgroundColor:COLOR.RED,
    },
    headerContent : {
       padding:20,
       paddingTop: 60,
       marginTop: 40,
+      height:HEADER_MAX_HEIGHT-60
    },
    headerText : {
       color:'#fff',
@@ -58,6 +59,7 @@ export default EventItem = StyleSheet.create({
       width: null,
       height: HEADER_MAX_HEIGHT,
       resizeMode: 'cover',
+
    },
    button: {
       color:"#fff",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button, Share} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
 
@@ -35,6 +35,7 @@ export default class EventItem extends Component {
          isLoading: true,
          id:this.props.eventId,
          rowData: this.props.rowData,
+         scrollY: new Animated.Value(0),
       };
 
       console.log(this.props.eventId);
@@ -134,90 +135,44 @@ export default class EventItem extends Component {
    }
 
    /**
-    * Renders the header of the event
-    */
-   _renderHeader() {
-
-      return (
-         <Animated.View style={EventStyle.header}>
-            <View style={EventStyle.innerContainer}>
-
-               <Animated.Image
-                style={[
-                   EventStyle.backgroundImage
-                ]}
-                source={{uri: this.state.data.header_img_hdpi}}
-               />
-              <View style={EventStyle.overlay}></View>
-              <View style={EventStyle.headerContent}>
-                  <View style={EventStyle.favoriteButtonContainer}>
-                     {favorite}
-                  </View>
-                  <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
-                  <View style={{flexDirection: 'row'}}>
-                     <View>
-                        <Text style={[General.subTitle, EventStyle.headerText]}>{
-                           formatDate(this.state.data.dateStart,'eventItem')
-                        }
-                        </Text>
-                     </View>
-
-                     <View style={EventStyle.dotSeperatorContainer}>
-                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
-                     </View>
-
-                     <View>
-                        <Text style={[General.subTitle, EventStyle.headerText]}>
-                           Oldehoven
-                        </Text>
-                     </View>
-
-                     <View style={EventStyle.dotSeperatorContainer}>
-                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
-                     </View>
-
-                     <View>
-                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.headerCityText]}>
-                           {this.state.data.city}
-                        </Text>
-                     </View>
-
-                  </View>
-
-                  <View style={Tags.categoriesContainer}>
-                     <View style={[Tags.categoryItemContainer, Tags.dance]}>
-                        <Text style={Tags.categoryItem}>
-                           Dance
-                        </Text>
-                     </View>
-
-                     <View style={[Tags.categoryItemContainer, Tags.culture]}>
-                        <Text style={Tags.categoryItem}>
-                           Cultuur
-                        </Text>
-                     </View>
-                  </View>
-
-              </View>
-
-               <View style={EventStyle.bottomHeaderPrice}>
-                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{getTranslation('fromText') + " €"+this.state.data.ticket_prices.adult}</Text>
-               </View>
-
-               <View style={EventStyle.bottomHeaderTicket}>
-                  <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}>Tickets</Text>
-               </View>
-
-           </View>
-         </Animated.View>
-      );
-   }
-   /**
     * Renders the Scrollview content, in this case the data from the events
     */
    _renderContent() {
+      //Get dimensions of the device
+      const {width, height, scale} = Dimensions.get("window");
+      //Set animated header size
+      const HEADER_MAX_HEIGHT = 60*(height/100);
+      const HEADER_MIN_HEIGHT = 80;
+      const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+      // Calculate header height when scrolling
+      const headerHeight = this.state.scrollY.interpolate({
+         inputRange: [0, HEADER_SCROLL_DISTANCE],
+         outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+         extrapolate: 'clamp',
+      });
+
+      // Calculate opacity when scrolling
+      const imageOpacity = this.state.scrollY.interpolate({
+        inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+        outputRange: [1, 1, 0],
+        extrapolate: 'clamp',
+      });
+
+      // Calculate paralax image effect
+      const imageTranslate = this.state.scrollY.interpolate({
+        inputRange: [0, HEADER_SCROLL_DISTANCE],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+
       return (
-         <ScrollView style={EventStyle.fill}>
+         <View style={[General.container,{marginBottom:60}]}>
+         <ScrollView style={EventStyle.fill}
+                  scrollEventThrottle={20}
+                  onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
+           )}>
             <View style={EventStyle.scrollViewContent}>
                <View style={EventStyle.section}>
                  <Text style={General.h3}>Zorg dat het veilig is.</Text>
@@ -307,24 +262,86 @@ export default class EventItem extends Component {
 
 
          </ScrollView>
+         <Animated.View style={[EventStyle.header,{height: headerHeight}]}>
+            <View style={EventStyle.innerContainer}>
+
+               <Animated.Image
+                style={[EventStyle.backgroundImage,
+                   {opacity: imageOpacity, transform: [{translateY: imageTranslate}]}
+                ]}
+                source={{uri: this.state.data.header_img_hdpi}}
+               />
+              <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
+              <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
+                  <View style={EventStyle.favoriteButtonContainer}>
+                     {favorite}
+                  </View>
+                  <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
+                  <View style={{flexDirection: 'row'}}>
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>{
+                           formatDate(this.state.data.dateStart,'eventItem')
+                        }
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText]}>
+                           Oldehoven
+                        </Text>
+                     </View>
+
+                     <View style={EventStyle.dotSeperatorContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.dotSeperator]}>•</Text>
+                     </View>
+
+                     <View>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.headerCityText]}>
+                           {this.state.data.city}
+                        </Text>
+                     </View>
+
+                  </View>
+
+                  <View style={Tags.categoriesContainer}>
+                     <View style={[Tags.categoryItemContainer, Tags.dance]}>
+                        <Text style={Tags.categoryItem}>
+                           Dance
+                        </Text>
+                     </View>
+
+                     <View style={[Tags.categoryItemContainer, Tags.culture]}>
+                        <Text style={Tags.categoryItem}>
+                           Cultuur
+                        </Text>
+                     </View>
+                  </View>
+                  <View style={EventStyle.bottomHeaderPrice}>
+                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{getTranslation('fromText') + " €"+this.state.data.ticket_prices.adult}</Text>
+                  </View>
+
+                  <View style={EventStyle.bottomHeaderTicket}>
+                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}>Tickets</Text>
+                  </View>
+              </Animated.View>
+
+
+
+           </View>
+         </Animated.View>
+         </View>
       );
    }
    /**
     * Renders the total view
     */
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
-         <View style={{flex:1}}>
-         {this._renderHeader()}
-         {this._renderContent()}
-         </View>
+      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :this._renderContent();
 
-      return (
-         <View style={[General.container,{marginBottom:60}]}>
-         {currentView}
-         </View>
-
-
-      )
+      return currentView;
    }
 }
