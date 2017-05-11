@@ -6,7 +6,7 @@ import { getTranslation } from './helpers/Translations';
 
 import { General } from './assets/styles/General';
 // Import Components
-import TabItem from './components/TabBar';
+import TabItem, { TabItemNews, TabItemFav } from './components/TabBar';
 
 // Import Screens
 import TestNews from './screens/TestNews';
@@ -26,13 +26,13 @@ const scenes = Actions.create(
          >
 
 
-            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItem}>
+            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
                  initial
                  searchText
                  component={NewsList}
-                 icon={TabItem}
+                 icon={TabItemNews}
                  sceneStyle={MenuStyle.container}
                  hideNavBar
                />
@@ -73,12 +73,12 @@ const scenes = Actions.create(
                />
             </Scene>
 
-            <Scene key="favoritesTab" title={getTranslation('favoritesMenuItem')} icon={TabItem}>
+            <Scene key="favoritesTab" title={getTranslation('favoritesMenuItem')} icon={TabItemFav}>
                <Scene
                  key="favorites"
                  component={FavoriteList}
                  title={getTranslation('favoritesMenuItem')}
-                 icon={TabItem}
+                 icon={TabItemFav}
                  sceneStyle={MenuStyle.container}
                  hideNavBar
                />

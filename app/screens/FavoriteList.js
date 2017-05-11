@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -159,15 +160,15 @@ export default class FavoriteList extends Component {
 
       if (isReset) {
          if (index === -1) {
-            return 'Remove from favorites';
+            return <Icon name="heart-o" size={20} color="#FFF" />;
          } else {
-            return 'Add to favorites';
+            return <Icon name="heart" size={20} color="#F02C32" />;
          }
       } else {
          if (index === -1) {
-            return 'Add to favorites';
+            return <Icon name="heart" size={20} color="#F02C32" />;
          } else {
-            return 'Remove from favorites';
+            return <Icon name="heart-o" size={20} color="#FFF" />;
          }
       }
    }
@@ -254,7 +255,7 @@ export default class FavoriteList extends Component {
                         </Text>
                      </View>
                      <Text numberOfLines={2} style={ListViewStyle.description}>
-                       {rowData.title}
+                       <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.title}
                      </Text>
                   </View>
                </View>
@@ -290,7 +291,7 @@ export default class FavoriteList extends Component {
                </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Text>F</Text>
+                     <Icon name="search" size={18} color="#F02C32" />
                   </View>
                </View>
             </View>

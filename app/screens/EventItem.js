@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -47,7 +48,7 @@ export default class EventItem extends Component {
       this.setFavoriteButton(false);
       statusBar('transparent');
 
-      Actions.refresh({ rightTitle: getTranslation('shareText'), onRight: function(){this.shareEvent()}.bind(this) })
+      Actions.refresh({ rightTitle: <Icon name="share-alt" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) })
    }
 
    shareEvent() {
@@ -87,15 +88,15 @@ export default class EventItem extends Component {
                if(isReset) {
                   if (index === -1) {
                      // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#F02C32" /></Text>
                   } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart-o" size={20} color="#FFF" /></Text>
                   }
                } else {
                   if (index === -1) {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>{getTranslation('addToFavorites')}</Text>
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart-o" size={20} color="#FFF" /></Text>
                   } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>{getTranslation('removeFromFavorites')}</Text>
+                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#F02C32" /></Text>
                   }
                }
 
@@ -325,7 +326,7 @@ export default class EventItem extends Component {
                   </View>
 
                   <View style={EventStyle.bottomHeaderTicket}>
-                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}>Tickets</Text>
+                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}><Icon name="chevron-down" size={14} color="#FFF" /> Tickets</Text>
                   </View>
               </Animated.View>
 
