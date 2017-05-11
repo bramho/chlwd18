@@ -2,7 +2,7 @@
  * This stylesheets holds all colors
 */
 module.exports = {
-   RED:        'rgb(240, 44, 50)',
+   RED:        '#F02C32',
    ORANGE:     '#f57e1d',
    YELLOW:     '#f7e500',
    LIGHTGREEN: '#9dd61e',

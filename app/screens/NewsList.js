@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -134,7 +135,7 @@ export default class NewsList extends Component {
                   <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
                   <View style={ListViewStyle.readLenghtContainer}>
                      <Text style={ListViewStyle.readLengthText}>
-                        5 {getTranslation('readLength')}
+                        <Icon name="clock-o" size={12} color="#fff" /> 5 {getTranslation('readLength')}
                      </Text>
                   </View>
                </View>
@@ -181,14 +182,14 @@ export default class NewsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-               <TextInput
-                  style={[ComponentStyle.searchBarInput]}
-                  placeholder={getTranslation('searchTerm')}
-                  onChange={this.setSearchText.bind(this)}
-               />
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={General.h4}>
+                     {getTranslation('newsMenuItem')}
+                  </Text>
+               </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Text>F</Text>
+                     <Icon name="search" size={18} color="#F02C32" />
                   </View>
                </View>
             </View>
@@ -197,3 +198,9 @@ export default class NewsList extends Component {
       )
    }
 }
+
+// <TextInput
+//    style={[ComponentStyle.searchBarInput]}
+//    placeholder={getTranslation('searchTerm')}
+//    onChange={this.setSearchText.bind(this)}
+// />
