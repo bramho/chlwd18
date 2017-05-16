@@ -15,7 +15,9 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://eric-project.c4x.nl/api/events";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+
+const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 /**
  * New initialisation of the ListView datasource object
@@ -27,6 +29,9 @@ var listData = [];
 
 var favorites = [];
 var favoritesIds = [];
+
+var favoriteButton;
+var categories;
 
 export default class EventsList extends Component {
    constructor(props) {
@@ -40,6 +45,7 @@ export default class EventsList extends Component {
          searchText: '',
          myKey: '',
          refreshing: false,
+         index: 0,
       };
 
 
@@ -61,7 +67,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('savedEvents');
+      // removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -81,16 +87,16 @@ export default class EventsList extends Component {
          } else {
             Api.getData(apiLink)
                .then((data) => {
-                  listData = data;
+                  listData = data.results;
+
                   this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
-                     // isLoading: false,
+                     dataSource: this.state.dataSource.cloneWithRows(data.results),
+                     apiData: data.results,
+                     isLoading: false,
                      empty: false,
-                     rawData: data,
+                     rawData: data.results,
                   });
 
-                  console.log(listData);
                   setStorageData(storageKey, listData);
 
 
@@ -142,15 +148,15 @@ export default class EventsList extends Component {
 
       if (isReset) {
          if (index === -1) {
-            return <Icon name="heart" size={20} color="#F02C32" />;
+            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
          } else {
-            return <Icon name="heart-o" size={20} color="#FFF" />;
+            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
          }
       } else {
          if (index === -1) {
-            return <Icon name="heart-o" size={20} color="#FFF" />;
+            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
          } else {
-            return <Icon name="heart" size={20} color="#F02C32" />;
+            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
          }
       }
    }
@@ -204,11 +210,11 @@ export default class EventsList extends Component {
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <View>
-               <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+               <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
                <View style={ListViewStyle.priceContainer}>
                   <View style={ListViewStyle.price}>
                      <Text style={ListViewStyle.priceText}>
-                        € {rowData.ticket_prices.adult}
+                        € {rowData.ticketUrls[0].price}
                      </Text>
                   </View>
                </View>
@@ -217,20 +223,15 @@ export default class EventsList extends Component {
                   <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData)}.bind(this)}>
                      <Text>
                         {this.setFavoriteButton(rowData.id, false)}
+                        {favoriteButton}
                      </Text>
                   </TouchableOpacity>
                </View>
 
                <View style={ListViewStyle.categoriesContainer}>
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        Dance
-                     </Text>
-                  </View>
-
                   <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
                      <Text style={ListViewStyle.categoryItem}>
-                        Cultuur
+                        {rowData.categories[0].name}
                      </Text>
                   </View>
                </View>
@@ -239,12 +240,12 @@ export default class EventsList extends Component {
                <View style={ListViewStyle.dateContainer}>
                   <View style={ListViewStyle.day}>
                      <Text style={ListViewStyle.dayText}>
-                       {formatDate(rowData.dateStart,'eventList-day')}
+                       {formatDate(rowData.startDate,'eventList-day')}
                      </Text>
                   </View>
                   <View style={ListViewStyle.month}>
                      <Text style={ListViewStyle.monthText}>
-                       {formatDate(rowData.dateStart,'eventList-month')}
+                       {formatDate(rowData.startDate,'eventList-month')}
                      </Text>
                   </View>
                </View>
@@ -255,7 +256,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                     <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.title}
+                     <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
                   </Text>
                </View>
             </View>
