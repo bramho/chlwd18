@@ -12,10 +12,7 @@ import { statusBar } from '../helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
-/**
- * Apilink for calling data for the listview
- */
-const apiLink = "https://eric-project.c4x.nl/api/events";
+const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 /**
  * New initialisation of the ListView datasource object
@@ -204,11 +201,11 @@ export default class FavoriteList extends Component {
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
             <View style={ListViewStyle.row}>
                <View>
-                  <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+                  <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
                   <View style={ListViewStyle.priceContainer}>
                      <View style={ListViewStyle.price}>
                         <Text style={ListViewStyle.priceText}>
-                           € {rowData.ticket_prices.adult}
+                           € {rowData.ticketUrls[0].price}
                         </Text>
                      </View>
                   </View>
@@ -222,15 +219,9 @@ export default class FavoriteList extends Component {
                   </View>
 
                   <View style={ListViewStyle.categoriesContainer}>
-                     <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemDance]}>
-                        <Text style={ListViewStyle.categoryItem}>
-                           Dance
-                        </Text>
-                     </View>
-
                      <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
                         <Text style={ListViewStyle.categoryItem}>
-                           Cultuur
+                           {rowData.categories[0].name}
                         </Text>
                      </View>
                   </View>
@@ -239,12 +230,12 @@ export default class FavoriteList extends Component {
                   <View style={ListViewStyle.dateContainer}>
                      <View style={ListViewStyle.day}>
                         <Text style={ListViewStyle.dayText}>
-                          {formatDate(rowData.dateStart,'eventList-day')}
+                          {formatDate(rowData.startDate,'eventList-day')}
                         </Text>
                      </View>
                      <View style={ListViewStyle.month}>
                         <Text style={ListViewStyle.monthText}>
-                          {formatDate(rowData.dateStart,'eventList-month')}
+                          {formatDate(rowData.startDate,'eventList-month')}
                         </Text>
                      </View>
                   </View>
@@ -255,7 +246,7 @@ export default class FavoriteList extends Component {
                         </Text>
                      </View>
                      <Text numberOfLines={2} style={ListViewStyle.description}>
-                       <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.title}
+                       <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
                      </Text>
                   </View>
                </View>
