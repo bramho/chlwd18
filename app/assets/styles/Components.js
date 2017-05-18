@@ -19,7 +19,9 @@ export default ComponentStyle = StyleSheet.create({
             paddingTop: 25
          },
          android: {
-            paddingTop: 40,
+            height:100,
+            paddingTop: 20,
+            paddingBottom:0
          }
       }),
       borderBottomWidth: 1,
@@ -44,6 +46,7 @@ export default ComponentStyle = StyleSheet.create({
       flex: 1,
       height: 50,
       width: 50,
+      padding:0
 
    },
    filterIcon: {
@@ -54,6 +57,7 @@ export default ComponentStyle = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 50,
       justifyContent: 'center',
+      padding:0
    },
    shareIconContainer: {
       flex: 1,

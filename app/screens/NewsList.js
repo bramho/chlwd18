@@ -112,14 +112,8 @@ export default class NewsList extends Component {
       });
    }
    onItemPress(id) {
-            console.log('You Pressed');
-            Actions.newsItem({newsId:id})
-       }
-
-   _renderHeader() {
-      <View style={ListViewStyle.listViewTitleContainer}>
-         <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
-      </View>
+      console.log('You Pressed');
+      Actions.newsItem({newsId:id})
    }
 
    /**
@@ -175,9 +169,6 @@ export default class NewsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
-         renderHeader={() => <View style={ListViewStyle.listViewTitleContainer}>
-            <Text style={ListViewStyle.listViewTitle}>{getTranslation('newsMenuItem')}</Text>
-         </View>}
       />
       return (
          <View style={General.container}>

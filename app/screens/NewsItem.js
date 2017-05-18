@@ -36,7 +36,11 @@ export default class EventItem extends Component {
 
       statusBar();
 
-      Actions.refresh({ rightTitle: <Icon name="share-alt" size={20} color='#F02C32' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareArticle()}.bind(this)})
+      Actions.refresh({ 
+         rightTitle: <Icon name="share-alt" size={20} color='#F02C32' style={{padding: 20,  textAlign: 'center'}}></Icon>,
+         onRight: function(){
+            this.shareArticle()}.bind(this)
+      })
    }
 
    shareArticle() {

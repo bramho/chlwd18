@@ -1,13 +1,13 @@
 import { getCurrentLocale } from '../helpers/Translations';
 
-import * as moment from 'moment';
+var moment = require('moment');
 /**
  * Formats unix timestamp to human readable date format
 *  @param  {intr}   timestamp unix timestamp
  * @param  {string} view      name of the view for selecting the correct format for the view
  * @return {string}             returns human readable format
  */
-export function formatDate(timestamp, view) {
+export function formatDate(date, view) {
       // Create format object
       var format = '';
 
@@ -49,10 +49,10 @@ export function formatDate(timestamp, view) {
       // time object form te timestamp parameter
       //const time = new Date(timestamp*1000);
       // // Get local
-      //const locale = getCurrentLocale();
+      const locale = getCurrentLocale();
 
       // Set output
-      const output = moment.unix(timestamp).format(format);//moment('YYYY', false).format()
+      const output = moment(date).format(format);//moment('YYYY', false).format()
 
       return output;
 }
