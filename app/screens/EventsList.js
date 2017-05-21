@@ -206,6 +206,7 @@ export default class EventsList extends Component {
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
+      console.log(formatDate(rowData.startDate,'eventList-day'));
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
