@@ -129,6 +129,29 @@ export default class EventItem extends Component {
             });
          });
    }
+   /**
+    * Renders the header of the event
+    */
+   _renderHeader() {
+
+      return (
+         <Animated.View style={EventStyle.header}>
+           <Animated.Image
+             style={[
+               EventStyle.backgroundImage
+             ]}
+             source={{uri: this.state.data.header_img_hdpi}}
+           />
+           <View style={EventStyle.headerContent}>
+               <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
+               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
+               <Text style={[General.h2,EventStyle.headerText]}>{
+                  formatDate(this.state.data.dateStart,'eventItem')
+               }
+               </Text>
+           </View>
+         </Animated.View>
+      );
 
    buyTickets(url) {
       openLink(url)
