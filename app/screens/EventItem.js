@@ -71,7 +71,6 @@ export default class EventItem extends Component {
                   if (savedEvents[i].id === this.state.id) {
                      this.setState({
                         addToFavorites: false,
-                        iconColor: '#F02C32',
                         iconName: 'heart-fill',
                      })
                   }
@@ -103,7 +102,7 @@ export default class EventItem extends Component {
       if (addToFavorites) {
          this.rowRefs[0].setNativeProps({
             style: {
-               color: '#F02C32',
+               color: '#FFF',
             }
          });
          this.setState({

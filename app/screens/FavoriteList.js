@@ -206,14 +206,6 @@ export default class FavoriteList extends Component {
                      </View>
                   </View>
 
-                  <View style={ListViewStyle.addToFavoritesContainer}>
-                     <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData.id)}.bind(this)}>
-                        <Text>
-                           {this.setFavoriteButton(rowData.id, false)}
-                        </Text>
-                     </TouchableOpacity>
-                  </View>
-
                   <View style={ListViewStyle.categoriesContainer}>
                      <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
                         <Text style={ListViewStyle.categoryItem}>
