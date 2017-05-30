@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -23,6 +24,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		205B9472F1B04D20A4B23B42 /* HindSiliguri-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E4FA12DF9304E5B97D5B3C6 /* HindSiliguri-Regular.ttf */; };
+		25334C5C1EDD600700C74370 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22767D2AB0D3499DBB3D0531 /* icomoon.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -35,9 +37,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* chlwd18Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* chlwd18Tests.m */; };
-		3BA1062785514F4BB88E23D9 /* Icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9305F035931D4FFCBF0B2DF2 /* Icons.ttf */; };
 		3F1FE9364BBB437B976AD67A /* Muli-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE26B54BE57E466D9EFC0A03 /* Muli-SemiBold.ttf */; };
-		5645AD09FFB24134A17692B5 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A95FF93EE5B6402196BB61E2 /* Ionicons.ttf */; };
 		5C8F32D164C9477E9725550D /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EFCA9D1D5F84406B36276D4 /* MaterialCommunityIcons.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		616F3C1A898B4293B4EAF3AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71E2BF189A624AADAA4675DB /* Octicons.ttf */; };
@@ -56,7 +56,6 @@
 		EC3883F777F24C2288E7937D /* HindSiliguri-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A0633BE10FC490F8975CCB8 /* HindSiliguri-Light.ttf */; };
 		F6CF24A1F7E04D9F92F94233 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 142F957B0B7B4F8193604DCE /* EvilIcons.ttf */; };
 		FA1BD6A72FB6405897DFF17E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8666227C90471287E47A4D /* libReact.a */; };
-		DA751D4BF22D458D935B77BC /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22767D2AB0D3499DBB3D0531 /* icomoon.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +297,7 @@
 		142F957B0B7B4F8193604DCE /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1B862D9864D641D9A361743F /* Muli-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Muli-Regular.ttf"; path = "../app/assets/fonts/Muli-Regular.ttf"; sourceTree = "<group>"; };
+		22767D2AB0D3499DBB3D0531 /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../app/assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* chlwd18-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "chlwd18-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* chlwd18-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "chlwd18-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F667E39C51A44098A61ABD8 /* Muli-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Muli-ExtraBold.ttf"; path = "../app/assets/fonts/Muli-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -310,7 +310,6 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8A0633BE10FC490F8975CCB8 /* HindSiliguri-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "HindSiliguri-Light.ttf"; path = "../app/assets/fonts/HindSiliguri-Light.ttf"; sourceTree = "<group>"; };
-		9305F035931D4FFCBF0B2DF2 /* Icons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Icons.ttf; path = ../app/assets/fonts/Icons.ttf; sourceTree = "<group>"; };
 		97C80DB7CDB741E7B72496FD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		9D8666227C90471287E47A4D /* libReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReact.a; sourceTree = "<group>"; };
 		A30D7B1ECD7447FF998FACD0 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -320,7 +319,6 @@
 		DE26B54BE57E466D9EFC0A03 /* Muli-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Muli-SemiBold.ttf"; path = "../app/assets/fonts/Muli-SemiBold.ttf"; sourceTree = "<group>"; };
 		EE5A60E040844DC28A84E00C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FA9FA6E562664BCABE637870 /* libjschelpers.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libjschelpers.a; sourceTree = "<group>"; };
-		22767D2AB0D3499DBB3D0531 /* icomoon.ttf */ = {isa = PBXFileReference; name = "icomoon.ttf"; path = "../app/assets/fonts/icomoon.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -530,7 +528,6 @@
 				3F667E39C51A44098A61ABD8 /* Muli-ExtraBold.ttf */,
 				1B862D9864D641D9A361743F /* Muli-Regular.ttf */,
 				DE26B54BE57E466D9EFC0A03 /* Muli-SemiBold.ttf */,
-				9305F035931D4FFCBF0B2DF2 /* Icons.ttf */,
 				22767D2AB0D3499DBB3D0531 /* icomoon.ttf */,
 			);
 			name = Resources;
@@ -986,12 +983,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25334C5C1EDD600700C74370 /* icomoon.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				ADFA7D7A4C8245288176AED1 /* Entypo.ttf in Resources */,
 				F6CF24A1F7E04D9F92F94233 /* EvilIcons.ttf in Resources */,
 				AE8117662A6A4064A5EE4F4D /* FontAwesome.ttf in Resources */,
 				B5CD2ECA11B04BC59F5EB5F9 /* Foundation.ttf in Resources */,
-				5645AD09FFB24134A17692B5 /* Ionicons.ttf in Resources */,
 				5C8F32D164C9477E9725550D /* MaterialCommunityIcons.ttf in Resources */,
 				E94547320C0C4E1A93DF6C95 /* MaterialIcons.ttf in Resources */,
 				616F3C1A898B4293B4EAF3AF /* Octicons.ttf in Resources */,
@@ -1003,8 +1000,6 @@
 				64CC7B308FF94ED087EDFC46 /* Muli-ExtraBold.ttf in Resources */,
 				C587639C570E478B921FAB8E /* Muli-Regular.ttf in Resources */,
 				3F1FE9364BBB437B976AD67A /* Muli-SemiBold.ttf in Resources */,
-				3BA1062785514F4BB88E23D9 /* Icons.ttf in Resources */,
-				DA751D4BF22D458D935B77BC /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

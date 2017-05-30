@@ -24,8 +24,6 @@ const scenes = Actions.create(
             tabs
             tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBorderTop]}
          >
-
-
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
@@ -46,6 +44,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
 
@@ -70,6 +69,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
 
@@ -92,6 +92,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
          </Scene>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, TextInput, ScrollView,TouchableOpacity} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from '../helpers/Icons';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -36,7 +36,7 @@ export default class EventItem extends Component {
 
       statusBar();
 
-      Actions.refresh({ 
+      Actions.refresh({
          rightTitle: <Icon name="share-alt" size={20} color='#F02C32' style={{padding: 20,  textAlign: 'center'}}></Icon>,
          onRight: function(){
             this.shareArticle()}.bind(this)
@@ -85,20 +85,20 @@ export default class EventItem extends Component {
                <View style={General.generalPadding}>
                   <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
                   <View style={NewsStyle.articleInfo}>
-                     <Text style={NewsStyle.articleInfoText}><Icon name="clock-o" size={13} /> 5 {getTranslation('readLength')} • </Text>
+                     <Text style={NewsStyle.articleInfoText}><Icon name="clock" size={18} /> 5 {getTranslation('readLength')} • </Text>
                      <Text style={[NewsStyle.articleInfoText, NewsStyle.category]}>Friesland</Text>
                   </View>
                </View>
                <View style={NewsStyle.imageContainer}>
                   <Image style={NewsStyle.image} source={{uri: this.state.data.header_img}}/>
-                     <Text style={NewsStyle.imageDescription}><Icon name="camera" size={13} /> Rob's paleis. FOTO ARCHIEF LC</Text>
+                     <Text style={NewsStyle.imageDescription}><Icon name="camera" size={20} /> Rob's paleis. FOTO ARCHIEF LC</Text>
                </View>
               <View style={General.generalPadding}>
                   <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
                   <Text style={[General.p, NewsStyle.textSection]}>{this.state.data.body}</Text>
                   <View style={NewsStyle.imageContainer}>
                      <Image style={NewsStyle.inlineImage} source={{uri: this.state.data.header_img}}/>
-                        <Text style={NewsStyle.imageDescription}><Icon name="camera" size={13} /> Rob's paleis. FOTO ARCHIEF LC</Text>
+                        <Text style={NewsStyle.imageDescription}><Icon name="camera" size={20} /> Rob's paleis. FOTO ARCHIEF LC</Text>
                   </View>
                   <Text style={[General.h2, NewsStyle.textSection]}>Dit is een kop 2</Text>
                   <Text style={General.p}>{this.state.data.body}</Text>
@@ -123,8 +123,21 @@ export default class EventItem extends Component {
          </View>
 
       return (
-         <View style={[General.container,{marginBottom:60}]}>
-         {currentView}
+         <View style={[General.container, {marginBottom: 80}]}>
+            <View style={ComponentStyle.singleHeaderContainer}>
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="back" size={25} color="#F02C32" />
+                  </View>
+               </TouchableOpacity>
+
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer]}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="share" size={25} color="#F02C32" />
+                  </View>
+               </TouchableOpacity>
+            </View>
+            {currentView}
          </View>
 
       )

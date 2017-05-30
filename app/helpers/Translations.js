@@ -94,7 +94,7 @@ I18n.translations = {
  * @param  {[string]} translationType  'Word' to be translated
  * @return translation                 Returns the translation
  */
-export function getTranslation(translationType) {
+function getTranslation(translationType) {
    return I18n.t(translationType);
 }
 

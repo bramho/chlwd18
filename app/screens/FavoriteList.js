@@ -63,9 +63,6 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
-               console.log('Favorites:');
-               console.log(storageData);
-
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
@@ -91,10 +88,9 @@ export default class FavoriteList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-   onItemPress(id) {
-            console.log('You Pressed');
-            Actions.eventItemFavorites({eventId:id})
-       }
+   onItemPress(id, data) {
+      Actions.eventItemFavorites({eventId:id, rowData:data})
+   }
        /**
         * Gets favorites from local storage and assigns them to a favorites variable.
         */
@@ -198,7 +194,7 @@ export default class FavoriteList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
             <View style={ListViewStyle.row}>
                <View>
                   <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
@@ -208,14 +204,6 @@ export default class FavoriteList extends Component {
                            € {rowData.ticketUrls[0].price}
                         </Text>
                      </View>
-                  </View>
-
-                  <View style={ListViewStyle.addToFavoritesContainer}>
-                     <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData.id)}.bind(this)}>
-                        <Text>
-                           {this.setFavoriteButton(rowData.id, false)}
-                        </Text>
-                     </TouchableOpacity>
                   </View>
 
                   <View style={ListViewStyle.categoriesContainer}>
