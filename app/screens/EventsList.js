@@ -67,7 +67,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('eventList');
+      // removeItemFromStorage('savedEvents');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -127,8 +127,6 @@ export default class EventsList extends Component {
 
                favorites = savedEvents;
 
-               console.log(favorites);
-
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
@@ -176,7 +174,6 @@ export default class EventsList extends Component {
    }
 
    onItemPress(id, data) {
-      console.log('You Pressed');
       Actions.eventItem({eventId:id, rowData:data})
    }
 
@@ -206,6 +203,7 @@ export default class EventsList extends Component {
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
+
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
@@ -219,14 +217,6 @@ export default class EventsList extends Component {
                   </View>
                </View>
 
-               <View style={ListViewStyle.addToFavoritesContainer}>
-                  <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData)}.bind(this)}>
-                     <Text>
-                        {this.setFavoriteButton(rowData.id, false)}
-                        {favoriteButton}
-                     </Text>
-                  </TouchableOpacity>
-               </View>
 
                <View style={ListViewStyle.categoriesContainer}>
                   <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>

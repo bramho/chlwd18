@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { statusBar } from '../helpers/StatusBar';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from '../helpers/Icons';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -21,6 +21,8 @@ const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc/";
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 var favorite;
+var rowRefs;
+var savedEventsIds;
 
 var test =  <View style={ComponentStyle.shareIconContainer}>
                <Text style={ComponentStyle.shareIcon}>F</Text>
@@ -33,25 +35,54 @@ export default class EventItem extends Component {
    constructor(props) {
       super(props);
 
+      this.rowRefs = [];
+      this.savedEventsIds = [];
+
+      console.log(this.props);
+
       this.state = {
          data: '',
          isLoading: true,
-         id:this.props.eventId,
+         id: this.props.eventId,
          rowData: this.props.rowData,
          scrollY: new Animated.Value(0),
-
+         addToFavorites: true,
+         iconColor: '#fff',
+         iconName: 'heart',
       };
-
-      console.log(this.props.eventId);
    }
 
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      this.setFavoriteButton(false);
       statusBar('transparent');
 
-      Actions.refresh({ rightTitle: <Icon name="share-alt" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) })
+      Actions.refresh({ rightTitle: <Icon name="share" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) });
+
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               for (var i = 0; i < savedEvents.length; i++) {
+                  this.savedEventsIds.push(savedEvents[i].id);
+
+                  if (savedEvents[i].id === this.state.id) {
+                     this.setState({
+                        addToFavorites: false,
+                        iconName: 'heart-fill',
+                     })
+                  }
+               }
+
+            });
+         }
+      });
+   }
+
+   storeRowRefs(rowRef) {
+      this.rowRefs.push(rowRef);
    }
 
    shareEvent() {
@@ -64,48 +95,31 @@ export default class EventItem extends Component {
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
+      console.log(this.state.rowData);
+
       setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
-      this.setFavoriteButton(true);
-   }
 
-   setFavoriteButton(isReset) {
-
-
-      checkStorageKey('savedEvents').then((isValidKey) => {
-
-         if (isValidKey) {
-            getStorageData('savedEvents').then((data) => {
-               savedEvents = JSON.parse(data);
-
-               var savedEventsIds = [];
-
-               for (var i = 0; i < savedEvents.length; i++) {
-                  savedEventsIds.push(savedEvents[i].id);
-               }
-
-               console.log('Saved Event Ids:');
-               console.log(savedEventsIds);
-
-               var index = savedEventsIds.indexOf(this.state.id);
-
-               if(isReset) {
-                  if (index === -1) {
-                     // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#F02C32" /></Text>
-                  } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart-o" size={20} color="#FFF" /></Text>
-                  }
-               } else {
-                  if (index === -1) {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart-o" size={20} color="#FFF" /></Text>
-                  } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#F02C32" /></Text>
-                  }
-               }
-
-            });
-         }
-      });
+      if (addToFavorites) {
+         this.rowRefs[0].setNativeProps({
+            style: {
+               color: '#FFF',
+            }
+         });
+         this.setState({
+            addToFavorites: false,
+            iconName: 'heart-fill'
+         })
+      } else {
+         this.rowRefs[0].setNativeProps({
+            style: {
+               color: '#FFF',
+            }
+         });
+         this.setState({
+            addToFavorites: true,
+            iconName: 'heart'
+         })
+      }
    }
 
    /**
@@ -128,6 +142,31 @@ export default class EventItem extends Component {
                isLoading: false,
             });
          });
+   }
+   /**
+    * Renders the header of the event
+    */
+   _renderHeader() {
+
+      return (
+         <Animated.View style={EventStyle.header}>
+           <Animated.Image
+             style={[
+               EventStyle.backgroundImage
+             ]}
+             source={{uri: this.state.data.header_img_hdpi}}
+           />
+           <View style={EventStyle.headerContent}>
+               <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
+               <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
+               <Text style={[General.h2,EventStyle.headerText]}>{
+                  formatDate(this.state.data.dateStart,'eventItem')
+               }
+               </Text>
+           </View>
+         </Animated.View>
+      );
+
    }
 
    buyTickets(url) {
@@ -171,7 +210,8 @@ export default class EventItem extends Component {
       });
 
       return (
-         <View style={[General.container,{marginBottom:60}]}>
+         <View style={[General.container,{marginBottom: 60, marginTop: -80 }]}>
+
          <ScrollView style={EventStyle.fill}
                   scrollEventThrottle={20}
                   onScroll={Animated.event(
@@ -248,9 +288,6 @@ export default class EventItem extends Component {
                />
               <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
               <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
-                  <View style={EventStyle.favoriteButtonContainer}>
-                     {favorite}
-                  </View>
                   <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
                   <View style={{flexDirection: 'row'}}>
                      <View>
@@ -273,7 +310,7 @@ export default class EventItem extends Component {
                   </View>
 
                   <View style={EventStyle.bottomHeaderTicket}>
-                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}><Icon name="chevron-down" size={14} color="#FFF" /> Tickets</Text>
+                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}><Icon name="down" size={14} color="#FFF" /> Tickets</Text>
                   </View>
               </Animated.View>
 
@@ -288,8 +325,32 @@ export default class EventItem extends Component {
     * Renders the total view
     */
    render() {
+
       var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :this._renderContent();
 
-      return currentView;
+      return (
+         <View style={General.container}>
+            <View style={ComponentStyle.singleHeaderContainer}>
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="back" size={25} color="#fff" />
+                  </View>
+               </TouchableOpacity>
+
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(this.state.addToFavorites, this.savedEventsIds)}.bind(this)}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon ref={(ref)=>this.storeRowRefs(ref)} name={this.state.iconName} size={25} color={this.state.iconColor} />
+                  </View>
+               </TouchableOpacity>
+
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="share" size={25} color="#fff" />
+                  </View>
+               </TouchableOpacity>
+            </View>
+            {currentView}
+         </View>
+      );
    }
 }
