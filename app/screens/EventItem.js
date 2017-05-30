@@ -91,15 +91,31 @@ export default class EventItem extends Component {
                if(isReset) {
                   if (index === -1) {
                      // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart-fill" size={20} color="#F02C32" /></Text>
+                     favorite =  <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>
+                                    <View style={ComponentStyle.filterIcon}>
+                                       <Icon name="heart-fill" size={25} color="#F02C32" />
+                                    </View>
+                                 </TouchableOpacity>
                   } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#FFF" /></Text>
+                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>
+                                    <View style={ComponentStyle.filterIcon}>
+                                       <Icon name="heart-fill" size={25} color="#FFF" />
+                                    </View>
+                                 </TouchableOpacity>
                   }
                } else {
                   if (index === -1) {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}><Icon name="heart" size={20} color="#FFF" /></Text>
+                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>
+                                    <View style={ComponentStyle.filterIcon}>
+                                       <Icon name="heart" size={25} color="#FFF" />
+                                    </View>
+                                 </TouchableOpacity>
                   } else {
-                     favorite = <Text style={EventStyle.favoriteButton} onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}><Icon name="heart-fill" size={20} color="#F02C32" /></Text>
+                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>
+                                    <View style={ComponentStyle.filterIcon}>
+                                       <Icon name="heart-fill" size={25} color="#F02C32" />
+                                    </View>
+                                 </TouchableOpacity>
                   }
                }
 
@@ -274,9 +290,6 @@ export default class EventItem extends Component {
                />
               <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
               <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
-                  <View style={EventStyle.favoriteButtonContainer}>
-                     {favorite}
-                  </View>
                   <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
                   <View style={{flexDirection: 'row'}}>
                      <View>
@@ -325,11 +338,9 @@ export default class EventItem extends Component {
                      <Icon name="back" size={25} color="#fff" />
                   </View>
                </TouchableOpacity>
-               <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){Actions.pop()}}>
-                  <View style={ComponentStyle.filterIcon}>
-                     <Icon name="heart" size={25} color="#fff" />
-                  </View>
-               </TouchableOpacity>
+
+               {favorite}
+               
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="share" size={25} color="#fff" />

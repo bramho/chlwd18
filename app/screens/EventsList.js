@@ -67,7 +67,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage('eventList');
+      // removeItemFromStorage('savedEvents');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -219,15 +219,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                </View>
-
-               <View style={ListViewStyle.addToFavoritesContainer}>
-                  <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData)}.bind(this)}>
-                     <Text>
-                        {this.setFavoriteButton(rowData.id, false)}
-                        {favoriteButton}
-                     </Text>
-                  </TouchableOpacity>
-               </View>
+               
 
                <View style={ListViewStyle.categoriesContainer}>
                   <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
