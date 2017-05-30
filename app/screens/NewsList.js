@@ -16,7 +16,7 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
  * Apilink for calling data for the listview
  */
 const apiLink = "https://eric-project.c4x.nl/api/news";
-
+const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 /**
  * New initialisation of the ListView datasource object
  */
@@ -71,7 +71,7 @@ export default class NewsList extends Component {
                });
             });
          } else {
-            Api.getData(apiLink)
+            Api.getData(apiLink,headers)
                .then((data) => {
                   listData = data;
                   this.setState({

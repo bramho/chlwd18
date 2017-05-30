@@ -15,7 +15,7 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -199,7 +199,16 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+   /**
+    * When the user scrolled to the end, this function will run.
+    * @return {[type]} [description]
+    */
+   onEndReached() {
+      if (!this.state.waiting) {
+        this.setState({isLoading: true});
 
+      }
+   }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -276,6 +285,7 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         onEndReached={this.onEndReached}
          refreshControl={
             <RefreshControl
                refreshing={this.state.refreshing}
