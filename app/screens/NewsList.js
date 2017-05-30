@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
+import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
+import { statusBar } from '../helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
@@ -40,6 +43,8 @@ export default class NewsList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      statusBar();
    }
 
    /**
@@ -107,9 +112,10 @@ export default class NewsList extends Component {
       });
    }
    onItemPress(id) {
-            console.log('You Pressed');
-            Actions.newsItem({newsId:id})
-       }
+      console.log('You Pressed');
+      Actions.newsItem({newsId:id})
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -118,9 +124,37 @@ export default class NewsList extends Component {
    _renderRow (rowData) {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
-         <Text style={ListViewStyle.title}>
-           {rowData.title}
-         </Text>
+            <View style={[ListViewStyle.row, ListViewStyle.newsBody]}>
+               <View>
+                  <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+                  <View style={ListViewStyle.readLenghtContainer}>
+                     <Text style={ListViewStyle.readLengthText}>
+                        <Icon name="clock-o" size={12} color="#fff" /> 5 {getTranslation('readLength')}
+                     </Text>
+                  </View>
+               </View>
+               <View style={ListViewStyle.body}>
+                  <View style={[ListViewStyle.dateContainer, ListViewStyle.newsDateContainer]}>
+                     <View style={ListViewStyle.month}>
+                        <Text style={[ListViewStyle.monthText, ListViewStyle.newsMonth]}>
+                          Mei
+                        </Text>
+                     </View>
+                     <View style={ListViewStyle.day}>
+                        <Text style={[ListViewStyle.dayText, ListViewStyle.newsDay]}>
+                          2
+                        </Text>
+                     </View>
+                  </View>
+                  <View style={ListViewStyle.textContainer}>
+                     <View style={ListViewStyle.titleContainer}>
+                        <Text numberOfLines={2} style={[ListViewStyle.title, ListViewStyle.newsTitle]}>
+                          {rowData.summary}
+                        </Text>
+                     </View>
+                  </View>
+               </View>
+            </View>
          </TouchableOpacity>
       )
    }
@@ -138,15 +172,26 @@ export default class NewsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.searchBarContainer}>
-               <TextInput
-                  style={ComponentStyle.searchBarInput}
-                  placeholder={getTranslation('searchTerm')}
-                  onChange={this.setSearchText.bind(this)}
-               />
+            <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={General.h4}>
+                     {getTranslation('newsMenuItem')}
+                  </Text>
+               </View>
+               <View style={ComponentStyle.filterIconContainer}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="search" size={18} color="#F02C32" />
+                  </View>
+               </View>
             </View>
             {currentView}
          </View>
       )
    }
 }
+
+// <TextInput
+//    style={[ComponentStyle.searchBarInput]}
+//    placeholder={getTranslation('searchTerm')}
+//    onChange={this.setSearchText.bind(this)}
+// />

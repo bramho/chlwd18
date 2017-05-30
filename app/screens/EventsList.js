@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { formatDate } from '../helpers/FormatDate';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://eric-project.c4x.nl/api/events";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+
+const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 /**
  * New initialisation of the ListView datasource object
@@ -21,6 +26,12 @@ const apiLink = "https://eric-project.c4x.nl/api/events";
     rowHasChanged: (row1, row2) => row1 !== row2,
  });
 var listData = [];
+
+var favorites = [];
+var favoritesIds = [];
+
+var favoriteButton;
+var categories;
 
 export default class EventsList extends Component {
    constructor(props) {
@@ -34,6 +45,7 @@ export default class EventsList extends Component {
          searchText: '',
          myKey: '',
          refreshing: false,
+         index: 0,
       };
 
 
@@ -41,6 +53,10 @@ export default class EventsList extends Component {
 
    componentDidMount() {
       this.fetchData();
+
+      this.setFavorites();
+
+      statusBar();
    }
 
    /**
@@ -51,7 +67,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage(storageKey);
+      // removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -63,7 +79,7 @@ export default class EventsList extends Component {
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
-                  isLoading: false,
+                  // isLoading: false,
                   empty: false,
                   rawData: storageData,
                });
@@ -71,16 +87,16 @@ export default class EventsList extends Component {
          } else {
             Api.getData(apiLink)
                .then((data) => {
-                  listData = data;
+                  listData = data.results;
+
                   this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
-                     apiData: data,
+                     dataSource: this.state.dataSource.cloneWithRows(data.results),
+                     apiData: data.results,
                      isLoading: false,
                      empty: false,
-                     rawData: data,
+                     rawData: data.results,
                   });
 
-                  console.log(listData);
                   setStorageData(storageKey, listData);
 
 
@@ -97,6 +113,55 @@ export default class EventsList extends Component {
    }
 
    /**
+    * Gets favorites from local storage and assigns them to a favorites variable.
+    */
+   setFavorites() {
+      this.setState({
+         isLoading: true
+      });
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               favorites = savedEvents;
+
+               console.log(favorites);
+
+               setFavoriteIds(favorites).then((result) => {
+                  favoritesIds = result;
+
+
+                  this.setState({
+                     isLoading: false
+                  });
+               });
+            });
+         }
+      });
+   }
+
+   setFavoriteButton(id, isReset) {
+
+      var index = favoritesIds.indexOf(id);
+
+      if (isReset) {
+         if (index === -1) {
+            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
+         } else {
+            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
+         }
+      } else {
+         if (index === -1) {
+            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
+         } else {
+            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
+         }
+      }
+   }
+
+   /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
     */
@@ -110,9 +175,9 @@ export default class EventsList extends Component {
       });
    }
 
-   onItemPress(id) {
+   onItemPress(id, data) {
       console.log('You Pressed');
-      Actions.eventItem({eventId:id})
+      Actions.eventItem({eventId:id, rowData:data})
    }
 
    _onRefresh() {
@@ -124,28 +189,77 @@ export default class EventsList extends Component {
 
    }
 
+   addOrRemoveFavorite (rowData) {
+
+      var index = favoritesIds.indexOf(rowData.id);
+
+      if (index === -1) {
+         setFavorite(rowData, true, favoritesIds);
+      } else {
+         setFavorite(rowData, false, favoritesIds);
+      }
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
+      console.log(formatDate(rowData.startDate,'eventList-day'));
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+            <View>
+               <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
+               <View style={ListViewStyle.priceContainer}>
+                  <View style={ListViewStyle.price}>
+                     <Text style={ListViewStyle.priceText}>
+                        € {rowData.ticketUrls[0].price}
+                     </Text>
+                  </View>
+               </View>
+
+               <View style={ListViewStyle.addToFavoritesContainer}>
+                  <TouchableOpacity onPress={function(){this.addOrRemoveFavorite(rowData)}.bind(this)}>
+                     <Text>
+                        {this.setFavoriteButton(rowData.id, false)}
+                        {favoriteButton}
+                     </Text>
+                  </TouchableOpacity>
+               </View>
+
+               <View style={ListViewStyle.categoriesContainer}>
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        {rowData.categories[0].name}
+                     </Text>
+                  </View>
+               </View>
+            </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.title_price}>
-                  <Text style={ListViewStyle.title}>
-                    {rowData.title}
-                  </Text>
-                  <Text style={ListViewStyle.price}>
-                     {rowData.ticket_prices.adult}
+               <View style={ListViewStyle.dateContainer}>
+                  <View style={ListViewStyle.day}>
+                     <Text style={ListViewStyle.dayText}>
+                       {formatDate(rowData.startDate,'eventList-day')}
+                     </Text>
+                  </View>
+                  <View style={ListViewStyle.month}>
+                     <Text style={ListViewStyle.monthText}>
+                       {formatDate(rowData.startDate,'eventList-month')}
+                     </Text>
+                  </View>
+               </View>
+               <View style={ListViewStyle.textContainer}>
+                  <View style={ListViewStyle.titleContainer}>
+                     <Text style={ListViewStyle.title}>
+                       {rowData.title}
+                     </Text>
+                  </View>
+                  <Text numberOfLines={2} style={ListViewStyle.description}>
+                     <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
                   </Text>
                </View>
-               <Text numberOfLines={2} style={ListViewStyle.description}>
-                 {rowData.summary}
-               </Text>
             </View>
          </View>
          </TouchableOpacity>
@@ -171,12 +285,17 @@ export default class EventsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.searchBarContainer}>
-               <TextInput
-                  style={ComponentStyle.searchBarInput}
-                  placeholder={getTranslation('searchTerm')}
-                  onChange={this.setSearchText.bind(this)}
-               />
+            <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.headerTitleContainer}>
+                  <Text style={General.h4}>
+                     {getTranslation('eventsMenuItem')}
+                  </Text>
+               </View>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="search" size={18} color="#F02C32" />
+                  </View>
+               </TouchableOpacity>
             </View>
             {currentView}
          </View>
