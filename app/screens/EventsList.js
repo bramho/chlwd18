@@ -127,8 +127,6 @@ export default class EventsList extends Component {
 
                favorites = savedEvents;
 
-               console.log(favorites);
-
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
@@ -176,7 +174,6 @@ export default class EventsList extends Component {
    }
 
    onItemPress(id, data) {
-      console.log('You Pressed');
       Actions.eventItem({eventId:id, rowData:data})
    }
 
@@ -206,7 +203,7 @@ export default class EventsList extends Component {
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
-      console.log(formatDate(rowData.startDate,'eventList-day'));
+
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
@@ -219,7 +216,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                </View>
-               
+
 
                <View style={ListViewStyle.categoriesContainer}>
                   <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>

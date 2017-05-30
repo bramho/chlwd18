@@ -63,9 +63,6 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
-               console.log('Favorites:');
-               console.log(storageData);
-
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,

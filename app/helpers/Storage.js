@@ -35,10 +35,12 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
    checkStorageKey('savedEvents').then((isValidKey) => {
 
       if (isValidKey) {
-         console.log("Saved Events does exist");
+         console.log("Saved Events Key: 'savedEvents' does exist");
          getStorageData('savedEvents').then((data) => {
             savedEvents = JSON.parse(data);
 
+            console.log('savedEventsIds: ');
+            console.log(savedEventsIds);
 
             // Checks if itemId already exists within the savedEvents
             index = savedEventsIds.indexOf(item.id);
@@ -47,11 +49,18 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
             if (index === -1) {
                console.log('Adding item: ' + item.id);
                savedEvents.push(item);
+               savedEventsIds.push(item.id);
                setStorageData('savedEvents', savedEvents);
+
+               return savedEventsIds;
+
             } else {
                console.log('Removing item: ' + item.id);
                savedEvents.splice(index, 1);
+               savedEventsIds.splice(index, 1);
                setStorageData('savedEvents', savedEvents);
+
+               return savedEventsIds;
             }
 
          });

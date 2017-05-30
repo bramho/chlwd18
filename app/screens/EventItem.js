@@ -21,6 +21,8 @@ const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc/";
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 var favorite;
+var rowRefs;
+var savedEventsIds;
 
 var test =  <View style={ComponentStyle.shareIconContainer}>
                <Text style={ComponentStyle.shareIcon}>F</Text>
@@ -33,25 +35,53 @@ export default class EventItem extends Component {
    constructor(props) {
       super(props);
 
+      this.rowRefs = [];
+      this.savedEventsIds = [];
+
       this.state = {
          data: '',
          isLoading: true,
          id:this.props.eventId,
          rowData: this.props.rowData,
          scrollY: new Animated.Value(0),
-
+         addToFavorites: true,
+         iconColor: '#fff',
+         iconName: 'heart',
       };
-
-      console.log(this.props.eventId);
    }
 
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      this.setFavoriteButton(false);
       statusBar('transparent');
 
-      Actions.refresh({ rightTitle: <Icon name="share" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) })
+      Actions.refresh({ rightTitle: <Icon name="share" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) });
+
+      checkStorageKey('savedEvents').then((isValidKey) => {
+
+         if (isValidKey) {
+            getStorageData('savedEvents').then((data) => {
+               savedEvents = JSON.parse(data);
+
+               for (var i = 0; i < savedEvents.length; i++) {
+                  this.savedEventsIds.push(savedEvents[i].id);
+
+                  if (savedEvents[i].id === this.state.id) {
+                     this.setState({
+                        addToFavorites: false,
+                        iconColor: '#F02C32',
+                        iconName: 'heart-fill',
+                     })
+                  }
+               }
+
+            });
+         }
+      });
+   }
+
+   storeRowRefs(rowRef) {
+      this.rowRefs.push(rowRef);
    }
 
    shareEvent() {
@@ -65,63 +95,28 @@ export default class EventItem extends Component {
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
       setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
-      this.setFavoriteButton(true);
-   }
 
-   setFavoriteButton(isReset) {
-
-
-      checkStorageKey('savedEvents').then((isValidKey) => {
-
-         if (isValidKey) {
-            getStorageData('savedEvents').then((data) => {
-               savedEvents = JSON.parse(data);
-
-               var savedEventsIds = [];
-
-               for (var i = 0; i < savedEvents.length; i++) {
-                  savedEventsIds.push(savedEvents[i].id);
-               }
-
-               console.log('Saved Event Ids:');
-               console.log(savedEventsIds);
-
-               var index = savedEventsIds.indexOf(this.state.id);
-
-               if(isReset) {
-                  if (index === -1) {
-                     // return Actions.refresh({ rightTitle: getTranslation('removeFromFavorites'), onRight: function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this) })
-                     favorite =  <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>
-                                    <View style={ComponentStyle.filterIcon}>
-                                       <Icon name="heart-fill" size={25} color="#F02C32" />
-                                    </View>
-                                 </TouchableOpacity>
-                  } else {
-                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>
-                                    <View style={ComponentStyle.filterIcon}>
-                                       <Icon name="heart-fill" size={25} color="#FFF" />
-                                    </View>
-                                 </TouchableOpacity>
-                  }
-               } else {
-                  if (index === -1) {
-                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(true, savedEventsIds)}.bind(this)}>
-                                    <View style={ComponentStyle.filterIcon}>
-                                       <Icon name="heart" size={25} color="#FFF" />
-                                    </View>
-                                 </TouchableOpacity>
-                  } else {
-                     favorite = <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(false, savedEventsIds)}.bind(this)}>
-                                    <View style={ComponentStyle.filterIcon}>
-                                       <Icon name="heart-fill" size={25} color="#F02C32" />
-                                    </View>
-                                 </TouchableOpacity>
-                  }
-               }
-
-            });
-         }
-      });
+      if (addToFavorites) {
+         this.rowRefs[0].setNativeProps({
+            style: {
+               color: '#F02C32',
+            }
+         });
+         this.setState({
+            addToFavorites: false,
+            iconName: 'heart-fill'
+         })
+      } else {
+         this.rowRefs[0].setNativeProps({
+            style: {
+               color: '#FFF',
+            }
+         });
+         this.setState({
+            addToFavorites: true,
+            iconName: 'heart'
+         })
+      }
    }
 
    /**
@@ -339,8 +334,12 @@ export default class EventItem extends Component {
                   </View>
                </TouchableOpacity>
 
-               {favorite}
-               
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(this.state.addToFavorites, this.savedEventsIds)}.bind(this)}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon ref={(ref)=>this.storeRowRefs(ref)} name={this.state.iconName} size={25} color={this.state.iconColor} />
+                  </View>
+               </TouchableOpacity>
+
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="share" size={25} color="#fff" />
