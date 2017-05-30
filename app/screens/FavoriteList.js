@@ -88,10 +88,9 @@ export default class FavoriteList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-   onItemPress(id) {
-            console.log('You Pressed');
-            Actions.eventItemFavorites({eventId:id})
-       }
+   onItemPress(id, data) {
+      Actions.eventItemFavorites({eventId:id, rowData:data})
+   }
        /**
         * Gets favorites from local storage and assigns them to a favorites variable.
         */
@@ -195,7 +194,7 @@ export default class FavoriteList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
             <View style={ListViewStyle.row}>
                <View>
                   <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />

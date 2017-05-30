@@ -38,10 +38,12 @@ export default class EventItem extends Component {
       this.rowRefs = [];
       this.savedEventsIds = [];
 
+      console.log(this.props);
+
       this.state = {
          data: '',
          isLoading: true,
-         id:this.props.eventId,
+         id: this.props.eventId,
          rowData: this.props.rowData,
          scrollY: new Animated.Value(0),
          addToFavorites: true,
@@ -94,6 +96,8 @@ export default class EventItem extends Component {
 
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
+      console.log(this.state.rowData);
+
       setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
 
       if (addToFavorites) {

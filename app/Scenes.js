@@ -94,6 +94,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
          </Scene>
