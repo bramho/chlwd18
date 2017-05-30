@@ -44,7 +44,6 @@ export default NewsStyle = StyleSheet.create({
    },
    scrollViewContent: {
       backgroundColor:COLOR.WHITE,
-      marginTop: 80,
    },
    backgroundImage: {
       position: 'absolute',
