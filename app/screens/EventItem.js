@@ -57,8 +57,6 @@ export default class EventItem extends Component {
 
       statusBar('transparent');
 
-      Actions.refresh({ rightTitle: <Icon name="share" size={20} color='#fff' style={{padding: 20,  textAlign: 'center'}}></Icon>, onRight: function(){this.shareEvent()}.bind(this) });
-
       checkStorageKey('savedEvents').then((isValidKey) => {
 
          if (isValidKey) {
@@ -343,7 +341,7 @@ export default class EventItem extends Component {
                   </View>
                </TouchableOpacity>
 
-               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]}>
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]} onPress={function(){this.shareEvent()}.bind(this)}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="share" size={25} color="#fff" />
                   </View>
