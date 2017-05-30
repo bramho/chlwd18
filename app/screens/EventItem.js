@@ -153,6 +153,8 @@ export default class EventItem extends Component {
          </Animated.View>
       );
 
+   }
+
    buyTickets(url) {
       openLink(url)
    }
