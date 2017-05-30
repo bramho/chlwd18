@@ -27,6 +27,27 @@ export default ComponentStyle = StyleSheet.create({
       borderBottomWidth: 1,
       borderColor: COLOR.DARKWHITE,
    },
+   singleHeaderContainer: {
+      padding: 8,
+      paddingLeft: 20,
+      paddingRight: 20,
+      height: 80,
+      top:0,
+      alignItems: 'center',
+      flexDirection: 'row',
+      backgroundColor: 'transparent',
+      ...Platform.select({
+         ios: {
+            paddingTop: 25
+         },
+         android: {
+            height:100,
+            paddingTop: 20,
+            paddingBottom:0
+         }
+      }),
+      zIndex: 999,
+   },
    searchBarInput: {
       flex:5,
       fontSize: 15,
@@ -46,14 +67,16 @@ export default ComponentStyle = StyleSheet.create({
       flex: 1,
       height: 50,
       width: 50,
-      padding:0
-
+      padding:0,
+   },
+   singleFilterIconContainer: {
+      marginLeft: 10,
    },
    filterIcon: {
       width: 50,
       height: 50,
       borderWidth: 1,
-      borderColor: COLOR.GRAY,
+      borderColor: COLOR.WHITE,
       alignItems: 'center',
       borderRadius: 50,
       justifyContent: 'center',
@@ -69,7 +92,7 @@ export default ComponentStyle = StyleSheet.create({
       width: 50,
       height: 50,
       borderWidth: 1,
-      borderColor: COLOR.GRAY,
+      borderColor: COLOR.WHITE,
       alignItems: 'center',
       borderRadius: 50,
       justifyContent: 'center',
@@ -77,6 +100,9 @@ export default ComponentStyle = StyleSheet.create({
 
    headerTitleContainer: {
       flex: 5,
+   },
+   backIconContainer: {
+      flex: 4
    },
    headerTitle: {
       fontSize: 16,

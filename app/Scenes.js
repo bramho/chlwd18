@@ -44,6 +44,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
 
@@ -68,6 +69,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
 
@@ -90,6 +92,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
          </Scene>
