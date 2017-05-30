@@ -24,8 +24,6 @@ const scenes = Actions.create(
             tabs
             tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBorderTop]}
          >
-
-
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
