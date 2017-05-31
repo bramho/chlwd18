@@ -9,13 +9,14 @@ import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
+import Message from '../helpers/Messages';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+const apiLink = "https://www.vanplsdafan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -57,6 +58,7 @@ export default class EventsList extends Component {
       this.setFavorites();
 
       statusBar();
+
    }
 
    /**
@@ -67,7 +69,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('savedEvents');
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -102,7 +104,8 @@ export default class EventsList extends Component {
 
                })
                .catch((error) => {
-                  console.log(error)
+                  Message("error","Er is iets mis gegaan","Controlleer uw internetverbinding");
+                  //console.log(error.response.status);
                   this.setState({
                      empty: true,
                      isLoading: false,

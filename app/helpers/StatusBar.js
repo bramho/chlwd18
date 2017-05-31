@@ -1,8 +1,12 @@
 import { StatusBar } from 'react-native';
 import { platform } from './Platform';
 
-export function statusBar(view) {
-   switch (view) {
+/**
+ * Set the statusbar background and color
+ * @param  {string} mode  statusBar modes
+ */
+export function statusBar(mode) {
+   switch (mode) {
       case 'translucent':
          if(platform('android')) {
             StatusBar.setTranslucent(true)
