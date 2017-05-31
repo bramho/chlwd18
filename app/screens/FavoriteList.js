@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from '../helpers/Icons';
 
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -38,8 +38,10 @@ export default class FavoriteList extends Component {
          myKey: '',
          refreshing: false,
       };
+   }
 
-
+   componentWillMount() {
+      Actions.refresh();
    }
 
    componentDidMount() {
@@ -149,21 +151,6 @@ export default class FavoriteList extends Component {
 
    setFavoriteButton(id, isReset) {
 
-      var index = favoritesIds.indexOf(id);
-
-      if (isReset) {
-         if (index === -1) {
-            return <Icon name="heart-o" size={20} color="#FFF" />;
-         } else {
-            return <Icon name="heart" size={20} color="#F02C32" />;
-         }
-      } else {
-         if (index === -1) {
-            return <Icon name="heart" size={20} color="#F02C32" />;
-         } else {
-            return <Icon name="heart-o" size={20} color="#FFF" />;
-         }
-      }
    }
 
    addOrRemoveFavorite (id) {
@@ -234,7 +221,7 @@ export default class FavoriteList extends Component {
                         </Text>
                      </View>
                      <Text numberOfLines={2} style={ListViewStyle.description}>
-                       <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
+                       <Icon name="pointer" size={18} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
                      </Text>
                   </View>
                </View>
@@ -270,7 +257,7 @@ export default class FavoriteList extends Component {
                </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={18} color="#F02C32" />
+                     <Icon name="search" size={25} color="#F02C32" />
                   </View>
                </View>
             </View>

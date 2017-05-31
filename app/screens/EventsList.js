@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from '../helpers/Icons';
 
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
@@ -142,21 +142,7 @@ export default class EventsList extends Component {
 
    setFavoriteButton(id, isReset) {
 
-      var index = favoritesIds.indexOf(id);
 
-      if (isReset) {
-         if (index === -1) {
-            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
-         } else {
-            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
-         }
-      } else {
-         if (index === -1) {
-            favoriteButton = <Icon name="heart-o" size={20} color="#FFF" />;
-         } else {
-            favoriteButton = <Icon name="heart" size={20} color="#F02C32" />;
-         }
-      }
    }
 
    /**
@@ -246,7 +232,7 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                     <Icon name="map-marker" size={14} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
+                     <Icon name="pointer" size={18} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
                   </Text>
                </View>
             </View>
@@ -282,7 +268,7 @@ export default class EventsList extends Component {
                </View>
                <TouchableOpacity style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={18} color="#F02C32" />
+                     <Icon name="search" size={25} color="#F02C32" />
                   </View>
                </TouchableOpacity>
             </View>

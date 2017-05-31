@@ -15,17 +15,16 @@ import EventItem from './screens/EventItem';
 import NewsList from './screens/NewsList';
 import NewsItem from './screens/NewsItem';
 import FavoriteList from './screens/FavoriteList';
+import WebModal from './screens/WebModal';
 import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
-   <Scene key="root" tabs={true}>
+      <Scene key="root" tabs={true}>
          <Scene
             key="tabbar"
             tabs
             tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBorderTop]}
          >
-
-
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
@@ -73,6 +72,12 @@ const scenes = Actions.create(
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
                  hideNavBar
                />
+               <Scene
+                  key="webModal"
+                  component={WebModal}
+                  direction="horizontal"
+                  hideNavBar
+               />
             </Scene>
 
             <Scene key="favoritesTab" title={getTranslation('favoritesMenuItem')} icon={TabItemFav}>
@@ -98,7 +103,7 @@ const scenes = Actions.create(
                />
             </Scene>
          </Scene>
-   </Scene>
+      </Scene>
 );
 
 export default scenes;
