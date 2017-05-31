@@ -105,9 +105,11 @@ function getTranslation(translationType) {
 function setDefaultLocale() {
    var language = getCurrentLocale();
 
+   console.log(language);
+
    if (language === 'nl-NL' || language === 'en') {
-      I18n.locale = language;
-      // I18n.locale = 'nl-NL';
+      // I18n.locale = language;
+      I18n.locale = 'nl-NL';
    } else {
       I18n.locale = 'nl-NL';
    }
