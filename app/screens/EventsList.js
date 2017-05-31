@@ -15,7 +15,19 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+var params = {
+   number: 30,
+   pageNumber:2,
+   sort:'date',
+   from:'',
+   until:'',
+   category:'',
+   location:'',
+   minPrice:'',
+   maxPrice:'',
+}
+
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -46,6 +58,8 @@ export default class EventsList extends Component {
          myKey: '',
          refreshing: false,
          index: 0,
+         waiting:false,
+         pageNumber:1,
       };
 
 
@@ -66,8 +80,8 @@ export default class EventsList extends Component {
    fetchData = async () => {
 
       var storageKey = 'eventList';
-
-      // removeItemFromStorage('savedEvents');
+      console.log(apiLink);
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -202,7 +216,7 @@ export default class EventsList extends Component {
     */
    onEndReached() {
       if (!this.state.waiting) {
-        this.setState({isLoading: true});
+
 
       }
    }
@@ -274,7 +288,7 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
-         onEndReached={this.onEndReached}
+         onEndReached={this.onEndReached.bind(this)}
          refreshControl={
             <RefreshControl
                refreshing={this.state.refreshing}

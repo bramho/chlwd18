@@ -5,6 +5,8 @@
  */
 export default Api = {
    getData(url,headers = {}) {
-		return fetch(url,headers).then((response) => response.json());
+		return fetch(url,
+         {headers}
+      ).then((response) => response.json());
   	}
 }
