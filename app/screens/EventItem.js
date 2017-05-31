@@ -168,7 +168,9 @@ export default class EventItem extends Component {
    }
 
    buyTickets(url) {
-      openLink(url)
+      Actions.webModal({url: url});
+
+      // openLink(url)
    }
 
    openUrl(url) {
