@@ -167,14 +167,8 @@ export default class EventItem extends Component {
 
    }
 
-   buyTickets(url) {
-      Actions.webModal({url: url});
-
-      // openLink(url)
-   }
-
    openUrl(url) {
-      openLink(url);
+      Actions.webModal({url: url});
    }
 
    /**
@@ -261,7 +255,7 @@ export default class EventItem extends Component {
                   </View>
 
                   <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
-                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets(this.state.data.ticketUrls[0].url)}.bind(this)}>
+                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.openUrl(this.state.data.ticketUrls[0].url)}.bind(this)}>
                         <Text style={Buttons.buttonText}>{getTranslation('buyTickets')}</Text>
                      </TouchableOpacity>
                   </View>

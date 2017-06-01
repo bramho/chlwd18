@@ -13,8 +13,17 @@ class FilterModal extends Component {
 
       this.state = {
          maxPriceValue: 230,
-         minPriceValue: 0,
       }
+   }
+
+   sendParams() {
+      Actions.pop({refresh: {
+         sort: 'date',
+         from: '',
+         until: '',
+         minPrice: '',
+         maxPrice: this.state.maxPriceValue,
+      }})
    }
 
    // show or hide Modal based on 'hide' prop
@@ -66,31 +75,8 @@ class FilterModal extends Component {
                </View>
 
                <View>
-                  <View style={{flex: 1,padding: 20}}>
-                     <View style={{flex: 1, flexDirection: 'row'}}>
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={General.p}>Minimale Prijs</Text>
-                        </View>
-
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={[General.h3, General.rightText]}>€ {this.state.minPriceValue},-</Text>
-                        </View>
-                     </View>
-
-                     <View style={{flex:1, flexDirection: 'column'}}>
-                        <Slider
-                           onValueChange={(value) => this.setState({minPriceValue: value})}
-                           minimumValue={0}
-                           maximumValue={this.state.maxPriceValue}
-                           step={1}
-                        />
-                     </View>
-                  </View>
-               </View>
-
-               <View>
                   <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
-                     <TouchableOpacity style={{padding: 2}} onPress={function(){}}>
+                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.sendParams()}.bind(this)}>
                         <Text style={Buttons.buttonText}>Filteren</Text>
                      </TouchableOpacity>
                   </View>

@@ -15,7 +15,19 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+var params = {
+   number: 10,
+   pageNumber:1,
+   sort:'date',
+   from:'',
+   until:'',
+   category:'',
+   location:'',
+   minPrice:'',
+   maxPrice:'',
+}
+
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -46,10 +58,19 @@ export default class EventsList extends Component {
          myKey: '',
          refreshing: false,
          index: 0,
-         apiLink: apiLink,
+         waiting:false,
+         pageNumber:1,
       };
 
 
+      // params.minPrice = this.props.minPrice;
+
+   }
+
+   componentWillReceiveProps(props) {
+      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+props.from+"&until="+props.until+"&category=&location=&minprice="+props.minPrice+"&maxprice="+props.maxPrice+"&type=-";
+
+      this.getEventData(newApiLink, 'eventList');
    }
 
    componentDidMount() {
@@ -67,8 +88,6 @@ export default class EventsList extends Component {
    fetchData = async () => {
 
       var storageKey = 'eventList';
-
-      console.log(this.state.apiLink);
 
       removeItemFromStorage('eventList');
 
@@ -88,31 +107,43 @@ export default class EventsList extends Component {
                });
             });
          } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data.results;
-
-                  this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data.results),
-                     apiData: data.results,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data.results,
-                  });
-
-                  setStorageData(storageKey, listData);
-
-
-               })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
+            this.getEventData(apiLink, storageKey);
          }
       });
+   }
+
+   /**
+    * Gets event data from apiLink and stores it in the cache
+    * @param  {string} apiLink      Url to API
+    * @param  {string} storageKey   Key for local storage
+    * @return {JSON}                List of events
+    */
+   getEventData(apiLink, storageKey) {
+      Api.getData(apiLink)
+         .then((data) => {
+            listData = data.results;
+
+            console.log(listData);
+
+            this.setState({
+               dataSource: this.state.dataSource.cloneWithRows(data.results),
+               apiData: data.results,
+               isLoading: false,
+               empty: false,
+               rawData: data.results,
+            });
+
+            setStorageData(storageKey, listData);
+
+
+         })
+         .catch((error) => {
+            console.log(error)
+            this.setState({
+               empty: true,
+               isLoading: false,
+            });
+         });
    }
 
    /**
@@ -185,7 +216,16 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+   /**
+    * When the user scrolled to the end, this function will run.
+    * @return {[type]} [description]
+    */
+   onEndReached() {
+      if (!this.state.waiting) {
 
+
+      }
+   }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -254,6 +294,7 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         onEndReached={this.onEndReached.bind(this)}
          refreshControl={
             <RefreshControl
                refreshing={this.state.refreshing}
