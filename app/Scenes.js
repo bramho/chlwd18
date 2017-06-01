@@ -14,6 +14,7 @@ import EventsList from './screens/EventsList';
 import EventItem from './screens/EventItem';
 import NewsList from './screens/NewsList';
 import NewsItem from './screens/NewsItem';
+import Maps from './screens/Maps';
 import FavoriteList from './screens/FavoriteList';
 import { statusBar } from './helpers/StatusBar';
 
@@ -92,6 +93,17 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
+               />
+            </Scene>
+
+            <Scene key="mapsTab" title={getTranslation('maps')} icon={TabItemFav}>
+               <Scene
+                 key="maps"
+                 component={Maps}
+                 title={getTranslation('mapsMenuItem')}
+                 icon={TabItemFav}
+                 sceneStyle={MenuStyle.container}
                  hideNavBar
                />
             </Scene>

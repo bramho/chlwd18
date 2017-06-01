@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, ActivityIndicator} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -16,7 +16,7 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplsdafan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -69,7 +69,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage('eventList');
+      //removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -258,7 +258,12 @@ export default class EventsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><ActivityIndicator
+        animating={this.state.animating}
+        color="#F02C32"
+        style={[General.centering, {height: 80}]}
+        size="large"
+      /></View> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}

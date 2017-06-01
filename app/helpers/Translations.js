@@ -45,6 +45,7 @@ I18n.translations = {
       buyTickets: 'Buy tickets',
       usefulLinks: 'Useful links',
       shareText: 'Share',
+      maps: 'Map'
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -86,6 +87,7 @@ I18n.translations = {
       buyTickets: 'Bestel tickets',
       usefulLinks: 'Handige links',
       shareText: 'Delen',
+      maps: 'Kaart'
    },
 }
 

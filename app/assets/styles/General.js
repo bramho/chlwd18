@@ -107,7 +107,12 @@ const General = StyleSheet.create({
       textDecorationLine: 'underline',
       lineHeight: 20,
       marginBottom: 15,
-   }
+   },
+   centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
 });
 
 export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, Buttons };
