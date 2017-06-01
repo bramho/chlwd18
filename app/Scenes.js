@@ -15,7 +15,10 @@ import EventItem from './screens/EventItem';
 import NewsList from './screens/NewsList';
 import NewsItem from './screens/NewsItem';
 import FavoriteList from './screens/FavoriteList';
+
 import WebModal from './screens/WebModal';
+import FilterModal from './screens/FilterModal';
+
 import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
@@ -75,6 +78,12 @@ const scenes = Actions.create(
                <Scene
                   key="webModal"
                   component={WebModal}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="filterModal"
+                  component={FilterModal}
                   direction="horizontal"
                   hideNavBar
                />
