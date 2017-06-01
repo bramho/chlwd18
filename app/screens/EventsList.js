@@ -46,6 +46,7 @@ export default class EventsList extends Component {
          myKey: '',
          refreshing: false,
          index: 0,
+         apiLink: apiLink,
       };
 
 
@@ -67,7 +68,9 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('savedEvents');
+      console.log(this.state.apiLink);
+
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -266,7 +269,7 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal()}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={25} color="#F02C32" />
                   </View>
