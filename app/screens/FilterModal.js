@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacit
 import { Actions } from 'react-native-router-flux';
 
 import Icon from '../helpers/Icons';
+import { getTranslation } from '../helpers/Translations';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
@@ -14,8 +15,9 @@ class FilterModal extends Component {
       super(props)
 
       this.state = {
-         maxPriceValue: MAXPRICEVALUE,
+         maxPriceValue: props.maxPriceValue,
       }
+
    }
 
    /**
@@ -40,7 +42,15 @@ class FilterModal extends Component {
       })
    }
 
-   
+   showPrice() {
+      if (this.state.maxPriceValue === 0) {
+         return getTranslation('free');
+      } else {
+         return '€ ' + this.state.maxPriceValue + ',-';
+      }
+   }
+
+
    render() {
       return (
          <View style={General.container}>
@@ -52,7 +62,7 @@ class FilterModal extends Component {
                </TouchableOpacity>
 
                <Text style={[General.h4, {flex: 5}]}>
-                  Zoeken / Filteren
+                  {getTranslation('searchFilter')}
                </Text>
 
                <View style={{flex: 4}}>
@@ -68,11 +78,11 @@ class FilterModal extends Component {
                   <View style={{flex: 1,padding: 20}}>
                      <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={General.p}>Maximale Prijs</Text>
+                           <Text style={General.p}>{getTranslation('maxPrice')}</Text>
                         </View>
 
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={[General.h3, General.rightText]}>€ {this.state.maxPriceValue},-</Text>
+                           <Text style={[General.h3, General.rightText]}>{this.showPrice()}</Text>
                         </View>
                      </View>
 
@@ -90,12 +100,12 @@ class FilterModal extends Component {
 
                <View>
                   <View>
-                     <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>Filter Herstellen</Text>
+                     <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>{getTranslation('resetFilter')}</Text>
                   </View>
 
                   <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
                      <TouchableOpacity style={{padding: 2}} onPress={function(){this.sendParams()}.bind(this)}>
-                        <Text style={Buttons.buttonText}>Filteren</Text>
+                        <Text style={Buttons.buttonText}>{getTranslation('applyFilter')}</Text>
                      </TouchableOpacity>
                   </View>
                </View>
