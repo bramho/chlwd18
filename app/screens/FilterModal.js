@@ -6,16 +6,21 @@ import Icon from '../helpers/Icons';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
+const MAXPRICEVALUE = 230;
+
 class FilterModal extends Component {
 
    constructor(props) {
       super(props)
 
       this.state = {
-         maxPriceValue: 230,
+         maxPriceValue: MAXPRICEVALUE,
       }
    }
 
+   /**
+    * Goes one scene back and send new props with it
+    */
    sendParams() {
       Actions.pop({refresh: {
          sort: 'date',
@@ -24,6 +29,15 @@ class FilterModal extends Component {
          minPrice: '',
          maxPrice: this.state.maxPriceValue,
       }})
+   }
+
+   /**
+    * Resets all filter options
+    */
+   resetFilter() {
+      this.setState({
+         maxPriceValue: MAXPRICEVALUE,
+      })
    }
 
    // show or hide Modal based on 'hide' prop
@@ -65,7 +79,7 @@ class FilterModal extends Component {
                      <View style={{flex:1, flexDirection: 'column'}}>
                         <Slider
                            onValueChange={(value) => this.setState({maxPriceValue: value})}
-                           maximumValue={230}
+                           maximumValue={MAXPRICEVALUE}
                            minimumValue={this.state.minPriceValue}
                            value={this.state.maxPriceValue}
                            step={1}
@@ -75,6 +89,10 @@ class FilterModal extends Component {
                </View>
 
                <View>
+                  <View>
+                     <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>Filter Herstellen</Text>
+                  </View>
+
                   <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
                      <TouchableOpacity style={{padding: 2}} onPress={function(){this.sendParams()}.bind(this)}>
                         <Text style={Buttons.buttonText}>Filteren</Text>
