@@ -82,6 +82,9 @@ export default ComponentStyle = StyleSheet.create({
       justifyContent: 'center',
       padding:0
    },
+   filterModalIcon: {
+      borderColor: COLOR.RED,
+   },
    shareIconContainer: {
       flex: 1,
       height: 50,

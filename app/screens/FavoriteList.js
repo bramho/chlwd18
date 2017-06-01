@@ -38,8 +38,10 @@ export default class FavoriteList extends Component {
          myKey: '',
          refreshing: false,
       };
+   }
 
-
+   componentWillMount() {
+      Actions.refresh();
    }
 
    componentDidMount() {

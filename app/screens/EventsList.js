@@ -80,7 +80,7 @@ export default class EventsList extends Component {
    fetchData = async () => {
 
       var storageKey = 'eventList';
-      console.log(apiLink);
+
       removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
@@ -290,7 +290,7 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal()}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={25} color="#F02C32" />
                   </View>
