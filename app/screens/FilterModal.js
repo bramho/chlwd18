@@ -40,7 +40,7 @@ class FilterModal extends Component {
       })
    }
 
-   // show or hide Modal based on 'hide' prop
+   
    render() {
       return (
          <View style={General.container}>
