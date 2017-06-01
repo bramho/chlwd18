@@ -7,7 +7,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
-import { setStorageData, getStorageData, checkStorageKey } from '../helpers/Storage';
+import { setStorageData, removeItemFromStorage,getStorageData, checkStorageKey } from '../helpers/Storage';
 import { statusBar } from '../helpers/StatusBar';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
@@ -15,8 +15,9 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://eric-project.c4x.nl/api/news";
-
+//const apiLink = "https://eric-project.c4x.nl/api/news";
+const apiLink = "https://hetgoedeleven.acc.tfe.nl/services/article/channelName/kh2018";
+const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 /**
  * New initialisation of the ListView datasource object
  */
@@ -54,13 +55,13 @@ export default class NewsList extends Component {
    fetchData() {
 
       var storageKey = 'newsList';
-
+          removeItemFromStorage(storageKey);
       checkStorageKey(storageKey).then((isValidKey) => {
 
          if(isValidKey) {
             getStorageData(storageKey).then((data) => {
 
-               storageData = JSON.parse(data);
+               storageData = JSON.parse(data.results);
 
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
@@ -71,11 +72,12 @@ export default class NewsList extends Component {
                });
             });
          } else {
-            Api.getData(apiLink)
+            Api.getData(apiLink,headers)
                .then((data) => {
-                  listData = data;
+                  listData = data.articles;
+                  console.log(listData);
                   this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data),
+                     dataSource: this.state.dataSource.cloneWithRows(data.articles),
                      apiData: data,
                      isLoading: false,
                      empty: false,
@@ -83,7 +85,7 @@ export default class NewsList extends Component {
                   });
 
                   console.log(listData);
-                  setStorageData(storageKey, listData);
+                  //setStorageData(storageKey, listData);
 
 
                })
@@ -120,13 +122,14 @@ export default class NewsList extends Component {
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
     * @return [markup]        Returns the template for the row in ListView.
+    * <Image source={{ uri: rowData.images[0].imageVariantDtoList[0].fileName}} style={ListViewStyle.photo} />
     */
    _renderRow (rowData) {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
             <View style={[ListViewStyle.row, ListViewStyle.newsBody]}>
                <View>
-                  <Image source={{ uri: rowData.thumbnail}} style={ListViewStyle.photo} />
+
                   <View style={ListViewStyle.readLenghtContainer}>
                      <Text style={ListViewStyle.readLengthText}>
                         <Icon name="clock-o" size={12} color="#fff" /> 5 {getTranslation('readLength')}
@@ -149,7 +152,7 @@ export default class NewsList extends Component {
                   <View style={ListViewStyle.textContainer}>
                      <View style={ListViewStyle.titleContainer}>
                         <Text numberOfLines={2} style={[ListViewStyle.title, ListViewStyle.newsTitle]}>
-                          {rowData.summary}
+                          {rowData.title}
                         </Text>
                      </View>
                   </View>
@@ -189,9 +192,3 @@ export default class NewsList extends Component {
       )
    }
 }
-
-// <TextInput
-//    style={[ComponentStyle.searchBarInput]}
-//    placeholder={getTranslation('searchTerm')}
-//    onChange={this.setSearchText.bind(this)}
-// />

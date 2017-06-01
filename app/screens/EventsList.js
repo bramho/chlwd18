@@ -15,7 +15,19 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=5&pageNumber=1&sort=date&from=&until=&category=&location=&minprice=&maxprice=&type=-";
+var params = {
+   number: 30,
+   pageNumber:2,
+   sort:'date',
+   from:'',
+   until:'',
+   category:'',
+   location:'',
+   minPrice:'',
+   maxPrice:'',
+}
+
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -46,7 +58,8 @@ export default class EventsList extends Component {
          myKey: '',
          refreshing: false,
          index: 0,
-         apiLink: apiLink,
+         waiting:false,
+         pageNumber:1,
       };
 
 
@@ -67,8 +80,6 @@ export default class EventsList extends Component {
    fetchData = async () => {
 
       var storageKey = 'eventList';
-
-      console.log(this.state.apiLink);
 
       removeItemFromStorage('eventList');
 
@@ -185,7 +196,16 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+   /**
+    * When the user scrolled to the end, this function will run.
+    * @return {[type]} [description]
+    */
+   onEndReached() {
+      if (!this.state.waiting) {
 
+
+      }
+   }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -254,6 +274,7 @@ export default class EventsList extends Component {
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         onEndReached={this.onEndReached.bind(this)}
          refreshControl={
             <RefreshControl
                refreshing={this.state.refreshing}

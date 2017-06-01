@@ -4,7 +4,9 @@
  * @return [type]             Returns data fetched from API
  */
 export default Api = {
-   getData(url) {
-		return fetch(url).then((response) => response.json());
+   getData(url,headers = {}) {
+		return fetch(url,
+         {headers}
+      ).then((response) => response.json());
   	}
 }
