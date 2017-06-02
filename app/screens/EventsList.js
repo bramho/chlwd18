@@ -130,8 +130,6 @@ export default class EventsList extends Component {
          .then((data) => {
             listData = data.results;
 
-            console.log(listData);
-
             this.setState({
                dataSource: this.state.dataSource.cloneWithRows(data.results),
                apiData: data.results,

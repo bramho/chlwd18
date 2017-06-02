@@ -9,6 +9,8 @@ import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } fro
 
 const MAXPRICEVALUE = 230;
 
+const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
+
 class FilterModal extends Component {
 
    constructor(props) {
@@ -42,6 +44,10 @@ class FilterModal extends Component {
       })
    }
 
+   /**
+    * Returns translation of 'Free' if price is 0, else returns the price number.
+    * @return {string}    Price
+    */
    showPrice() {
       if (this.state.maxPriceValue === 0) {
          return getTranslation('free');
@@ -78,7 +84,7 @@ class FilterModal extends Component {
                   <View style={{flex: 1,padding: 20}}>
                      <View style={{flex: 1, flexDirection: 'row'}}>
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={General.p}>{getTranslation('maxPrice')}</Text>
+                           <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
                         </View>
 
                         <View style={{flex: 1, flexDirection: 'column'}}>
