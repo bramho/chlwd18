@@ -96,7 +96,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage('eventList');
+      // removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 

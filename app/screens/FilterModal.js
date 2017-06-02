@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
+import { getStorageData, checkStorageKey } from '../helpers/Storage';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
@@ -19,6 +20,8 @@ class FilterModal extends Component {
       this.state = {
          maxPriceValue: props.maxPriceValue,
       }
+
+      this.getCategories();
 
    }
 
@@ -42,6 +45,22 @@ class FilterModal extends Component {
       this.setState({
          maxPriceValue: MAXPRICEVALUE,
       })
+   }
+
+   /**
+    * Gets all categories from cache
+    * @return {JSON}    Categories data
+    */
+   getCategories = async () => {
+      const STORAGEKEY = 'categoriesData';
+
+      await checkStorageKey(STORAGEKEY).then((isValidKey) => {
+         if (isValidKey) {
+            getStorageData(STORAGEKEY).then((data) => {
+               return JSON.parse(data);
+            });
+         }
+      });
    }
 
    /**
