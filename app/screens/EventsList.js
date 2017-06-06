@@ -71,13 +71,14 @@ export default class EventsList extends Component {
    }
 
    componentWillReceiveProps(props) {
-      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+props.from+"&until="+props.until+"&category=&location=&minprice="+props.minPrice+"&maxprice="+props.maxPrice+"&type=-";
+      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+props.from+"&until="+props.until+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
       this.setState({
-         maxPriceValue: props.maxPrice
+         maxPriceValue: props.maxPrice,
+         categoryId: props.categoryId,
       });
 
-      this.getEventData(newApiLink, 'eventList');
+      this.getEventData(newApiLink, 'eventList', true);
    }
 
    componentDidMount() {
@@ -114,7 +115,7 @@ export default class EventsList extends Component {
                });
             });
          } else {
-            this.getEventData(apiLink, storageKey);
+            this.getEventData(apiLink, storageKey, false);
          }
       });
    }
@@ -125,7 +126,7 @@ export default class EventsList extends Component {
     * @param  {string} storageKey   Key for local storage
     * @return {JSON}                List of events
     */
-   getEventData(apiLink, storageKey) {
+   getEventData(apiLink, storageKey, isFilter) {
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
@@ -138,7 +139,9 @@ export default class EventsList extends Component {
                rawData: data.results,
             });
 
-            setStorageData(storageKey, listData);
+            if (!isFilter) {
+               setStorageData(storageKey, listData);
+            }
 
 
          })
@@ -315,7 +318,7 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue})}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId})}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={25} color="#F02C32" />
                   </View>

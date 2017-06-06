@@ -6,11 +6,14 @@ import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
 import { getStorageData, checkStorageKey } from '../helpers/Storage';
 
-import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
+import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, FilterStyles, Buttons } from '../assets/styles/General';
 
 const MAXPRICEVALUE = 230;
 
 const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
+
+var categoryList = '';
+var categoriesArray = [];
 
 class FilterModal extends Component {
 
@@ -19,10 +22,19 @@ class FilterModal extends Component {
 
       this.state = {
          maxPriceValue: props.maxPriceValue,
+         isLoading: true,
+         hasCategories: false,
+         apiData: '',
+         currentCategoryId: props.categoryId,
+         refIndex: '',
+         testIndex: 4,
       }
+   }
 
-      this.getCategories();
-
+   componentDidMount() {
+      this.getCategories().then(() => {
+         this.setState({isLoading: false})
+      })
    }
 
    /**
@@ -33,8 +45,8 @@ class FilterModal extends Component {
          sort: 'date',
          from: '',
          until: '',
-         minPrice: '',
          maxPrice: this.state.maxPriceValue,
+         categoryId: this.state.currentCategoryId
       }})
    }
 
@@ -44,6 +56,7 @@ class FilterModal extends Component {
    resetFilter() {
       this.setState({
          maxPriceValue: MAXPRICEVALUE,
+         currentCategoryId: '',
       })
    }
 
@@ -54,13 +67,18 @@ class FilterModal extends Component {
    getCategories = async () => {
       const STORAGEKEY = 'categoriesData';
 
-      await checkStorageKey(STORAGEKEY).then((isValidKey) => {
-         if (isValidKey) {
-            getStorageData(STORAGEKEY).then((data) => {
-               return JSON.parse(data);
-            });
-         }
-      });
+      if(!this.state.isDone) {
+         await checkStorageKey(STORAGEKEY).then((isValidKey) => {
+            if (isValidKey) {
+               getStorageData(STORAGEKEY).then((data) => {
+                  this.setState({
+                     hasCategories: true,
+                     apiData: JSON.parse(data)
+                  });
+               });
+            }
+         });
+      }
    }
 
    /**
@@ -75,8 +93,95 @@ class FilterModal extends Component {
       }
    }
 
+   /**
+    * Sets current category id in the state
+    * @param {int} categoryId    Id of selected category
+    */
+   setCategory(categoryId) {
+      this.setState({currentCategoryId: categoryId});
+   }
+
+   /**
+    * Renders content for the filter modal
+    * @return {ScrollView}    ScrollView with filter modal content
+    */
+   _renderContent() {
+
+      if (this.state.hasCategories) {
+         console.log(this.state.currentCategoryId);
+         categoriesArray = [];
+         this.state.apiData.map((data, index) => {
+            categoriesArray.push(
+               <TouchableHighlight key={index} style={this.state.currentCategoryId === this.state.apiData[index].id ? [FilterStyles.filterItemContainer, {backgroundColor:'#00f'}] : [FilterStyles.filterItemContainer, {backgroundColor:'#ff0'}]} onPress={() => this.setCategory(this.state.apiData[index].id)}>
+                  <View style={FilterStyles.innerFilterItem}>
+                     <Text>{this.state.apiData[index].name}</Text>
+                  </View>
+               </TouchableHighlight>
+            )
+         })
+
+         console.log(categoriesArray);
+      }
+
+      return (
+         <ScrollView
+            style={EventStyle.fill}
+            scrollEventThrottle={20}
+         >
+            <View>
+               <View style={{flex: 1,padding: 20}}>
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                     <View style={{flex: 1, flexDirection: 'column'}}>
+                        <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
+                     </View>
+
+                     <View style={{flex: 1, flexDirection: 'column'}}>
+                        <Text style={[General.h3, General.rightText]}>{this.showPrice()}</Text>
+                     </View>
+                  </View>
+
+                  <View style={{flex:1, flexDirection: 'column'}}>
+                     <Slider
+                        onValueChange={(value) => this.setState({maxPriceValue: value})}
+                        maximumValue={MAXPRICEVALUE}
+                        minimumValue={this.state.minPriceValue}
+                        value={this.state.maxPriceValue}
+                        step={1}
+                     />
+                  </View>
+               </View>
+            </View>
+
+            <View>
+               <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+               >
+
+                  {categoriesArray}
+
+               </ScrollView>
+            </View>
+
+            <View>
+               <View>
+                  <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>{getTranslation('resetFilter')}</Text>
+               </View>
+
+               <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
+                  <TouchableOpacity style={{padding: 2}} onPress={function(){this.sendParams()}.bind(this)}>
+                     <Text style={Buttons.buttonText}>{getTranslation('applyFilter')}</Text>
+                  </TouchableOpacity>
+               </View>
+            </View>
+         </ScrollView>
+      );
+   }
 
    render() {
+
+      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> : this._renderContent();
+
       return (
          <View style={General.container}>
             <View style={ComponentStyle.singleHeaderContainer}>
@@ -95,46 +200,7 @@ class FilterModal extends Component {
                </View>
             </View>
 
-            <ScrollView
-               style={EventStyle.fill}
-               scrollEventThrottle={20}
-            >
-               <View>
-                  <View style={{flex: 1,padding: 20}}>
-                     <View style={{flex: 1, flexDirection: 'row'}}>
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
-                        </View>
-
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                           <Text style={[General.h3, General.rightText]}>{this.showPrice()}</Text>
-                        </View>
-                     </View>
-
-                     <View style={{flex:1, flexDirection: 'column'}}>
-                        <Slider
-                           onValueChange={(value) => this.setState({maxPriceValue: value})}
-                           maximumValue={MAXPRICEVALUE}
-                           minimumValue={this.state.minPriceValue}
-                           value={this.state.maxPriceValue}
-                           step={1}
-                        />
-                     </View>
-                  </View>
-               </View>
-
-               <View>
-                  <View>
-                     <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>{getTranslation('resetFilter')}</Text>
-                  </View>
-
-                  <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
-                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.sendParams()}.bind(this)}>
-                        <Text style={Buttons.buttonText}>{getTranslation('applyFilter')}</Text>
-                     </TouchableOpacity>
-                  </View>
-               </View>
-            </ScrollView>
+            {currentView}
 
          </View>
       )
