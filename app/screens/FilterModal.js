@@ -141,7 +141,7 @@ class FilterModal extends Component {
                <View style={{flex: 1,padding: 20}}>
                   <View style={{flex: 1, flexDirection: 'row'}}>
                      <View style={{flex: 1, flexDirection: 'column'}}>
-                        <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
+                        <Text style={[General.p]}>{getTranslation('maxPrice')}</Text>
                      </View>
 
                      <View style={{flex: 1, flexDirection: 'column'}}>
@@ -163,11 +163,11 @@ class FilterModal extends Component {
             </View>
 
             <View>
-               <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
+               <Text style={[General.p, {paddingLeft: 20}]}>{getTranslation('selectCategories')}</Text>
                <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  style={{margin: 15}}
+                  style={{margin: 15, marginTop: 0}}
                >
 
                   {categoriesArray}

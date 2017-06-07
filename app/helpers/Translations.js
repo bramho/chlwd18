@@ -50,6 +50,7 @@ I18n.translations = {
       maxPrice: 'Maximum Price',
       resetFilter: 'Reset Filter',
       applyFilter: 'Apply Filter',
+      selectCategories: 'Select a Category',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -96,6 +97,7 @@ I18n.translations = {
       maxPrice: 'Maximale Prijs',
       resetFilter: 'Filter Herstellen',
       applyFilter: 'Filter Toepassen',
+      selectCategories: 'Selecteer een categorie',
    },
 }
 
