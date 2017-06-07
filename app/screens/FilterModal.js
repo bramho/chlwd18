@@ -182,9 +182,11 @@ class FilterModal extends Component {
          })
       }
 
-      var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
+      if (!this.state.isSliding) {
+         var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
 
-      var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
+         var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
+      }
 
       return (
          <ScrollView
@@ -209,7 +211,7 @@ class FilterModal extends Component {
                         maximumValue={MAXPRICEVALUE}
                         minimumValue={this.state.minPriceValue}
                         value={this.state.maxPriceValue}
-                        step={1}
+                        step={5}
                         onSlidingComplete={() => this.setState({isSliding: false})}
                      />
                   </View>
