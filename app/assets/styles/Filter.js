@@ -7,7 +7,9 @@ COLOR = require('./COLOR');
 
 export default FilterStyles = StyleSheet.create({
    filterItemContainer: {
-      margin: 10,
+      margin: 5,
+      width: 100,
+      height: 75,
    },
    innerFilterItem: {
       paddingTop: 5,
@@ -15,6 +17,22 @@ export default FilterStyles = StyleSheet.create({
       paddingBottom: 5,
       paddingLeft: 10,
       borderWidth: 1,
+      borderRadius: 3,
+   },
+   innerFilterBorderGray: {
       borderColor: COLOR.BLUEGRAY,
-   }
+   },
+   innerFilterBorderBlue: {
+      borderColor: COLOR.LIGHTBLUE,
+   },
+   itemText: {
+      fontSize: 12,
+      textAlign: 'center'
+   },
+   itemTextColorGray: {
+      color: COLOR.BLACK40,
+   },
+   itemTextColorBlue: {
+      color: COLOR.LIGHTBLUE,
+   },
 });

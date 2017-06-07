@@ -28,6 +28,7 @@ class FilterModal extends Component {
          currentCategoryId: props.categoryId,
          refIndex: '',
          testIndex: 4,
+         isSiding: false,
       }
    }
 
@@ -57,6 +58,7 @@ class FilterModal extends Component {
       this.setState({
          maxPriceValue: MAXPRICEVALUE,
          currentCategoryId: '',
+         isSliding: false,
       })
    }
 
@@ -107,14 +109,21 @@ class FilterModal extends Component {
     */
    _renderContent() {
 
-      if (this.state.hasCategories) {
-         console.log(this.state.currentCategoryId);
+
+      if (this.state.hasCategories && !this.state.isSliding) {
+
          categoriesArray = [];
          this.state.apiData.map((data, index) => {
+
+            var active = (this.state.currentCategoryId === this.state.apiData[index].id) ? true : false;
+
             categoriesArray.push(
-               <TouchableHighlight key={index} style={this.state.currentCategoryId === this.state.apiData[index].id ? [FilterStyles.filterItemContainer, {backgroundColor:'#00f'}] : [FilterStyles.filterItemContainer, {backgroundColor:'#ff0'}]} onPress={() => this.setCategory(this.state.apiData[index].id)}>
-                  <View style={FilterStyles.innerFilterItem}>
-                     <Text>{this.state.apiData[index].name}</Text>
+               <TouchableHighlight underlayColor='transparent' key={index} style={FilterStyles.filterItemContainer} onPress={() => this.setCategory(this.state.apiData[index].id)}>
+                  <View style={active ? [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderBlue] : [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderGray]}>
+                     <View style={{alignItems: 'center', paddingBottom: 10}}>
+                        <Icon name="search" size={30} color={active ? '#489adf' : '#b2b2b2'} />
+                     </View>
+                     <Text style={active ? [FilterStyles.itemText, FilterStyles.itemTextColorBlue] : [FilterStyles.itemText, FilterStyles.itemTextColorGray]}>{this.state.apiData[index].name}</Text>
                   </View>
                </TouchableHighlight>
             )
@@ -142,20 +151,23 @@ class FilterModal extends Component {
 
                   <View style={{flex:1, flexDirection: 'column'}}>
                      <Slider
-                        onValueChange={(value) => this.setState({maxPriceValue: value})}
+                        onValueChange={(value) => this.setState({maxPriceValue: value, isSliding: true})}
                         maximumValue={MAXPRICEVALUE}
                         minimumValue={this.state.minPriceValue}
                         value={this.state.maxPriceValue}
                         step={1}
+                        onSlidingComplete={() => this.setState({isSliding: false})}
                      />
                   </View>
                </View>
             </View>
 
             <View>
+               <Text style={[General.p, General.bold,]}>{getTranslation('maxPrice')}</Text>
                <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
+                  style={{margin: 15}}
                >
 
                   {categoriesArray}
