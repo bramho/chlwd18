@@ -19,6 +19,17 @@ export default FilterStyles = StyleSheet.create({
       borderWidth: 1,
       borderRadius: 3,
    },
+   innerFilterContainer: {
+      padding: 20,
+   },
+   innerFilterRow: {
+      flex: 1,
+      flexDirection: 'row'
+   },
+   innerFilterColumn: {
+      flex: 1,
+      flexDirection: 'column'
+   },
    innerFilterBorderGray: {
       borderColor: COLOR.BLUEGRAY,
    },
@@ -35,4 +46,17 @@ export default FilterStyles = StyleSheet.create({
    itemTextColorBlue: {
       color: COLOR.LIGHTBLUE,
    },
+   itemIconContainer: {
+      alignItems: 'center',
+      paddingBottom: 10
+   },
+   scollViewContainer: {
+      margin: 15,
+      marginTop: 0
+   },
+   resetText: {
+      textAlign: 'center',
+      color: 'rgba(56, 56, 56, 0.4)',
+      textDecorationLine: 'underline'
+   }
 });

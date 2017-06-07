@@ -7,6 +7,7 @@ import { getTranslation } from '../helpers/Translations';
 import { getStorageData, checkStorageKey } from '../helpers/Storage';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, FilterStyles, Buttons } from '../assets/styles/General';
+COLOR = require('../assets/styles/COLOR');
 
 const MAXPRICEVALUE = 230;
 
@@ -120,16 +121,14 @@ class FilterModal extends Component {
             categoriesArray.push(
                <TouchableHighlight underlayColor='transparent' key={index} style={FilterStyles.filterItemContainer} onPress={() => this.setCategory(this.state.apiData[index].id)}>
                   <View style={active ? [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderBlue] : [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderGray]}>
-                     <View style={{alignItems: 'center', paddingBottom: 10}}>
-                        <Icon name="search" size={30} color={active ? '#489adf' : '#b2b2b2'} />
+                     <View style={FilterStyles.itemIconContainer}>
+                        <Icon name="search" size={30} color={active ? COLOR.LIGHTBLUE : COLOR.GRAY} />
                      </View>
                      <Text style={active ? [FilterStyles.itemText, FilterStyles.itemTextColorBlue] : [FilterStyles.itemText, FilterStyles.itemTextColorGray]}>{this.state.apiData[index].name}</Text>
                   </View>
                </TouchableHighlight>
             )
          })
-
-         console.log(categoriesArray);
       }
 
       return (
@@ -138,18 +137,18 @@ class FilterModal extends Component {
             scrollEventThrottle={20}
          >
             <View>
-               <View style={{flex: 1,padding: 20}}>
-                  <View style={{flex: 1, flexDirection: 'row'}}>
-                     <View style={{flex: 1, flexDirection: 'column'}}>
+               <View style={[General.container, FilterStyles.innerFilterContainer]}>
+                  <View style={FilterStyles.innerFilterRow}>
+                     <View style={FilterStyles.innerFilterColumn}>
                         <Text style={[General.p]}>{getTranslation('maxPrice')}</Text>
                      </View>
 
-                     <View style={{flex: 1, flexDirection: 'column'}}>
+                     <View style={FilterStyles.innerFilterColumn}>
                         <Text style={[General.h3, General.rightText]}>{this.showPrice()}</Text>
                      </View>
                   </View>
 
-                  <View style={{flex:1, flexDirection: 'column'}}>
+                  <View style={FilterStyles.innerFilterColumn}>
                      <Slider
                         onValueChange={(value) => this.setState({maxPriceValue: value, isSliding: true})}
                         maximumValue={MAXPRICEVALUE}
@@ -167,7 +166,7 @@ class FilterModal extends Component {
                <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  style={{margin: 15, marginTop: 0}}
+                  style={FilterStyles.scollViewContainer}
                >
 
                   {categoriesArray}
@@ -177,7 +176,7 @@ class FilterModal extends Component {
 
             <View>
                <View>
-                  <Text style={{textAlign: 'center', color: 'rgba(56, 56, 56, 0.4)', textDecorationLine: 'underline'}} onPress={function(){this.resetFilter()}.bind(this)}>{getTranslation('resetFilter')}</Text>
+                  <Text style={FilterStyles.resetText} onPress={function(){this.resetFilter()}.bind(this)}>{getTranslation('resetFilter')}</Text>
                </View>
 
                <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
