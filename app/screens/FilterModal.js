@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+var moment = require('moment');
 
 import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
 import { getStorageData, checkStorageKey } from '../helpers/Storage';
+import { formatDate } from '../helpers/FormatDate';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, FilterStyles, Buttons } from '../assets/styles/General';
 COLOR = require('../assets/styles/COLOR');
@@ -16,7 +18,18 @@ const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
 var categoryList = '';
 var categoriesArray = [];
 
+var date = new Date();
+var year = date.getFullYear();
+var month = date.getMonth();
+var day = date.getDate();
+var untilDate = new Date(year + 2, month, day);
+
 class FilterModal extends Component {
+
+   static defaultProps = {
+      date: date,
+      untilDate: untilDate,
+   }
 
    constructor(props) {
       super(props)
@@ -30,6 +43,10 @@ class FilterModal extends Component {
          refIndex: '',
          testIndex: 4,
          isSiding: false,
+         date: this.props.date,
+         untilDate: this.props.untilDate,
+         showDatePicker: false,
+         showUntilDatePicker: false,
       }
    }
 
@@ -40,13 +57,45 @@ class FilterModal extends Component {
    }
 
    /**
+    * Sets date state to selected date
+    * @param  {date}    Selected date
+    */
+   onDateChange = (date) => {
+      this.setState({date: date});
+   };
+
+   /**
+    * Sets untilDate state to selected date
+    * @param  {date}    Selected date
+    */
+   onUntilDateChange = (date) => {
+      this.setState({untilDate: date});
+   };
+
+   toggleFromDate() {
+      if (this.state.showDatePicker) {
+         this.setState({showDatePicker: false})
+      } else {
+         this.setState({showUntilDatePicker: false, showDatePicker: true})
+      }
+   }
+
+   toggleUntilDate() {
+      if (this.state.showUntilDatePicker) {
+         this.setState({showUntilDatePicker: false})
+      } else {
+         this.setState({showDatePicker: false, showUntilDatePicker: true})
+      }
+   }
+
+   /**
     * Goes one scene back and send new props with it
     */
    sendParams() {
       Actions.pop({refresh: {
          sort: 'date',
-         from: '',
-         until: '',
+         from: this.state.date,
+         until: this.state.untilDate,
          maxPrice: this.state.maxPriceValue,
          categoryId: this.state.currentCategoryId
       }})
@@ -60,6 +109,8 @@ class FilterModal extends Component {
          maxPriceValue: MAXPRICEVALUE,
          currentCategoryId: '',
          isSliding: false,
+         date: date,
+         untilDate: untilDate
       })
    }
 
@@ -131,9 +182,13 @@ class FilterModal extends Component {
          })
       }
 
+      var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} /> : <View></View>
+
+      var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
+
       return (
          <ScrollView
-            style={EventStyle.fill}
+            style={[EventStyle.fill, {marginBottom: 70}]}
             scrollEventThrottle={20}
          >
             <View>
@@ -162,7 +217,7 @@ class FilterModal extends Component {
             </View>
 
             <View>
-               <Text style={[General.p, {paddingLeft: 20}]}>{getTranslation('selectCategories')}</Text>
+               <Text style={[General.p, {paddingLeft: 20, marginBottom: 0}]}>{getTranslation('selectCategories')}</Text>
                <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
@@ -172,6 +227,41 @@ class FilterModal extends Component {
                   {categoriesArray}
 
                </ScrollView>
+            </View>
+
+            <View style={{padding: 20}}>
+               <Text style={[General.p, {marginBottom: 0}]}>Van</Text>
+               <View style={[FilterStyles.innerFilterRow]}>
+                  <TouchableOpacity onPress={() => this.toggleFromDate()} style={FilterStyles.innerFilterColumn}>
+                     <View style={{flexDirection: 'row', flex: 1, marginRight: 5, borderWidth: 1, borderColor: COLOR.BLUEGRAY, borderRadius: 5,}}>
+                        <View style={{padding: 10, flex: 4, flexDirection: 'column'}}>
+                           <Text style={{textAlign: 'center'}}>{formatDate(this.state.date,'filterModal')}</Text>
+                        </View>
+                        <View style={{padding: 10, flex: 1, flexDirection: 'column', borderLeftWidth: 1, borderColor: COLOR.BLUEGRAY}}>
+                           <Text style={{textAlign: 'center', color: COLOR.LIGHTBLUE}}>^</Text>
+                        </View>
+                     </View>
+                  </TouchableOpacity>
+
+               </View>
+
+               <Text style={[General.p, {marginBottom: 0, marginTop: 10}]}>Tot</Text>
+               <View style={[FilterStyles.innerFilterRow]}>
+                  <TouchableOpacity onPress={() => this.toggleUntilDate()} style={FilterStyles.innerFilterColumn}>
+                     <View style={{flexDirection: 'row', flex: 1, marginRight: 5, borderWidth: 1, borderColor: COLOR.BLUEGRAY, borderRadius: 5,}}>
+                        <View style={{padding: 10, flex: 4, flexDirection: 'column'}}>
+                           <Text style={{textAlign: 'center'}}>{formatDate(this.state.untilDate,'filterModal')}</Text>
+                        </View>
+                        <View style={{padding: 10, flex: 1, flexDirection: 'column', borderLeftWidth: 1, borderColor: COLOR.BLUEGRAY}}>
+                           <Text style={{textAlign: 'center', color: COLOR.LIGHTBLUE}}>^</Text>
+                        </View>
+                     </View>
+                  </TouchableOpacity>
+               </View>
+
+               <View>
+                  {showDatePicker}{showUntilDatePicker}
+               </View>
             </View>
 
             <View>

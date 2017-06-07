@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+var moment = require('moment');
+
 import Icon from '../helpers/Icons';
 
 import { statusBar } from '../helpers/StatusBar';
@@ -72,7 +74,13 @@ export default class EventsList extends Component {
    }
 
    componentWillReceiveProps(props) {
-      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+props.from+"&until="+props.until+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+
+      var fromDateFormat = moment(props.from).toISOString();
+      var untilDateFormat = moment(props.until).toISOString();
+
+      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+
+      console.log(newApiLink);
 
       this.setState({
          maxPriceValue: props.maxPrice,
