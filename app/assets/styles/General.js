@@ -11,6 +11,7 @@ import EventStyle from "./EventItem";
 import NewsStyle from "./NewsItem";
 import Tags from "./Tags";
 import Buttons from "./Buttons";
+import FilterStyles from './Filter';
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -110,4 +111,4 @@ const General = StyleSheet.create({
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, Buttons };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons };
