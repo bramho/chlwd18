@@ -27,6 +27,7 @@ var params = {
    maxPrice:'',
 }
 
+
 const MAXPRICEVALUE = 230;
 
 const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
@@ -230,7 +231,6 @@ export default class EventsList extends Component {
     */
    onEndReached() {
       if (!this.state.waiting) {
-
 
       }
    }
