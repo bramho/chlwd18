@@ -182,7 +182,7 @@ class FilterModal extends Component {
          })
       }
 
-      var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} /> : <View></View>
+      var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
 
       var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
 

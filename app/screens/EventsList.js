@@ -85,6 +85,8 @@ export default class EventsList extends Component {
       this.setState({
          maxPriceValue: props.maxPrice,
          categoryId: props.categoryId,
+         fromDate: fromDateFormat,
+         untilDate: untilDateFormat,
       });
 
       this.getEventData(newApiLink, 'eventList', true);
@@ -326,7 +328,7 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId})}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={25} color="#F02C32" />
                   </View>
