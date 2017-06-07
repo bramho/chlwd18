@@ -94,6 +94,9 @@ const General = StyleSheet.create({
    redText: {
       color: COLOR.RED
    },
+   centerText: {
+      textAlign: 'center',
+   },
    rightText: {
       textAlign: 'right'
    },

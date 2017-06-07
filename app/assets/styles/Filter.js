@@ -58,5 +58,29 @@ export default FilterStyles = StyleSheet.create({
       textAlign: 'center',
       color: 'rgba(56, 56, 56, 0.4)',
       textDecorationLine: 'underline'
-   }
+   },
+   selectDateButton: {
+      flexDirection: 'row',
+      flex: 1,
+      marginRight: 5,
+      borderWidth: 1,
+      borderColor: COLOR.BLUEGRAY,
+      borderRadius: 5,
+   },
+   selectButtonLeftSide: {
+      padding: 10,
+      flex: 4,
+      flexDirection: 'column',
+   },
+   selectButtonRightSide: {
+      padding: 10,
+      flex: 1,
+      flexDirection: 'column',
+      borderLeftWidth: 1,
+      borderColor: COLOR.BLUEGRAY,
+   },
+   selectButtonIcon: {
+      textAlign: 'center',
+      color: COLOR.LIGHTBLUE,
+   },
 });
