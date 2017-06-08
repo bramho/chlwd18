@@ -3,7 +3,7 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, To
 import { Scene, Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
-import LoadingIcon from './LoadingIcon';
+import LoadingIcon from '../components/LoadingIcon';
 
 import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
