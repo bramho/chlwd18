@@ -18,6 +18,7 @@ module.exports = {
    BLACK40:    'rgba(0, 0, 0, 0.40)',
    BLACK78:    'rgba(0, 0, 0, 0.78)',
    GRAY:       '#b2b2b2',
+   BLUEGRAY:   'rgb(219, 227, 238)',
    PALEGRAY:   '#f6f9f9',
    DARKWHITE:  'rgb(246, 249, 249)',
    WHITE50:    'rgba(255, 255, 255, 0.5)',
