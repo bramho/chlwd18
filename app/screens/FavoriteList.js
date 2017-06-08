@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-import Icon from '../helpers/Icons';
 
+import LoadingIcon from '../components/LoadingIcon';
+
+import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
@@ -230,7 +232,7 @@ export default class FavoriteList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={[ListViewStyle.container, ListViewStyle.favoritesContainer]}
          dataSource={this.state.dataSource}

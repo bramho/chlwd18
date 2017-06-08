@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions, WebView} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
+import LoadingIcon from '../components/LoadingIcon';
+
 import { statusBar } from '../helpers/StatusBar';
 import Icon from '../helpers/Icons';
-
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
@@ -23,10 +25,6 @@ const imgLink = "https://www.vanplan.nl/contentfiles/";
 var favorite;
 var rowRefs;
 var savedEventsIds;
-
-var test =  <View style={ComponentStyle.shareIconContainer}>
-               <Text style={ComponentStyle.shareIcon}>F</Text>
-            </View>;
 
 /**
  * New initialisation of the EventItem datasource object
@@ -320,7 +318,7 @@ export default class EventItem extends Component {
     */
    render() {
 
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :this._renderContent();
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :this._renderContent();
 
       return (
          <View style={General.container}>
