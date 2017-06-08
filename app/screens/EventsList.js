@@ -3,8 +3,9 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, To
 import { Scene, Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
-import Icon from '../helpers/Icons';
+import LoadingIcon from './LoadingIcon';
 
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -305,7 +306,7 @@ export default class EventsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon/> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
