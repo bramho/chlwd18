@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS, Platform} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
@@ -183,9 +183,17 @@ class FilterModal extends Component {
       }
 
       if (!this.state.isSliding) {
-         var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
+         if (Platform.OS === 'ios') {
 
-         var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
+            var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
+
+            var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
+
+         } else if (Platform.OS === 'android') {
+
+            // Code for Android here
+
+         }
       }
 
       return (
@@ -235,34 +243,38 @@ class FilterModal extends Component {
                <Text style={[General.p, {marginBottom: 0}]}>Van</Text>
                <View style={[FilterStyles.innerFilterRow]}>
                   <TouchableOpacity onPress={() => this.toggleFromDate()} style={FilterStyles.innerFilterColumn}>
-                     <View style={{flexDirection: 'row', flex: 1, marginRight: 5, borderWidth: 1, borderColor: COLOR.BLUEGRAY, borderRadius: 5,}}>
-                        <View style={{padding: 10, flex: 4, flexDirection: 'column'}}>
-                           <Text style={{textAlign: 'center'}}>{formatDate(this.state.date,'filterModal')}</Text>
+                     <View style={FilterStyles.selectDateButton}>
+                        <View style={FilterStyles.selectButtonLeftSide}>
+                           <Text style={General.centerText}>{formatDate(this.state.date,'filterModal')}</Text>
                         </View>
-                        <View style={{padding: 10, flex: 1, flexDirection: 'column', borderLeftWidth: 1, borderColor: COLOR.BLUEGRAY}}>
-                           <Text style={{textAlign: 'center', color: COLOR.LIGHTBLUE}}>^</Text>
+                        <View style={FilterStyles.selectButtonRightSide}>
+                           <Text style={FilterStyles.selectButtonIcon}>^</Text>
                         </View>
                      </View>
                   </TouchableOpacity>
 
                </View>
 
+               <View>
+                  {showDatePicker}
+               </View>
+
                <Text style={[General.p, {marginBottom: 0, marginTop: 10}]}>Tot</Text>
                <View style={[FilterStyles.innerFilterRow]}>
                   <TouchableOpacity onPress={() => this.toggleUntilDate()} style={FilterStyles.innerFilterColumn}>
-                     <View style={{flexDirection: 'row', flex: 1, marginRight: 5, borderWidth: 1, borderColor: COLOR.BLUEGRAY, borderRadius: 5,}}>
-                        <View style={{padding: 10, flex: 4, flexDirection: 'column'}}>
-                           <Text style={{textAlign: 'center'}}>{formatDate(this.state.untilDate,'filterModal')}</Text>
+                     <View style={FilterStyles.selectDateButton}>
+                        <View style={FilterStyles.selectButtonLeftSide}>
+                           <Text style={General.centerText}>{formatDate(this.state.untilDate,'filterModal')}</Text>
                         </View>
-                        <View style={{padding: 10, flex: 1, flexDirection: 'column', borderLeftWidth: 1, borderColor: COLOR.BLUEGRAY}}>
-                           <Text style={{textAlign: 'center', color: COLOR.LIGHTBLUE}}>^</Text>
+                        <View style={FilterStyles.selectButtonRightSide}>
+                           <Text style={FilterStyles.selectButtonIcon}>^</Text>
                         </View>
                      </View>
                   </TouchableOpacity>
                </View>
 
                <View>
-                  {showDatePicker}{showUntilDatePicker}
+                  {showUntilDatePicker}
                </View>
             </View>
 

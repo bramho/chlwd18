@@ -31,7 +31,7 @@ export default MenuStyle = StyleSheet.create({
    },
    menuItemText: {
       fontSize: 11,
-      fontFamily: 'Muli-Regular'
+      fontFamily: 'Muli-Regular',
    },
    tabbarItemContainer: {
       alignItems: 'center',

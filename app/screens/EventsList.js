@@ -3,8 +3,9 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, To
 import { Scene, Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
-import Icon from '../helpers/Icons';
+import LoadingIcon from '../components/LoadingIcon';
 
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -83,10 +84,11 @@ export default class EventsList extends Component {
       console.log(newApiLink);
 
       this.setState({
+         isLoading: true,
          maxPriceValue: props.maxPrice,
          categoryId: props.categoryId,
-         fromDate: fromDateFormat,
-         untilDate: untilDateFormat,
+         fromDate: props.from,
+         untilDate: props.until,
       });
 
       this.getEventData(newApiLink, 'eventList', true);
@@ -152,6 +154,10 @@ export default class EventsList extends Component {
 
             if (!isFilter) {
                setStorageData(storageKey, listData);
+
+               if (this.state.refreshing) {
+                  this.setState({refreshing: false})
+               }
             }
 
 
@@ -219,9 +225,7 @@ export default class EventsList extends Component {
    _onRefresh() {
       this.setState({refreshing: true});
 
-      this.fetchData().then(() => {
-         this.setState({refreshing: false})
-      });
+      this.getEventData(apiLink, 'eventList', false);
 
    }
 
@@ -302,7 +306,7 @@ export default class EventsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon/> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
