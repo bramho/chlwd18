@@ -85,8 +85,8 @@ export default class EventsList extends Component {
       this.setState({
          maxPriceValue: props.maxPrice,
          categoryId: props.categoryId,
-         fromDate: fromDateFormat,
-         untilDate: untilDateFormat,
+         fromDate: props.from,
+         untilDate: props.until,
       });
 
       this.getEventData(newApiLink, 'eventList', true);

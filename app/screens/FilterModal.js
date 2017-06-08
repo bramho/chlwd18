@@ -247,6 +247,10 @@ class FilterModal extends Component {
 
                </View>
 
+               <View>
+                  {showDatePicker}
+               </View>
+
                <Text style={[General.p, {marginBottom: 0, marginTop: 10}]}>Tot</Text>
                <View style={[FilterStyles.innerFilterRow]}>
                   <TouchableOpacity onPress={() => this.toggleUntilDate()} style={FilterStyles.innerFilterColumn}>
@@ -262,7 +266,7 @@ class FilterModal extends Component {
                </View>
 
                <View>
-                  {showDatePicker}{showUntilDatePicker}
+                  {showUntilDatePicker}
                </View>
             </View>
 
