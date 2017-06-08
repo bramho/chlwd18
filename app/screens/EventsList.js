@@ -83,6 +83,7 @@ export default class EventsList extends Component {
       console.log(newApiLink);
 
       this.setState({
+         isLoading: true,
          maxPriceValue: props.maxPrice,
          categoryId: props.categoryId,
          fromDate: props.from,
