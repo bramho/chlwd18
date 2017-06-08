@@ -152,6 +152,10 @@ export default class EventsList extends Component {
 
             if (!isFilter) {
                setStorageData(storageKey, listData);
+
+               if (this.state.refreshing) {
+                  this.setState({refreshing: false})
+               }
             }
 
 
@@ -219,9 +223,7 @@ export default class EventsList extends Component {
    _onRefresh() {
       this.setState({refreshing: true});
 
-      this.fetchData().then(() => {
-         this.setState({refreshing: false})
-      });
+      this.getEventData(apiLink, 'eventList', false);
 
    }
 
