@@ -6,6 +6,7 @@ COLOR = require('../assets/styles/COLOR');
 import { ComponentStyle } from '../assets/styles/General';
 
 export default class LoadingIcon extends Component {
+
    constructor(props) {
       super(props);
 
