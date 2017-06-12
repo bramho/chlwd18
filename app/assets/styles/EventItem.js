@@ -35,7 +35,7 @@ export default EventItem = StyleSheet.create({
       left: 0,
       right: 0,
       overflow: 'hidden',
-      backgroundColor:COLOR.RED,
+      backgroundColor:COLOR.HEADERGRAY,
    },
    headerContent : {
       padding:20,
@@ -96,22 +96,28 @@ export default EventItem = StyleSheet.create({
    title: {
       marginBottom: 3
    },
-   bottomHeaderPrice: {
+   bottomHeaderContent: {
       position: 'absolute',
       bottom: 0,
       paddingLeft: 20,
       paddingRight: 20,
       paddingBottom: 10,
    },
-   price: {
-      paddingTop: 5,
-      paddingBottom: 5,
-      paddingLeft: 10,
-      paddingRight: 10,
-      borderWidth: 1,
-      borderColor: COLOR.WHITE,
+   priceContainer: {
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+   },
+   innerPriceContainer: {
+      backgroundColor: COLOR.BLUE,
       borderRadius: 5,
-      textAlign: 'right'
+   },
+   price: {
+      paddingTop: 7,
+      paddingBottom: 7,
+      paddingLeft: 12,
+      paddingRight: 12,
+      fontSize: 14,
+      fontWeight: 'bold',
    },
    bottomHeaderTicket: {
       position: 'absolute',
@@ -141,6 +147,23 @@ export default EventItem = StyleSheet.create({
       color: COLOR.WHITE,
       textAlign: 'center',
    },
+   favoriteButtonHolder: {
+      width: 50,
+      height: 50,
+      backgroundColor: COLOR.WHITE,
+      position: 'absolute',
+      top: -25,
+      right: 15,
+      borderRadius: 25,
+      zIndex: 999,
+      shadowColor: COLOR.BLACK,
+      shadowOffset: {
+         width: 1,
+         height: 1,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 10,
+   },
    favoriteButtonContainer: {
       position: 'absolute',
       top: 68,
@@ -149,5 +172,27 @@ export default EventItem = StyleSheet.create({
    favoriteButton: {
       backgroundColor: 'transparent',
       color: COLOR.WHITE,
+   },
+   carouselContainer: {
+      minHeight: 200,
+      alignItems: 'center',
+   },
+   barHolder: {
+      position: 'absolute',
+      zIndex: 2,
+      top: 30,
+      flexDirection: 'row',
+   },
+   barContainer: {
+      backgroundColor: '#ccc',
+      overflow: 'hidden',
+      height: 3,
+   },
+   barOverlay: {
+      backgroundColor: COLOR.RED,
+      height: 3,
+      position: 'absolute',
+      left: 0,
+      top: 0,
    },
 });

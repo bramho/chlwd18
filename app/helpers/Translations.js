@@ -51,6 +51,7 @@ I18n.translations = {
       resetFilter: 'Reset Filter',
       applyFilter: 'Apply Filter',
       selectCategories: 'Select a Category',
+      whereItIs: 'What is the location?',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -98,6 +99,7 @@ I18n.translations = {
       resetFilter: 'Filter Herstellen',
       applyFilter: 'Filter Toepassen',
       selectCategories: 'Selecteer een categorie',
+      whereItIs: 'Waar is het?',
    },
 }
 

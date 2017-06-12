@@ -3,8 +3,9 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, To
 import { Scene, Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
-import Icon from '../helpers/Icons';
+import LoadingIcon from '../components/LoadingIcon';
 
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -12,6 +13,7 @@ import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
+var COLOR = require('../assets/styles/COLOR.js');
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
@@ -83,6 +85,7 @@ export default class EventsList extends Component {
       console.log(newApiLink);
 
       this.setState({
+         isLoading: true,
          maxPriceValue: props.maxPrice,
          categoryId: props.categoryId,
          fromDate: props.from,
@@ -138,6 +141,11 @@ export default class EventsList extends Component {
     * @return {JSON}                List of events
     */
    getEventData(apiLink, storageKey, isFilter) {
+
+      if (this.state.isLoading === false) {
+         this.setState({isLoading: true});
+      }
+
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
@@ -152,6 +160,10 @@ export default class EventsList extends Component {
 
             if (!isFilter) {
                setStorageData(storageKey, listData);
+
+               if (this.state.refreshing) {
+                  this.setState({refreshing: false})
+               }
             }
 
 
@@ -222,6 +234,8 @@ export default class EventsList extends Component {
       this.fetchData().then(() => {
          this.setState({refreshing: false})
       });
+
+      this.getEventData(apiLink, 'eventList', false);
 
    }
 
@@ -302,7 +316,7 @@ export default class EventsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
@@ -323,14 +337,18 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.filterIconContainer}>
+
+               </View>
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={General.h4}>
+                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={25} color="#F02C32" />
+                     <Icon name="search" size={25} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
             </View>

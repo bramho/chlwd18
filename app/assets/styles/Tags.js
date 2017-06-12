@@ -13,19 +13,19 @@ export default Tags = StyleSheet.create({
    categoryItemContainer: {
       marginRight: 10,
       padding: 3,
-      paddingLeft: 8,
-      paddingRight: 8,
-      borderRadius: 5,
+      paddingLeft: 15,
+      paddingRight: 15,
+      borderRadius: 10,
    },
    categoryItem: {
       fontSize: 12,
-      color: COLOR.WHITE,
+      color: COLOR.BLACK,
       fontFamily: 'Muli-Regular',
    },
    dance: {
       backgroundColor: 'rgb(77, 76, 193)',
    },
    culture: {
-      backgroundColor: 'rgb(161, 50, 145)',
+      backgroundColor: COLOR.WHITE,
    },
 });

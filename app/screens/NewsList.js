@@ -3,6 +3,8 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, As
 import { Scene, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import LoadingIcon from '../components/LoadingIcon';
+
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
@@ -10,6 +12,7 @@ import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, removeItemFromStorage,getStorageData, checkStorageKey } from '../helpers/Storage';
 import { statusBar } from '../helpers/StatusBar';
 
+var COLOR = require('../assets/styles/COLOR');
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
@@ -162,7 +165,7 @@ export default class NewsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
@@ -176,14 +179,18 @@ export default class NewsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.filterIconContainer}>
+
+               </View>
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={General.h4}>
+                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('newsMenuItem')}
                   </Text>
                </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={18} color="#F02C32" />
+                     <Icon name="search" size={18} color={COLOR.WHITE} />
                   </View>
                </View>
             </View>
