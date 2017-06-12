@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, TouchableOpacity, Dimensions, Animated} from 'react-native';
+import { StyleSheet, Text, Image, View, ScrollView, TouchableOpacity, Dimensions, Animated} from 'react-native';
 import { Scene,Actions } from 'react-native-router-flux';
 import MapView from 'react-native-maps';
 
@@ -56,8 +56,6 @@ export default class Maps extends Component {
          activeEvent:null,
          slideAnim: new Animated.Value(.5*width),
       };
-
-
    }
    componentDidMount() {
       this.fetchData();
@@ -68,25 +66,42 @@ export default class Maps extends Component {
        .then((data) => {
           listData = data.results;
           var markers = [];
-
+          var locations = [];
           for (var i = 0; i < listData.length; i++) {
-            var marker = {
-              id: listData[i].id,
-              key: i,
-              coordinate: {
-                  latitude: listData[i].latitude,
-                  longitude: listData[i].longitude,
+             var keyInArray = locations.indexOf(listData[i].locationId);
 
-              },
-              title:listData[i].title
+             var eventRow = {
+                id:listData[i].id,
+                title:listData[i].title,
+                subTitle:listData[i].subtitle,
+                thumb:listData[i].image_uri,
+                tags:listData[i].categories
+             }
+            if (keyInArray == -1) {
+               var marker = {
+                 id: listData[i].locationId,
+                 key: i,
+                 coordinate: {
+                     latitude: listData[i].latitude,
+                     longitude: listData[i].longitude,
+
+                 },
+                 title:listData[i].location,
+                 events: [eventRow]
+               }
+               locations.push(listData[i].locationId);
+               markers.push(marker);
+
+            } else {
+               markers[keyInArray].events.push(eventRow);
             }
-            markers.push(marker);
+            console.log(markers);
           }
           this.setState({
               rawData: data.results,
               markers:markers
           });
-          console.log(this.state.markers);
+          console.log(this.state.rawData);
        })
        .catch((error) => {
           console.log(error)
@@ -113,10 +128,10 @@ export default class Maps extends Component {
    * @param  {number} id  id of the event
    * @param  {key} key in the array of the JSON object
    */
-  onMarkerPress(e,id,key) {
-     console.log(e);
+  onMarkerPress(e,key,events) {
+     console.log(events);
      //Sets the active event
-      this.state.activeEvent = { id: id, key:key};
+      this.state.activeEvent = { events: events, key:key};
       /**
        * Animate the show animation of the overlay.
        */
@@ -128,8 +143,7 @@ export default class Maps extends Component {
             useNativeDriver: true,        // Make it take a while
          }
       ).start();
-      //this.setState({ id: id, key:key});
-
+      this.forceUpdate()
      console.log(this.state.activeEvent);
   }
   /**
@@ -157,24 +171,33 @@ export default class Maps extends Component {
 
   _eventDetails() {
      if(this.state.activeEvent) {
-        var eventKey = this.state.activeEvent;
-        var eventData = this.state.rawData;
+       // var eventKey = this.state.activeEvent;
+       // var eventData = this.state.activeEvent.events;
         return (
+           <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            style={MapsStyle.buttonScrollview}
+         >
+            {this.state.activeEvent.events.map((eventData,index) => (
+             <TouchableOpacity
+               onPress={(e)=>this.onItemPress(eventData.id)}
+               key={index}
+               style={[MapsStyle.button,this.state.activeEvent.events.length > 0 ? MapsStyle.buttonMultiple : '']}
+             >
+             <View style={MapsStyle.buttonContent}>
 
-          <TouchableOpacity
-            onPress={(e)=>this.onItemPress(eventKey.id)}
-            style={MapsStyle.button}
-          >
-          <View style={MapsStyle.buttonContent}>
+            <Image source={{ uri: imgLink+eventData.thumb}} style={MapsStyle.buttonPhoto} />
 
-          <Image source={{ uri: imgLink+eventData[eventKey.key].image_uri}} style={MapsStyle.buttonPhoto} />
-
-            <View style={MapsStyle.overlay}/>
-            <Text style={[General.h3,MapsStyle.buttonText]}>
-               {eventData[eventKey.key].title}
-            </Text>
-          </View>
-          </TouchableOpacity>
+               <View style={MapsStyle.overlay}/>
+               <Text style={[General.h3,MapsStyle.buttonText]}>
+                  {eventData.title}
+               </Text>
+             </View>
+             </TouchableOpacity>
+             ))}
+          </ScrollView>
 
        )
     }
@@ -201,7 +224,7 @@ export default class Maps extends Component {
                   key={marker.key}
                   coordinate={marker.coordinate}
                   image={marker.key === activeEvent.key ? PointerActive : Pointer}
-                  onPress={(e)=>this.onMarkerPress(e.nativeEvent,marker.id, marker.key)}
+                  onPress={(e)=>this.onMarkerPress(e.nativeEvent,marker.key,marker.events)}
                   />
                ))}
 

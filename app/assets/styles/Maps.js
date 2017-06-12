@@ -27,7 +27,10 @@ export default Maps = StyleSheet.create({
      marginHorizontal: 10,
      overflow:'hidden',
      position: 'relative',
-     top:-80,
+     top:-60,
+   },
+   buttonMultiple: {
+       width: 1*vw-40,
    },
    buttonContent: {
       position: 'relative',
@@ -45,6 +48,10 @@ export default Maps = StyleSheet.create({
      backgroundColor: 'transparent',
      position: 'relative',
      zIndex: 999,
+     overflow:'hidden',
+   },
+   buttonScrollview: {
+      maxHeight:.5*vw+20,
    },
    buttonPhoto: {
       ...StyleSheet.absoluteFillObject,
