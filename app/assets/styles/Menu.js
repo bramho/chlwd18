@@ -6,8 +6,9 @@ COLOR = require('./COLOR');
 
 export default MenuStyle = StyleSheet.create({
    basicMenuStyles: {
-      height: 60,
+      height: 50,
       borderTopWidth: 1,
+      borderColor: COLOR.LIGHTBLUE,
       backgroundColor: COLOR.WHITE,
    },
    sceneContainer: {

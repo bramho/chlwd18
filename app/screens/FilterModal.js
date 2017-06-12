@@ -184,15 +184,11 @@ class FilterModal extends Component {
 
       if (!this.state.isSliding) {
          if (Platform.OS === 'ios') {
-
             var showDatePicker = this.state.showDatePicker ? <DatePickerIOS date={this.state.date} mode="date" onDateChange={this.onDateChange} minimumDate={this.state.date} maximumDate={this.state.untilDate} /> : <View></View>
 
             var showUntilDatePicker = this.state.showUntilDatePicker ? <DatePickerIOS date={this.state.untilDate} mode="date" onDateChange={this.onUntilDateChange} minimumDate={this.state.date} /> : <View></View>
-
          } else if (Platform.OS === 'android') {
-
-            // Code for Android here
-
+            // CODE FOR ANDROID HERE
          }
       }
 

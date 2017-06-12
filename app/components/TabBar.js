@@ -8,8 +8,7 @@ COLOR = require('../assets/styles/COLOR');
 const TabItem = ({ selected, title }) => {
    return (
       <View style={MenuStyle.tabbarItemContainer}>
-         <Icon name={selected ? 'events-fill' : 'events'} size={20} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
-         <Text style={[MenuStyle.menuItemText ,{color: selected ? COLOR.RED : '#b2b2b2'}]}>{title}</Text>
+         <Icon name={selected ? 'events-fill' : 'events'} size={25} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
       </View>
    );
 }
@@ -17,8 +16,7 @@ const TabItem = ({ selected, title }) => {
 export const TabItemNews = ({ selected, title }) => {
    return (
       <View style={MenuStyle.tabbarItemContainer}>
-         <Icon name={selected ? 'news-fill' : 'news'} size={20} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
-         <Text style={[MenuStyle.menuItemText ,{color: selected ? COLOR.RED : '#b2b2b2'}]}>{title}</Text>
+         <Icon name={selected ? 'news-fill' : 'news'} size={25} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
       </View>
    );
 }
@@ -26,8 +24,7 @@ export const TabItemNews = ({ selected, title }) => {
 export const TabItemFav = ({ selected, title }) => {
    return (
       <View style={MenuStyle.tabbarItemContainer}>
-         <Icon name={selected ? 'heart-fill' : 'heart'} size={20} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
-         <Text style={[MenuStyle.menuItemText ,{color: selected ? COLOR.RED : '#b2b2b2'}]}>{title}</Text>
+         <Icon name={selected ? 'heart-fill' : 'heart'} size={25} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
       </View>
    );
 }
