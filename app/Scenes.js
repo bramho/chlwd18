@@ -15,6 +15,7 @@ import EventItem from './screens/EventItem';
 import NewsList from './screens/NewsList';
 import NewsItem from './screens/NewsItem';
 import FavoriteList from './screens/FavoriteList';
+import Maps from './screens/Maps';
 
 import WebModal from './screens/WebModal';
 import FilterModal from './screens/FilterModal';
@@ -31,7 +32,7 @@ const scenes = Actions.create(
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
-                 initial
+
                  searchText
                  component={NewsList}
                  icon={TabItemNews}
@@ -52,10 +53,10 @@ const scenes = Actions.create(
                />
             </Scene>
 
-            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem} initial>
+            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
                  key="events"
-                 initial
+
                  searchText
                  component={EventsList}
                  icon={TabItem}
@@ -105,6 +106,30 @@ const scenes = Actions.create(
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.backButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 hideNavBar
+               />
+            </Scene>
+            <Scene key="mapsTab" title={getTranslation('mapsMenuItem')} icon={TabItemFav} initial>
+               <Scene
+                   initial
+                 key="maps"
+                 component={Maps}
+                 title={getTranslation('favoritesMenuItem')}
+                 icon={TabItemFav}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar
+               />
+               <Scene
+                 key="eventItemMaps"
+                 component={EventItem}
+                 sceneStyle={MenuStyle.container}
+                 hideNavBar = {false}
+                 navigationBarStyle={MenuStyle.transparentNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 onBack={()=>{statusBar(),Actions.pop()}}
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}

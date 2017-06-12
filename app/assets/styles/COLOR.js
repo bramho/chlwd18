@@ -15,6 +15,7 @@ module.exports = {
    DARKPURPLE: '#170630',
    DARKGRAY:   '#4c5358',
    GRAYBROWN:  'rgb(79, 79, 79)',
+    BLACK20:    'rgba(0, 0, 0, 0.20)',
    BLACK40:    'rgba(0, 0, 0, 0.40)',
    BLACK78:    'rgba(0, 0, 0, 0.78)',
    HEADERBLACK:'rgba(11, 11, 15, 0.8)',
