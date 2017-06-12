@@ -42,6 +42,10 @@ export function formatDate(date, view) {
             format = 'MMM'
          break;
 
+         case 'filterModal':
+            format = 'DD MMMM YYYY'
+         break;
+
          default:
             //format = { weekday: 'long', hour: 'numeric',minute:'numeric', month: 'long', day: 'numeric' };
             format = 'D MMMM HH:mm'

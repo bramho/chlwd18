@@ -10,9 +10,9 @@ export default Buttons = StyleSheet.create({
       alignSelf: 'center',
       width: 220,
       marginTop: 30,
-      paddingTop: 15,
-      paddingBottom: 15,
-      borderRadius: 30,
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 10,
    },
    buttonText: {
       color: COLOR.WHITE,

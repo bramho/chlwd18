@@ -86,7 +86,12 @@ I18n.translations = {
       buyTickets: 'Bestel tickets',
       usefulLinks: 'Handige links',
       shareText: 'Delen',
-      mapsMenuItem: 'Kaart'
+      mapsMenuItem: 'Kaart',
+      searchFilter: 'Zoeken / Filteren',
+      maxPrice: 'Maximale Prijs',
+      resetFilter: 'Filter Herstellen',
+      applyFilter: 'Filter Toepassen',
+      selectCategories: 'Selecteer een categorie',
    },
 }
 

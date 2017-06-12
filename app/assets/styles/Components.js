@@ -124,5 +124,10 @@ export default ComponentStyle = StyleSheet.create({
    tabelCellThree: {
       flex: 3,
    },
+   loadingIconContainer: {
+      flex:1,
+      alignItems: 'center',
+      marginTop: 30,
+   },
 
 });
