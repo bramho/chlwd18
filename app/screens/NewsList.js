@@ -42,7 +42,6 @@ export default class NewsList extends Component {
          myKey: ''
       };
 
-
    }
 
    componentDidMount() {
