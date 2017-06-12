@@ -10,6 +10,7 @@ import ListViewStyle from "./Listview";
 import EventStyle from "./EventItem";
 import NewsStyle from "./NewsItem";
 import Tags from "./Tags";
+import MapsStyle from "./Maps";
 import Buttons from "./Buttons";
 import FilterStyles from './Filter';
 import {SearchBar} from "./Components";
@@ -121,4 +122,4 @@ const General = StyleSheet.create({
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons, MapsStyle };
