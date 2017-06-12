@@ -86,6 +86,7 @@ I18n.translations = {
       buyTickets: 'Bestel tickets',
       usefulLinks: 'Handige links',
       shareText: 'Delen',
+      mapsMenuItem: 'Kaart'
    },
 }
 
