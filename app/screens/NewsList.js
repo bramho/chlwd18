@@ -21,17 +21,25 @@ const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 /**
  * New initialisation of the ListView datasource object
  */
- const ds = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
- });
 var listData = [];
 
 export default class NewsList extends Component {
    constructor(props) {
       super(props);
-      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
+      const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
+      const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
+
+      const dataSource = new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
+        getSectionData,
+        getRowData,
+     });
+
+     const { dataBlob, sectionIds, rowIds } = this.formatData(demoData);
+
       this.state = {
-         dataSource: dataSource.cloneWithRows(listData),
+         dataSource: dataSource.cloneWithRows(listData, sectionIds, rowIds),
          isLoading:true,
          rawData: '',
          apiData: '',
@@ -118,6 +126,14 @@ export default class NewsList extends Component {
       Actions.newsItem({newsId:id})
    }
 
+
+   _renderSectionHeader (rowData) {
+
+      <View style={General.container}>
+       <Text style={General.h3}>{props.character}</Text>
+     </View>
+   }
+
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
@@ -171,6 +187,7 @@ export default class NewsList extends Component {
            <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
+         renderSectionHeader={(sectionData) => <SectionHeader {...sectionData} />}
          enableEmptySections={true}
       />
       return (

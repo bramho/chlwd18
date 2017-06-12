@@ -216,38 +216,14 @@ export default class EventsList extends Component {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <View>
+            <View style={ListViewStyle.pic}>
                <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
-               <View style={ListViewStyle.priceContainer}>
-                  <View style={ListViewStyle.price}>
-                     <Text style={ListViewStyle.priceText}>
-                        € {rowData.ticketUrls[0].price}
-                     </Text>
-                  </View>
-               </View>
 
 
-               <View style={ListViewStyle.categoriesContainer}>
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        {rowData.categories[0].name}
-                     </Text>
-                  </View>
-               </View>
+
+
             </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.dateContainer}>
-                  <View style={ListViewStyle.day}>
-                     <Text style={ListViewStyle.dayText}>
-                       {formatDate(rowData.startDate,'eventList-day')}
-                     </Text>
-                  </View>
-                  <View style={ListViewStyle.month}>
-                     <Text style={ListViewStyle.monthText}>
-                       {formatDate(rowData.startDate,'eventList-month')}
-                     </Text>
-                  </View>
-               </View>
                <View style={ListViewStyle.textContainer}>
                   <View style={ListViewStyle.titleContainer}>
                      <Text style={ListViewStyle.title}>
@@ -255,8 +231,15 @@ export default class EventsList extends Component {
                      </Text>
                   </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                     <Icon name="pointer" size={18} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
+                     {rowData.subtitle}
                   </Text>
+               </View>
+               <View style={ListViewStyle.categoriesContainer}>
+                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
+                     <Text style={ListViewStyle.categoryItem}>
+                        {rowData.categories[0].name}
+                     </Text>
+                  </View>
                </View>
             </View>
          </View>
