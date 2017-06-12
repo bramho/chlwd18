@@ -5,28 +5,20 @@ import {StyleSheet,Platform} from "react-native";
 COLOR = require('./COLOR');
 
 export default MenuStyle = StyleSheet.create({
-   basicMenuStyles: {
+   tabBar: {
       height: 50,
       borderTopWidth: 1,
       borderColor: COLOR.LIGHTBLUE,
       backgroundColor: COLOR.WHITE,
    },
-   sceneContainer: {
-      marginTop:60,
-      marginBottom:60
-   },
    transparentNavbar: {
-      backgroundColor:'transparent',
-      height: 80,
+      height: 60,
       paddingTop: 5,
       borderWidth: 0,
       borderColor: 'transparent',
-      borderBottomColor: COLOR.WHITE24,
-      borderBottomWidth: StyleSheet.hairlineWidth,
       ...Platform.select({
          android: {
             height: 80,
-            paddingTop:20
          }
       }),
    },

@@ -15,7 +15,7 @@ const {width, height, scale} = Dimensions.get("window"),
       flex: 1,
       backgroundColor: "#fff",
       paddingTop:0,
-      marginBottom:60
+      marginBottom:50
    },
    row: {
       flex: 1,

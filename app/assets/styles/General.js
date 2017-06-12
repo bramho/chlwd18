@@ -25,7 +25,7 @@ const {width, height, scale} = Dimensions.get("window"),
 const General = StyleSheet.create({
    container: {
       flex: 1,
-      justifyContent: 'center'
+      justifyContent: 'center',
    },
    p: {
       fontSize: 16,
@@ -62,19 +62,6 @@ const General = StyleSheet.create({
    },
    bold: {
       fontWeight:'bold',
-   },
-   navBar: {
-      height: 56,
-      padding:20,
-      justifyContent:'center',
-      ...Platform.select({
-         ios: {
-            paddingLeft: 5,
-         },
-         android: {
-            paddingTop: 40,
-         }
-      }),
    },
    itemContent: {
       lineHeight: 25,

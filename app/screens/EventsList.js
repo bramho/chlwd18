@@ -111,7 +111,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('eventList');
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -342,7 +342,7 @@ export default class EventsList extends Component {
                </View>
 
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
+                  <Text style={[General.h2, ComponentStyle.headerTitle]}>
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>

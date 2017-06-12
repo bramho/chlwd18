@@ -39,7 +39,7 @@ export default EventItem = StyleSheet.create({
    },
    headerContent : {
       padding:20,
-      paddingTop: 60,
+      paddingTop: 0,
       marginTop: 40,
       height:HEADER_MAX_HEIGHT-60
    },
@@ -106,6 +106,7 @@ export default EventItem = StyleSheet.create({
    priceContainer: {
       flexDirection: 'row',
       flexWrap: 'nowrap',
+      marginTop:60
    },
    innerPriceContainer: {
       backgroundColor: COLOR.BLUE,

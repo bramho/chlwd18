@@ -4,7 +4,7 @@ import { Scene, Actions } from 'react-native-router-flux';
 // Import helpers
 import { getTranslation } from './helpers/Translations';
 
-import { General } from './assets/styles/General';
+import { General, MenuStyle } from './assets/styles/General';
 // Import Components
 import TabItem, { TabItemNews, TabItemFav,TabItemMaps } from './components/TabBar';
 
@@ -27,23 +27,20 @@ const scenes = Actions.create(
          <Scene
             key="tabbar"
             tabs
-            tabBarStyle={[MenuStyle.basicMenuStyles, General.grayBorderTop]}
+            tabBarStyle={[MenuStyle.tabBar, General.grayBorderTop]}
          >
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
-
                  searchText
                  component={NewsList}
                  icon={TabItemNews}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar
                />
                <Scene
                  key="newsItem"
                  component={NewsItem}
-                 sceneStyle={MenuStyle.container}
-                 hideNavBar = {false}
+                 hideNavBar = {true}
                  navigationBarStyle={MenuStyle.newsNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
                  backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
@@ -53,28 +50,23 @@ const scenes = Actions.create(
                />
             </Scene>
 
-            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
+            <Scene key="eventsTab" initial title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
                  key="events"
-
                  searchText
                  component={EventsList}
                  icon={TabItem}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar
                />
                <Scene
                  key="eventItem"
                  component={EventItem}
-                 sceneStyle={MenuStyle.container}
-                 hideNavBar = {false}
-                 navigationBarStyle={MenuStyle.transparentNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
                  onBack={()=>{statusBar(),Actions.pop()}}
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
-                 hideNavBar
+                  hideNavBar = {true}
                />
                <Scene
                   key="webModal"
@@ -96,13 +88,11 @@ const scenes = Actions.create(
                  component={FavoriteList}
                  title={getTranslation('favoritesMenuItem')}
                  icon={TabItemFav}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar
                />
                <Scene
                  key="eventItemFavorites"
                  component={EventItem}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
@@ -118,13 +108,11 @@ const scenes = Actions.create(
                  component={Maps}
                  title={getTranslation('favoritesMenuItem')}
                  icon={TabItemMaps}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar
                />
                <Scene
                  key="eventItemMaps"
                  component={EventItem}
-                 sceneStyle={MenuStyle.container}
                  hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
@@ -132,6 +120,7 @@ const scenes = Actions.create(
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}
                  leftButtonIconStyle={MenuStyle.backButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.backButtonTextStyle}
+                 direction="vertical"
                  hideNavBar
                />
             </Scene>

@@ -19,13 +19,11 @@ export default ComponentStyle = StyleSheet.create({
             paddingTop: 25
          },
          android: {
-            height:100,
+            height:80,
             paddingTop: 20,
             paddingBottom:0
          }
       }),
-      borderBottomWidth: 1,
-      borderColor: COLOR.DARKWHITE,
    },
    singleHeaderContainer: {
       padding: 8,
@@ -41,12 +39,15 @@ export default ComponentStyle = StyleSheet.create({
             paddingTop: 25
          },
          android: {
-            height:100,
+            height:80,
             paddingTop: 20,
             paddingBottom:0
          }
       }),
       zIndex: 999,
+   },
+   transparentHeader: {
+      position:'absolute'
    },
    searchBarInput: {
       flex:5,
@@ -105,7 +106,7 @@ export default ComponentStyle = StyleSheet.create({
       flex: 4
    },
    headerTitle: {
-      fontSize: 16,
+      fontSize: 18,
       color: COLOR.WHITE,
       fontFamily: 'Muli-ExtraBold',
       textAlign: 'center',

@@ -53,7 +53,6 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      statusBar('transparent');
 
       checkStorageKey('savedEvents').then((isValidKey) => {
 
@@ -257,7 +256,7 @@ export default class EventItem extends Component {
       });
 
       return (
-         <View style={[General.container,{marginBottom: 60, marginTop: -80 }]}>
+         <View style={[General.container]}>
 
             <Animated.View style={[EventStyle.favoriteButtonHolder, {marginTop: headerHeight, opacity: imageOpacity}]}>
 
@@ -413,7 +412,7 @@ export default class EventItem extends Component {
 
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.singleHeaderContainer}>
+            <View style={[ComponentStyle.singleHeaderContainer,ComponentStyle.transparentHeader]}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="back" size={25} color="#fff" />
