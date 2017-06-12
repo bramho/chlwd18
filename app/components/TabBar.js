@@ -29,4 +29,12 @@ export const TabItemFav = ({ selected, title }) => {
    );
 }
 
+export const TabItemMaps = ({ selected, title }) => {
+   return (
+      <View style={MenuStyle.tabbarItemContainer}>
+         <Icon name={selected ? 'heart-fill' : 'heart'} size={25} style={[MenuStyle.menuIcon ,{color: selected ? COLOR.RED : '#b2b2b2'}]}></Icon>
+      </View>
+   );
+}
+
 export default TabItem;

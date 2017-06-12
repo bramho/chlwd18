@@ -44,6 +44,7 @@ export default Maps = StyleSheet.create({
      marginVertical: 20,
      backgroundColor: 'transparent',
      position: 'relative',
+     zIndex: 999,
    },
    buttonPhoto: {
       ...StyleSheet.absoluteFillObject,
