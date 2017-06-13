@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import LoadingIcon from '../components/LoadingIcon';
 
+import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
@@ -161,9 +161,11 @@ export default class NewsList extends Component {
       return (
          <View style={General.container}>
             <View style={[ComponentStyle.headerContainer, ComponentStyle.newsHeader]}>
-               <View style={ComponentStyle.filterIconContainer}>
-
-               </View>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                  </View>
+               </TouchableOpacity>
 
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>

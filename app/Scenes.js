@@ -20,6 +20,10 @@ import Maps from './screens/Maps';
 import WebModal from './screens/WebModal';
 import FilterModal from './screens/FilterModal';
 
+import SettingsScene from './screens/SettingsScene';
+import AdvertisementScene from './screens/AdvertisementScene';
+import DevelopmentBy from './screens/DevelopmentBy';
+
 import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
@@ -59,6 +63,25 @@ const scenes = Actions.create(
                   direction="horizontal"
                   hideNavBar
                />
+               <Scene
+                  key="settings"
+                  component={SettingsScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="advertisement"
+                  component={AdvertisementScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="developmentBy"
+                  component={DevelopmentBy}
+                  direction="horizontal"
+                  hideNavBar
+               />
+
             </Scene>
 
             <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
@@ -79,6 +102,25 @@ const scenes = Actions.create(
                  leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
                  rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
                  hideNavBar
+               />
+
+               <Scene
+                  key="settings"
+                  component={SettingsScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="advertisement"
+                  component={AdvertisementScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="developmentBy"
+                  component={DevelopmentBy}
+                  direction="horizontal"
+                  hideNavBar
                />
             </Scene>
 
