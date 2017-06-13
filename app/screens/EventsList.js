@@ -135,13 +135,14 @@ export default class EventsList extends Component {
       });
    }
 
-
+   /**
+    * formats the data for the ListView
+    * @param  {object} data dataObject from the server
+    * @return {object}      [returns formated data object that can be readed by sectionlistview]
+    */
    formatData(data) {
 
       const eventMap = [];
-      //console.log(data);
-
-      //var dates = [];
 
       for (let sectionId = 0; sectionId  < data.length; sectionId++) {
          //console.log(dates.indexOf(data[sectionId].startDate));
@@ -184,11 +185,6 @@ export default class EventsList extends Component {
       });
    }
 
-   setFavoriteButton(id, isReset) {
-
-
-   }
-
    /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
@@ -226,15 +222,16 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
-   /**
-    * When the user scrolled to the end, this function will run.
-    * @return {[type]} [description]
-    */
-   onEndReached() {
-      if (!this.state.waiting) {
-
-
-      }
+   // WIP
+   // /**
+   //  * When the user scrolled to the end, this function will run.
+   //  * @return {[type]} [description]
+   //  */
+   // onEndReached() {
+   //    if (!this.state.waiting) {
+   //
+   //
+   //    }
    }
 
    _renderSectionHeader(sectionData, date) {
