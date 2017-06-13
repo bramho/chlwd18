@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import { Scene,Actions } from 'react-native-router-flux';
+import { Scene, Actions } from 'react-native-router-flux';
 
 COLOR = require('../assets/styles/COLOR');
 import { ComponentStyle } from '../assets/styles/General';
@@ -11,6 +11,7 @@ export default class LoadingIcon extends Component {
       super(props);
 
       this.state = {
+
       }
    }
 
@@ -23,6 +24,6 @@ export default class LoadingIcon extends Component {
                color={COLOR.RED}
             />
          </View>
-      );
+      )
    }
 }

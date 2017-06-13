@@ -9,44 +9,47 @@ export default ComponentStyle = StyleSheet.create({
       padding: 8,
       paddingLeft: 20,
       paddingRight: 20,
-      height: 80,
+      height: 60,
       top:0,
       alignItems: 'center',
       flexDirection: 'row',
-      backgroundColor: COLOR.PEALGRAY,
+      backgroundColor: COLOR.HEADERBLACK,
       ...Platform.select({
          ios: {
             paddingTop: 25
          },
          android: {
-            height:100,
+            height:80,
             paddingTop: 20,
             paddingBottom:0
          }
       }),
-      borderBottomWidth: 1,
-      borderColor: COLOR.DARKWHITE,
    },
    singleHeaderContainer: {
       padding: 8,
       paddingLeft: 20,
       paddingRight: 20,
-      height: 80,
+      height: 60,
       top:0,
       alignItems: 'center',
       flexDirection: 'row',
       backgroundColor: 'transparent',
       ...Platform.select({
          ios: {
-            paddingTop: 25
+            paddingTop: 30
          },
          android: {
-            height:100,
+            height:80,
             paddingTop: 20,
             paddingBottom:0
          }
       }),
       zIndex: 999,
+   },
+   transparentHeader: {
+      position:'absolute',
+      left:0,
+      right:0,
    },
    searchBarInput: {
       flex:5,
@@ -75,10 +78,7 @@ export default ComponentStyle = StyleSheet.create({
    filterIcon: {
       width: 50,
       height: 50,
-      borderWidth: 1,
-      borderColor: COLOR.WHITE,
       alignItems: 'center',
-      borderRadius: 50,
       justifyContent: 'center',
       padding:0
    },
@@ -100,17 +100,21 @@ export default ComponentStyle = StyleSheet.create({
       borderRadius: 50,
       justifyContent: 'center',
    },
-
    headerTitleContainer: {
       flex: 5,
+   },
+   newsHeaderTitleContainer: {
+      flex: 3,
+      alignItems: 'center',
    },
    backIconContainer: {
       flex: 4
    },
    headerTitle: {
-      fontSize: 16,
-      color: COLOR.GRAYBROWN,
+      fontSize: 18,
+      color: COLOR.WHITE,
       fontFamily: 'Muli-ExtraBold',
+      textAlign: 'center',
    },
    tabelRow: {
       flexDirection: 'row',
@@ -125,9 +129,12 @@ export default ComponentStyle = StyleSheet.create({
       flex: 3,
    },
    loadingIconContainer: {
-      flex:1,
+      flex: 1,
       alignItems: 'center',
       marginTop: 30,
+   },
+   newsHeader: {
+      backgroundColor: COLOR.GRAYBLUE,
    },
 
 });

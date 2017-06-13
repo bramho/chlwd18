@@ -10,7 +10,6 @@ export default class Main extends Component {
 
    constructor(props) {
       super(props);
-
    }
 
    componentDidMount() {
@@ -21,6 +20,9 @@ export default class Main extends Component {
             setStorageData('savedEvents', []);
          }
       });
+
+      // Work around for BackAndroid message until there is a fix. (Issue #1842 - React-Native-Router-Flux)
+      console.ignoredYellowBox = ['Warning: BackAndroid'];
 
       setCategoriesData();
 

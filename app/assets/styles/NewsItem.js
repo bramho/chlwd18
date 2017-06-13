@@ -4,7 +4,7 @@
 import {StyleSheet, Dimensions} from "react-native";
 COLOR = require('./COLOR');
 
-const HEADER_MAX_HEIGHT = 240;
+const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -44,6 +44,7 @@ export default NewsStyle = StyleSheet.create({
    },
    scrollViewContent: {
       backgroundColor:COLOR.WHITE,
+      paddingBottom: 60,
    },
    backgroundImage: {
       position: 'absolute',
@@ -68,8 +69,8 @@ export default NewsStyle = StyleSheet.create({
    },
    category: {
       fontFamily: 'Muli-Bold',
-      color: COLOR.RED,
-      marginTop: 2,
+      color: COLOR.GRAYBLUE,
+      marginTop: 1,
    },
    imageContainer: {
 
@@ -90,8 +91,8 @@ export default NewsStyle = StyleSheet.create({
       fontFamily: 'HindSiliguri-Regular',
       paddingLeft: 20
    },
-   textSection: {
-      paddingTop: 25,
+   contentText: {
+      color: COLOR.GRAYBROWN,
    },
    quoteContainer: {
       backgroundColor: COLOR.DARKWHITE,
@@ -103,6 +104,5 @@ export default NewsStyle = StyleSheet.create({
       fontFamily: 'HindSiliguri-Regular',
       fontSize: 18,
       color: COLOR.GRAYBLUE,
-
-   }
+   },
 });

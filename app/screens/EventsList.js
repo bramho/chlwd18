@@ -13,6 +13,7 @@ import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
+var COLOR = require('../assets/styles/COLOR.js');
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
@@ -110,7 +111,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('eventList');
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -140,6 +141,11 @@ export default class EventsList extends Component {
     * @return {JSON}                List of events
     */
    getEventData(apiLink, storageKey, isFilter) {
+
+      if (this.state.isLoading === false) {
+         this.setState({isLoading: true});
+      }
+
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
@@ -225,6 +231,10 @@ export default class EventsList extends Component {
    _onRefresh() {
       this.setState({refreshing: true});
 
+      this.fetchData().then(() => {
+         this.setState({refreshing: false})
+      });
+
       this.getEventData(apiLink, 'eventList', false);
 
    }
@@ -306,7 +316,7 @@ export default class EventsList extends Component {
       )
    }
    render() {
-      var currentView = (this.state.isLoading) ? <LoadingIcon/> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
@@ -327,14 +337,20 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                  </View>
+               </TouchableOpacity>
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={General.h4}>
+                  <Text style={[General.h2, ComponentStyle.headerTitle]}>
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={25} color="#F02C32" />
+                     <Icon name="search" size={25} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
             </View>
