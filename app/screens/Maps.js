@@ -171,22 +171,22 @@ export default class Maps extends Component {
 
   _eventDetails() {
      if(this.state.activeEvent) {
-       // var eventKey = this.state.activeEvent;
-       // var eventData = this.state.activeEvent.events;
         return (
            <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             pagingEnabled
+            scrollEventThrottle={20}
             style={MapsStyle.buttonScrollview}
+            contentContainerStyle={MapsStyle.buttonScrollviewContainer}
          >
             {this.state.activeEvent.events.map((eventData,index) => (
              <TouchableOpacity
                onPress={(e)=>this.onItemPress(eventData.id)}
                key={index}
-               style={[MapsStyle.button,this.state.activeEvent.events.length > 0 ? MapsStyle.buttonMultiple : '']}
+               style={[MapsStyle.button,this.state.activeEvent.events.length > 1 ? MapsStyle.buttonMultiple : '']}
              >
-             <View style={MapsStyle.buttonContent}>
+             <View style={[MapsStyle.buttonContent,]}>
 
             <Image source={{ uri: imgLink+eventData.thumb}} style={MapsStyle.buttonPhoto} />
 

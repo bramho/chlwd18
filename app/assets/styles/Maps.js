@@ -22,20 +22,19 @@ export default Maps = StyleSheet.create({
    button: {
      width: 1*vw-40,
      height: .5*vw+20,
-     paddingHorizontal: 20,
      alignItems: 'center',
-     marginHorizontal: 10,
      overflow:'hidden',
      position: 'relative',
      top:-60,
    },
    buttonMultiple: {
        width: 1*vw-40,
+       marginHorizontal: 20,
+       paddingHorizontal:40,
    },
    buttonContent: {
       position: 'relative',
-      width: 1*vw-40,
-      height: .5*vw-60,
+      ...StyleSheet.absoluteFillObject,
       borderRadius: 6,
       overflow:'hidden',
       top:80,
@@ -52,6 +51,9 @@ export default Maps = StyleSheet.create({
    },
    buttonScrollview: {
       maxHeight:.5*vw+20,
+   },
+   buttonScrollviewContainer: {
+      paddingHorizontal:20
    },
    buttonPhoto: {
       ...StyleSheet.absoluteFillObject,
