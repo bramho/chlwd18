@@ -117,7 +117,6 @@ export default class NewsList extends Component {
       });
    }
    onItemPress(id) {
-      console.log('You Pressed');
       Actions.newsItem({newsId:id})
    }
 
@@ -129,7 +128,7 @@ export default class NewsList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.articleId)}.bind(this)}>
             <View style={[{flexDirection: 'row', padding: 8, borderBottomWidth: 1, borderColor: COLOR.DARKWHITE}]}>
                <View style={{flex: 2,position:'relative',}}>
                   <Text style={{position: 'absolute', top: 4, left: 12, zIndex: 999, backgroundColor: 'transparent', color: COLOR.WHITE, fontFamily: 'Muli-Bold'}}>
@@ -171,6 +170,7 @@ export default class NewsList extends Component {
                      {getTranslation('newsMenuItem')}
                   </Text>
                </View>
+
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={18} color={COLOR.WHITE} />

@@ -4,7 +4,7 @@
 import {StyleSheet, Dimensions} from "react-native";
 COLOR = require('./COLOR');
 
-const HEADER_MAX_HEIGHT = 240;
+const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 

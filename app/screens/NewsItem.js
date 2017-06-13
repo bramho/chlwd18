@@ -11,12 +11,10 @@ import { formatDate } from '../helpers/FormatDate';
 import { statusBar } from '../helpers/StatusBar';
 import { shareItem } from '../helpers/Share';
 
-import { General, NewsStyle, ComponentStyle } from '../assets/styles/General';
+import { General, NewsStyle, ComponentStyle, EventStyle } from '../assets/styles/General';
 
-/**
- * Apilink for calling data for the listview
- */
-const apiLink = "https://eric-project.c4x.nl/api/news/";
+ const apiLink = "https://kh2018-acc.ndcmediagroep.nl/services/article/";
+ const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 
 /**
  * New initialisation of the EventItem datasource object
@@ -28,12 +26,13 @@ export default class EventItem extends Component {
       this.state = {
          data: '',
          isLoading: true,
-         id:this.props.newsId,
+         id: this.props.newsId,
       };
 
    }
 
    componentDidMount() {
+      console.log(apiLink+ this.state.id);
       this.fetchData(this.state.id);
 
       statusBar();
@@ -42,7 +41,8 @@ export default class EventItem extends Component {
          rightTitle: <Icon name="share-alt" size={20} color='#F02C32' style={{padding: 20,  textAlign: 'center'}}></Icon>,
          onRight: function(){
             this.shareArticle()}.bind(this)
-      })
+      });
+
    }
 
    shareArticle() {
@@ -58,7 +58,7 @@ export default class EventItem extends Component {
     * @return [data] Data returned from Api
     */
    fetchData(id) {
-      Api.getData(apiLink+id)
+      Api.getData(apiLink+id, headers)
          .then((data) => {
             console.log(data);
 
@@ -75,6 +75,8 @@ export default class EventItem extends Component {
                isLoading: false,
             });
          });
+
+         console.log(this.state.data);
    }
    /**
     * Renders the Scrollview content, in this case the data from the events
@@ -84,8 +86,12 @@ export default class EventItem extends Component {
       return (
          <ScrollView>
             <View style={[NewsStyle.scrollViewContent]}>
+               <View style={{height: 200}}>
+                  <Image source={require('../assets/images/lwd-image.jpg')} style={NewsStyle.backgroundImage} />
+               </View>
+
                <View style={General.generalPadding}>
-                  <Text style={General.h1}>Minister veegt de vloer aan met falende Sionsbarg-top</Text>
+                  <Text style={General.h3}>{this.state.data.title}</Text>
                   <View style={NewsStyle.articleInfo}>
                      <Text style={NewsStyle.articleInfoText}><Icon name="clock" size={18} /> 5 {getTranslation('readLength')} • </Text>
                      <Text style={[NewsStyle.articleInfoText, NewsStyle.category]}>Friesland</Text>
@@ -125,17 +131,17 @@ export default class EventItem extends Component {
          </View>
 
       return (
-         <View style={[General.container, {marginBottom: 80}]}>
-            <View style={ComponentStyle.singleHeaderContainer}>
+         <View style={[General.container]}>
+            <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="back" size={25} color="#F02C32" />
+                     <Icon name="back" size={25} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
 
                <TouchableOpacity style={[ComponentStyle.filterIconContainer]}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="share" size={25} color="#F02C32" />
+                     <Icon name="share" size={25} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
             </View>

@@ -100,9 +100,12 @@ export default ComponentStyle = StyleSheet.create({
       borderRadius: 50,
       justifyContent: 'center',
    },
-
    headerTitleContainer: {
       flex: 5,
+   },
+   newsHeaderTitleContainer: {
+      flex: 3,
+      alignItems: 'center',
    },
    backIconContainer: {
       flex: 4
