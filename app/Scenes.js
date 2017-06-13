@@ -29,28 +29,7 @@ const scenes = Actions.create(
             tabs
             tabBarStyle={[MenuStyle.tabBar, General.grayBorderTop]}
          >
-            <Scene key="newsTab" initial title={getTranslation('newsMenuItem')} icon={TabItemNews}>
-               <Scene
-                 key="news"
-                 searchText
-                 component={NewsList}
-                 icon={TabItemNews}
-                 hideNavBar
-               />
-               <Scene
-                 key="newsItem"
-                 component={NewsItem}
-                 hideNavBar = {true}
-                 navigationBarStyle={MenuStyle.newsNavbar}
-                 backTitle={getTranslation('navBarBackTitle')}
-                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
-                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
-                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
-                 hideNavBar
-               />
-            </Scene>
-
-            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
+            <Scene key="eventsTab" initial title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
                  key="events"
                  searchText
@@ -79,6 +58,27 @@ const scenes = Actions.create(
                   component={FilterModal}
                   direction="horizontal"
                   hideNavBar
+               />
+            </Scene>
+
+            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
+               <Scene
+                 key="news"
+                 searchText
+                 component={NewsList}
+                 icon={TabItemNews}
+                 hideNavBar
+               />
+               <Scene
+                 key="newsItem"
+                 component={NewsItem}
+                 hideNavBar = {true}
+                 navigationBarStyle={MenuStyle.newsNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 hideNavBar
                />
             </Scene>
 

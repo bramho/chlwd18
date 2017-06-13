@@ -133,5 +133,8 @@ export default ComponentStyle = StyleSheet.create({
       alignItems: 'center',
       marginTop: 30,
    },
+   newsHeader: {
+      backgroundColor: COLOR.GRAYBLUE,
+   },
 
 });

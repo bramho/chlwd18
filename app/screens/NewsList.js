@@ -160,7 +160,7 @@ export default class NewsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.headerContainer}>
+            <View style={[ComponentStyle.headerContainer, ComponentStyle.newsHeader]}>
                <View style={ComponentStyle.filterIconContainer}>
 
                </View>
