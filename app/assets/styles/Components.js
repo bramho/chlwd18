@@ -36,7 +36,7 @@ export default ComponentStyle = StyleSheet.create({
       backgroundColor: 'transparent',
       ...Platform.select({
          ios: {
-            paddingTop: 25
+            paddingTop: 30
          },
          android: {
             height:80,
@@ -47,7 +47,9 @@ export default ComponentStyle = StyleSheet.create({
       zIndex: 999,
    },
    transparentHeader: {
-      position:'absolute'
+      position:'absolute',
+      left:0,
+      right:0,
    },
    searchBarInput: {
       flex:5,
