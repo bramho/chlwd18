@@ -29,7 +29,7 @@ const scenes = Actions.create(
             tabs
             tabBarStyle={[MenuStyle.tabBar, General.grayBorderTop]}
          >
-            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
+            <Scene key="newsTab" initial title={getTranslation('newsMenuItem')} icon={TabItemNews}>
                <Scene
                  key="news"
                  searchText
@@ -50,7 +50,7 @@ const scenes = Actions.create(
                />
             </Scene>
 
-            <Scene key="eventsTab" initial title={getTranslation('eventsMenuItem')} icon={TabItem}>
+            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
                  key="events"
                  searchText
