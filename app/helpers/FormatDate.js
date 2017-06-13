@@ -1,6 +1,14 @@
 import { getCurrentLocale } from '../helpers/Translations';
 
 var moment = require('moment');
+
+moment.updateLocale('nl', {
+    months : [
+        "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli",
+        "Augustus", "September", "Oktober", "November", "December"
+    ]
+});
+moment.locale('nl');
 /**
  * Formats unix timestamp to human readable date format
 *  @param  {intr}   timestamp unix timestamp
@@ -32,14 +40,9 @@ export function formatDate(date, view) {
             format = 'HH:mm'
          break;
 
-         case 'eventList-day':
+         case 'eventList':
             //format = {day: 'numeric'};
-            format = 'D'
-         break;
-
-         case 'eventList-month':
-            //format = {month: 'short'};
-            format = 'MMM'
+            format = 'dddd D MMMM'
          break;
 
          case 'filterModal':

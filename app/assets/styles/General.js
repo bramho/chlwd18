@@ -41,7 +41,7 @@ const General = StyleSheet.create({
       color:COLOR.DARKPURPLE
    },
    h2: {
-      fontSize:20,
+      fontSize:16,
       fontFamily:'Muli-ExtraBold',
       marginBottom:8,
       color:COLOR.DARKPURPLE

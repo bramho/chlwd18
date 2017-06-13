@@ -3,6 +3,8 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, To
 import { Scene, Actions } from 'react-native-router-flux';
 import Icon from '../helpers/Icons';
 
+import LoadingIcon from '../components/LoadingIcon';
+
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -34,9 +36,7 @@ const imgLink = "https://www.vanplan.nl/contentfiles/";
 /**
  * New initialisation of the ListView datasource object
  */
- const ds = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
- });
+
 var listData = [];
 
 var favorites = [];
@@ -45,12 +45,20 @@ var favoritesIds = [];
 var favoriteButton;
 var categories;
 
+const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
+const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
+
+const dataSource = new ListView.DataSource({
+   rowHasChanged: (r1, r2) => r1 !== r2,
+   sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
+});
+
 export default class EventsList extends Component {
    constructor(props) {
       super(props);
-      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
+
       this.state = {
-         dataSource: dataSource.cloneWithRows(listData),
+         dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
          isLoading:true,
          rawData: '',
          apiData: '',
@@ -91,7 +99,8 @@ export default class EventsList extends Component {
                storageData = JSON.parse(data);
 
                this.setState({
-                  dataSource: this.state.dataSource.cloneWithRows(storageData),
+                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+
                   apiData: storageData,
                   // isLoading: false,
                   empty: false,
@@ -104,7 +113,7 @@ export default class EventsList extends Component {
                   listData = data.results;
 
                   this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data.results),
+                     dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
                      apiData: data.results,
                      isLoading: false,
                      empty: false,
@@ -124,6 +133,27 @@ export default class EventsList extends Component {
                });
          }
       });
+   }
+
+
+   formatData(data) {
+
+      const eventMap = [];
+      //console.log(data);
+
+      //var dates = [];
+
+      for (let sectionId = 0; sectionId  < data.length; sectionId++) {
+         //console.log(dates.indexOf(data[sectionId].startDate));
+         //var datesKey = dates.indexOf(data[sectionId].startDate);
+         if(!eventMap[data[sectionId].startDate]) {
+
+            eventMap[data[sectionId].startDate] = [];
+         }
+         eventMap[data[sectionId].startDate].push(data[sectionId]);
+
+      }
+      return eventMap ;
    }
 
    /**
@@ -206,54 +236,61 @@ export default class EventsList extends Component {
 
       }
    }
+
+   _renderSectionHeader(sectionData, date) {
+      return (
+         <View style={[ListViewStyle.sectionHeader,ListViewStyle.sectionHeaderEvents]}>
+            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date)}</Text>
+         </View>
+      )
+   }
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
-
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <View style={ListViewStyle.pic}>
                <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
 
-
-
-
             </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.textContainer}>
-                  <View style={ListViewStyle.titleContainer}>
-                     <Text style={ListViewStyle.title}>
+
+                     <Text style={[General.h2,ListViewStyle.title]}>
                        {rowData.title}
                      </Text>
-                  </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                     {rowData.subtitle}
+                     {rowData.city.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()) }
                   </Text>
-               </View>
                <View style={ListViewStyle.categoriesContainer}>
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        {rowData.categories[0].name}
-                     </Text>
-                  </View>
+                  {rowData.categories.map((categorie,index) => (
+                     <View key={index} style={ListViewStyle.categoryItemContainer}>
+                        <Text style={ListViewStyle.categoryItem}>
+                           {'#'+categorie.name}
+                        </Text>
+                     </View>
+                  ))}
+
                </View>
             </View>
          </View>
          </TouchableOpacity>
       )
    }
+
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
+         stickySectionHeadersEnabled={true}
          renderRow={this._renderRow.bind(this)}
+         renderSectionHeader={this._renderSectionHeader.bind(this)}
          renderSeparator={(sectionID, rowID) =>
-           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
@@ -268,16 +305,20 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
+               <View style={ComponentStyle.filterIconContainer}>
+
+               </View>
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={General.h4}>
+                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal()}>
+               <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={25} color="#F02C32" />
+                     <Icon name="search" size={24} color={COLOR.WHITE} />
                   </View>
-               </TouchableOpacity>
+               </View>
             </View>
             {currentView}
          </View>
