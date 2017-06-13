@@ -159,7 +159,7 @@ const {width, height, scale} = Dimensions.get("window"),
    },
 
    newsBody: {
-      backgroundColor: COLOR.GRAYBLUE,
+      backgroundColor: COLOR.WHITE,
    },
    newsTitle: {
       color: COLOR.WHITE,

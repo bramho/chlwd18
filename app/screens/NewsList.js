@@ -19,7 +19,7 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
  * Apilink for calling data for the listview
  */
 //const apiLink = "https://eric-project.c4x.nl/api/news";
-const apiLink = "https://hetgoedeleven.acc.tfe.nl/services/article/channelName/kh2018";
+const apiLink = "https://kh2018-acc.ndcmediagroep.nl/services/article";
 const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 /**
  * New initialisation of the ListView datasource object
@@ -130,35 +130,18 @@ export default class NewsList extends Component {
    _renderRow (rowData) {
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
-            <View style={[ListViewStyle.row, ListViewStyle.newsBody]}>
-               <View>
+            <View style={[{flexDirection: 'row', padding: 8, borderBottomWidth: 1, borderColor: COLOR.DARKWHITE}]}>
+               <View style={{flex: 2,position:'relative',}}>
+                  <Text style={{position: 'absolute', top: 4, left: 12, zIndex: 999, backgroundColor: 'transparent', color: COLOR.WHITE, fontFamily: 'Muli-Bold'}}>
+                     12:00
+                  </Text>
+                  <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: COLOR.BLACK20, zIndex: 900}}>
+                  </View>
 
-                  <View style={ListViewStyle.readLenghtContainer}>
-                     <Text style={ListViewStyle.readLengthText}>
-                        <Icon name="clock-o" size={12} color="#fff" /> 5 {getTranslation('readLength')}
-                     </Text>
-                  </View>
                </View>
-               <View style={ListViewStyle.body}>
-                  <View style={[ListViewStyle.dateContainer, ListViewStyle.newsDateContainer]}>
-                     <View style={ListViewStyle.month}>
-                        <Text style={[ListViewStyle.monthText, ListViewStyle.newsMonth]}>
-                          Mei
-                        </Text>
-                     </View>
-                     <View style={ListViewStyle.day}>
-                        <Text style={[ListViewStyle.dayText, ListViewStyle.newsDay]}>
-                          2
-                        </Text>
-                     </View>
-                  </View>
-                  <View style={ListViewStyle.textContainer}>
-                     <View style={ListViewStyle.titleContainer}>
-                        <Text numberOfLines={2} style={[ListViewStyle.title, ListViewStyle.newsTitle]}>
-                          {rowData.title}
-                        </Text>
-                     </View>
-                  </View>
+
+               <View style={{flex: 4}}>
+                  <Text>{rowData.title}</Text>
                </View>
             </View>
          </TouchableOpacity>
