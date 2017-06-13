@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions, WebView} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+
+import LoadingIcon from '../components/LoadingIcon';
+
 import { statusBar } from '../helpers/StatusBar';
 import Icon from '../helpers/Icons';
-
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { setFavorite, checkFavorite, checkStorageKey, getStorageData } from '../helpers/Storage';
@@ -24,10 +26,6 @@ var favorite;
 var rowRefs;
 var savedEventsIds;
 
-var test =  <View style={ComponentStyle.shareIconContainer}>
-               <Text style={ComponentStyle.shareIcon}>F</Text>
-            </View>;
-
 /**
  * New initialisation of the EventItem datasource object
  */
@@ -47,7 +45,7 @@ export default class EventItem extends Component {
          rowData: this.props.rowData,
          scrollY: new Animated.Value(0),
          addToFavorites: true,
-         iconColor: '#fff',
+         iconColor: COLOR.RED,
          iconName: 'heart',
       };
    }
@@ -55,7 +53,6 @@ export default class EventItem extends Component {
    componentDidMount() {
       this.fetchData(this.state.id);
 
-      statusBar('transparent');
 
       checkStorageKey('savedEvents').then((isValidKey) => {
 
@@ -100,7 +97,7 @@ export default class EventItem extends Component {
       if (addToFavorites) {
          this.rowRefs[0].setNativeProps({
             style: {
-               color: '#FFF',
+               color: COLOR.RED,
             }
          });
          this.setState({
@@ -110,7 +107,7 @@ export default class EventItem extends Component {
       } else {
          this.rowRefs[0].setNativeProps({
             style: {
-               color: '#FFF',
+               color: COLOR.RED,
             }
          });
          this.setState({
@@ -167,14 +164,8 @@ export default class EventItem extends Component {
 
    }
 
-   buyTickets(url) {
-      Actions.webModal({url: url});
-
-      // openLink(url)
-   }
-
    openUrl(url) {
-      openLink(url);
+      Actions.webModal({url: url});
    }
 
    /**
@@ -185,8 +176,63 @@ export default class EventItem extends Component {
       const {width, height, scale} = Dimensions.get("window");
       //Set animated header size
       const HEADER_MAX_HEIGHT = 60*(height/100);
-      const HEADER_MIN_HEIGHT = 80;
+      const HEADER_MIN_HEIGHT = 62;
       const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+      // Variables for carousel
+      const deviceWidth = width - 40;
+      const FIXED_BAR_WIDTH = deviceWidth;
+      const BAR_SPACE = 10;
+      const imgLink = "https://www.vanplan.nl/contentfiles/";
+      var numItems = this.state.data.images.length;
+      var itemWidth = (FIXED_BAR_WIDTH / numItems) - ((numItems - 1) * BAR_SPACE)
+      var animVal = new Animated.Value(0);
+
+      let imageArray = [];
+      let barArray = [];
+
+      this.state.data.images.forEach((image, i) => {
+         const imageItem = (
+            <Image
+               key={`image${i}`}
+               source={{uri: imgLink + image}}
+               style={{width: deviceWidth, borderRadius: 4}}
+            />
+         )
+         imageArray.push(imageItem);
+
+         const scrollBarVal = animVal.interpolate({
+            inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
+            outputRange: [-itemWidth, itemWidth],
+            extrapolate: 'clamp',
+         })
+
+         const barItem = (
+            <View
+               key={`bar${i}`}
+               style={[
+                  EventStyle.barContainer,
+                  {
+                     width: itemWidth,
+                     marginLeft: i === 0 ? 0 : BAR_SPACE,
+                  }
+               ]}
+            >
+               <Animated.View
+                  style={[
+                     EventStyle.barOverlay,
+                     {
+                        width: itemWidth,
+                        transform: [
+                           { translateX: scrollBarVal },
+                        ],
+                     }
+                  ]}
+               />
+            </View>
+         )
+         barArray.push(barItem);
+      })
 
       // Calculate header height when scrolling
       const headerHeight = this.state.scrollY.interpolate({
@@ -210,7 +256,17 @@ export default class EventItem extends Component {
       });
 
       return (
-         <View style={[General.container,{marginBottom: 60, marginTop: -80 }]}>
+         <View style={[General.container]}>
+
+            <Animated.View style={[EventStyle.favoriteButtonHolder, {marginTop: headerHeight, opacity: imageOpacity}]}>
+
+               <TouchableOpacity style={[ComponentStyle.filterIconContainer]} onPress={function(){this.addOrRemoveFavorite(this.state.addToFavorites, this.savedEventsIds)}.bind(this)}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon ref={(ref) => this.storeRowRefs(ref)} name={this.state.iconName} size={25} color={this.state.iconColor} />
+                  </View>
+               </TouchableOpacity>
+
+            </Animated.View>
 
          <ScrollView style={EventStyle.fill}
                   scrollEventThrottle={20}
@@ -220,7 +276,27 @@ export default class EventItem extends Component {
             <View style={EventStyle.scrollViewContent}>
                <View style={EventStyle.section}>
                  <Text style={General.h3}>{this.state.data.title}</Text>
-                 <Text style={[General.p, General.itemContent]}>{this.state.data.description}</Text>
+                 <Text style={[General.p, General.itemContent, {color: COLOR.MEDIUMGRAY}]}>{this.state.data.description}</Text>
+               </View>
+
+               <View style={[EventStyle.section, EventStyle.carouselContainer]}>
+                  <ScrollView
+                     horizontal
+                     showsHorizontalScrollIndicator={false}
+                     scrollEventThrottle={10}
+                     pagingEnabled
+                     onScroll={
+                        Animated.event(
+                           [{ nativeEvent: { contentOffset: { x: animVal } } }]
+                        )
+                     }
+                  >
+                     {imageArray}
+                  </ScrollView>
+
+                  <View style={EventStyle.barHolder}>
+                     {barArray}
+                  </View>
                </View>
 
                <View style={EventStyle.section}>
@@ -237,11 +313,11 @@ export default class EventItem extends Component {
 
                   <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
 
-                     <Text style={ComponentStyle.tabelCellThree}>{formatDate(this.state.data.startDate,'eventItemDate')}</Text>
+                     <Text style={[ComponentStyle.tabelCellThree, General.grayText]}>{formatDate(this.state.data.startDate,'eventItemDate')}</Text>
 
-                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText]}>{this.state.data.datetimes[0].startTime}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.rightText, General.blueText]}>{this.state.data.datetimes[0].startTime}</Text>
 
-                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText]}>{this.state.data.datetimes[0].endTime}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText, General.blueText]}>{this.state.data.datetimes[0].endTime}</Text>
                   </View>
                </View>
 
@@ -250,18 +326,16 @@ export default class EventItem extends Component {
 
                   <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
                      <Text style={ComponentStyle.tabelCellThree}></Text>
-                     <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('preSale')}</Text>
                      <Text style={[ComponentStyle.tabelCellOne, General.rightText]}>{getTranslation('regular')}</Text>
                   </View>
 
                   <View style={[ComponentStyle.tabelRow, EventStyle.dateAndTimes]}>
-                     <Text style={ComponentStyle.tabelCellThree}>{getTranslation('adults')}</Text>
-                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText]}>€ {this.state.data.ticketUrls[0].price}</Text>
-                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText]}>€ {this.state.data.ticketUrls[0].price}</Text>
+                     <Text style={[ComponentStyle.tabelCellThree, General.grayText]}>{getTranslation('adults')}</Text>
+                     <Text style={[ComponentStyle.tabelCellOne, General.rightText, General.boldText, General.redText, General.blueText]}>€ {this.state.data.ticketUrls[0].price}</Text>
                   </View>
 
                   <View style={[Buttons.buttonContainer, Buttons.buttonRed]}>
-                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.buyTickets(this.state.data.ticketUrls[0].url)}.bind(this)}>
+                     <TouchableOpacity style={{padding: 2}} onPress={function(){this.openUrl(this.state.data.ticketUrls[0].url)}.bind(this)}>
                         <Text style={Buttons.buttonText}>{getTranslation('buyTickets')}</Text>
                      </TouchableOpacity>
                   </View>
@@ -270,7 +344,13 @@ export default class EventItem extends Component {
 
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
-                  <Text style={General.linkText} onPress={function(){this.openUrl(this.state.data.ticketUrls[0].url)}.bind(this)}>Tickets</Text>
+                  <Text style={[General.linkText, {padding: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 8}]} onPress={function(){this.openUrl(this.state.data.ticketUrls[0].url)}.bind(this)}>Tickets</Text>
+               </View>
+
+               <View style={EventStyle.section}>
+                  <Text style={General.h3}>
+                     {getTranslation('whereItIs')}
+                  </Text>
                </View>
 
             </View>
@@ -288,35 +368,37 @@ export default class EventItem extends Component {
                />
               <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
               <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
-                  <Text style={[General.h1,EventStyle.headerText, EventStyle.title]}>{this.state.data.title}</Text>
-                  <View style={{flexDirection: 'row'}}>
-                     <View>
-                        <Text style={[General.subTitle, EventStyle.headerText]}>
-                           {this.state.data.subtitle}
-                        </Text>
-                     </View>
-
-                  </View>
-
-                  <View style={Tags.categoriesContainer}>
-                     <View style={[Tags.categoryItemContainer, Tags.culture]}>
-                        <Text style={Tags.categoryItem}>
-                           {this.state.data.categories[0].name}
+                  <View style={EventStyle.priceContainer}>
+                     <View style={EventStyle.innerPriceContainer}>
+                        <Text style={[General.subTitle, EventStyle.headerText, EventStyle.price]}>
+                           {"€" + this.state.data.ticketUrls[0].price}
                         </Text>
                      </View>
                   </View>
-                  <View style={EventStyle.bottomHeaderPrice}>
-                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.price]}>{getTranslation('fromText') + " €"+this.state.data.ticketUrls[0].price}</Text>
+
+                  <View style={EventStyle.bottomHeaderContent}>
+                     <Text style={[General.h1, EventStyle.headerText, EventStyle.title]}>
+                        {this.state.data.title}
+                     </Text>
+
+                     <View style={Tags.categoriesContainer}>
+                        <View style={[Tags.categoryItemContainer, Tags.culture]}>
+                           <Text style={Tags.categoryItem}>
+                              #{this.state.data.categories[0].name}
+                           </Text>
+                        </View>
+
+                        <View>
+                           <Text style={[General.subTitle, EventStyle.headerText, {marginTop: 2}]}>
+                              {this.state.data.location}
+                           </Text>
+                        </View>
+                     </View>
                   </View>
 
-                  <View style={EventStyle.bottomHeaderTicket}>
-                     <Text style={[General.subTitle,EventStyle.headerText, EventStyle.headerTicketLink]}><Icon name="down" size={14} color="#FFF" /> Tickets</Text>
-                  </View>
               </Animated.View>
 
-
-
-           </View>
+            </View>
          </Animated.View>
          </View>
       );
@@ -326,20 +408,14 @@ export default class EventItem extends Component {
     */
    render() {
 
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :this._renderContent();
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :this._renderContent();
 
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.singleHeaderContainer}>
+            <View style={[ComponentStyle.singleHeaderContainer,ComponentStyle.transparentHeader]}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="back" size={25} color="#fff" />
-                  </View>
-               </TouchableOpacity>
-
-               <TouchableOpacity style={[ComponentStyle.filterIconContainer]}  onPress={function(){this.addOrRemoveFavorite(this.state.addToFavorites, this.savedEventsIds)}.bind(this)}>
-                  <View style={ComponentStyle.filterIcon}>
-                     <Icon ref={(ref)=>this.storeRowRefs(ref)} name={this.state.iconName} size={25} color={this.state.iconColor} />
                   </View>
                </TouchableOpacity>
 

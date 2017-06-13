@@ -10,7 +10,9 @@ import ListViewStyle from "./Listview";
 import EventStyle from "./EventItem";
 import NewsStyle from "./NewsItem";
 import Tags from "./Tags";
+import MapsStyle from "./Maps";
 import Buttons from "./Buttons";
+import FilterStyles from './Filter';
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -23,7 +25,7 @@ const {width, height, scale} = Dimensions.get("window"),
 const General = StyleSheet.create({
    container: {
       flex: 1,
-      justifyContent: 'center'
+      justifyContent: 'center',
    },
    p: {
       fontSize: 16,
@@ -46,7 +48,7 @@ const General = StyleSheet.create({
    },
    h3: {
       fontSize:18,
-      fontFamily:'Muli-ExtraBold',
+      fontFamily:'Muli-Bold',
       color:COLOR.DARKPURPLE,
       marginBottom:10,
    },
@@ -60,19 +62,6 @@ const General = StyleSheet.create({
    },
    bold: {
       fontWeight:'bold',
-   },
-   navBar: {
-      height: 56,
-      padding:20,
-      justifyContent:'center',
-      ...Platform.select({
-         ios: {
-            paddingLeft: 5,
-         },
-         android: {
-            paddingTop: 40,
-         }
-      }),
    },
    itemContent: {
       lineHeight: 25,
@@ -88,26 +77,36 @@ const General = StyleSheet.create({
       fontSize: 13,
    },
    boldText: {
-      fontFamily: 'Muli-ExtraBold'
+      fontFamily: 'Muli-ExtraBold',
    },
    redText: {
-      color: COLOR.RED
+      color: COLOR.RED,
+   },
+   blueText: {
+      color: COLOR.BLUE,
+   },
+   grayText: {
+      color: COLOR.MEDIUMGRAY,
+   },
+   centerText: {
+      textAlign: 'center',
    },
    rightText: {
-      textAlign: 'right'
+      textAlign: 'right',
    },
    leftText: {
-      textAlign: 'left'
+      textAlign: 'left',
    },
    generalPadding: {
       padding: 15,
    },
    linkText: {
-      color: COLOR.RED,
+      color: COLOR.MEDIUMGRAY,
       textDecorationLine: 'underline',
       lineHeight: 20,
       marginBottom: 15,
+      fontSize: 12,
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, Buttons };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons, MapsStyle };

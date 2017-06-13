@@ -5,15 +5,17 @@ export function statusBar(view) {
    switch (view) {
       case 'translucent':
          if(platform('android')) {
-            StatusBar.setTranslucent(true)
-            StatusBar.setBackgroundColor('transparent', true)
-
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor('transparent', true);
+            StatusBar.setBarStyle('light-content', true);
          }
       break;
       case 'transparent':
-         StatusBar.setBarStyle('light-content', true);
+         StatusBar.setBarStyle('dark-content', true);
+
       break;
       default:
-         StatusBar.setBarStyle('dark-content', true);
+         StatusBar.setBarStyle('light-content', true);
+
    }
 }

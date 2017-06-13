@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import API from './Api';
 
 /**
  * Stores data for specific key
@@ -71,6 +72,27 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
    });
 }
 
+export const setCategoriesData = async () => {
+   const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
+
+   checkStorageKey('categoriesData').then((isValidKey) => {
+
+      if (!isValidKey) {
+         API.getData(CATEGORIESURL)
+            .then((data) => {
+               console.log(data.results);
+
+               setStorageData('categoriesData', data.results);
+            })
+      }
+   });
+}
+
+/**
+ * Checks if favorite data exists in cache
+ * @param  {int}     itemId   Id of favorite item
+ * @return {bool}
+ */
 export const checkFavorite = async (itemId) => {
 
    returnValue = false;

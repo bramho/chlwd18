@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, TextInput, ScrollView,TouchableOpacity} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Icon from '../helpers/Icons';
 
+import LoadingIcon from '../components/LoadingIcon';
+
+import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { formatDate } from '../helpers/FormatDate';
@@ -117,7 +119,7 @@ export default class EventItem extends Component {
     * Renders the total view
     */
    render() {
-      var currentView = (this.state.isLoading) ? <View style={{flex:1, backgroundColor: '#dddddd'}}><Text>Loading..</Text></View> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
          <View style={{flex:1}}>
          {this._renderContent()}
          </View>
