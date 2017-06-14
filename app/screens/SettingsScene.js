@@ -65,11 +65,11 @@ class SettingsScene extends Component {
                   <Text style={SettingsStyles.itemText}>{getTranslation('version')} 1.0.0</Text>
                </View>
 
-               <View style={{marginTop: 20}}>
+               <TouchableOpacity style={{marginTop: 20}} onPress={() => Actions.onBoarding()}>
                   <Text style={FilterStyles.resetText}>
                      {getTranslation('watchOnboarding')}
                   </Text>
-               </View>
+               </TouchableOpacity>
             </ScrollView>
          </View>
       )

@@ -337,7 +337,7 @@ export default class EventsList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.onBoarding()}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="clock" size={25} color={COLOR.WHITE} />
                   </View>
