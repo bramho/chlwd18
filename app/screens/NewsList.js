@@ -264,7 +264,7 @@ export default class NewsList extends Component {
 
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>
-                     {getTranslation('eventsMenuItem')}
+                     {getTranslation('newsMenuItem')}
                   </Text>
                </View>
 
