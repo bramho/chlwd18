@@ -6,7 +6,7 @@ import { getTranslation } from './helpers/Translations';
 
 import { General, MenuStyle } from './assets/styles/General';
 // Import Components
-import TabItem, { TabItemNews, TabItemFav,TabItemMaps } from './components/TabBar';
+import TabItem, { TabItemNews, TabItemFav, TabItemMaps } from './components/TabBar';
 
 // Import Screens
 import TestNews from './screens/TestNews';

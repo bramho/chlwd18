@@ -5,6 +5,7 @@ import Swiper from 'react-native-swiper';
 
 import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
+import { setStorageData, checkStorageKey } from '../helpers/Storage';
 
 import { General, SettingsStyles, ComponentStyle, FilterStyles } from '../assets/styles/General';
 
@@ -14,8 +15,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: COLOR.WHITE,
-      paddingLeft: 16,
-      paddingRight: 16,
+      paddingLeft: 25,
+      paddingRight: 25,
    },
    pagination: {
      paddingBottom: 175,
@@ -63,6 +64,8 @@ const styles = StyleSheet.create({
    },
 });
 
+const ONBOARDING_STORAGE_KEY = 'onBoardingComplete';
+
 
 class OnBoarding extends Component {
 
@@ -74,8 +77,24 @@ class OnBoarding extends Component {
       }
    }
 
+   /**
+    * Jumps to next slide
+    */
    jumpSlide() {
       this.refs.onBoardingSwiper.scrollBy(1);
+   }
+
+   /**
+    * Sets storage key for completed onBoarding
+    */
+   completeOnBoarding = async () => {
+      await checkStorageKey(ONBOARDING_STORAGE_KEY).then((isValidKey) => {
+         if (!isValidKey) {
+            setStorageData(ONBOARDING_STORAGE_KEY, true);
+         }
+
+         Actions.pop();
+      });
    }
 
    render() {
@@ -107,7 +126,7 @@ class OnBoarding extends Component {
                      </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.skipTextContainer}>
+                  <TouchableOpacity style={styles.skipTextContainer} onPress={() => this.completeOnBoarding()}>
                      <Text style={styles.skipText}>
                         Overslaan
                      </Text>
@@ -133,7 +152,7 @@ class OnBoarding extends Component {
                      </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.skipTextContainer}>
+                  <TouchableOpacity style={styles.skipTextContainer} onPress={() => this.completeOnBoarding()}>
                      <Text style={styles.skipText}>
                         Overslaan
                      </Text>
@@ -153,7 +172,7 @@ class OnBoarding extends Component {
                      De uitspraak van het gerechtshof dat er strafrechtelijke vervolging moet worden ingesteld tegen.
                   </Text>
 
-                  <TouchableOpacity style={styles.button}>
+                  <TouchableOpacity style={styles.button} onPress={() => this.completeOnBoarding()}>
                      <Text style={styles.buttonText}>
                         Ik begrijp het!
                      </Text>
