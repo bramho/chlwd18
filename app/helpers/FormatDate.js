@@ -6,6 +6,9 @@ moment.updateLocale('nl', {
     months : [
         "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli",
         "Augustus", "September", "Oktober", "November", "December"
+    ],
+    weekdays  : [
+        "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"
     ]
 });
 moment.locale('nl');
@@ -40,7 +43,7 @@ export function formatDate(date, view) {
             format = 'HH:mm'
          break;
 
-         case 'eventList':
+         case 'listView':
             //format = {day: 'numeric'};
             format = 'dddd D MMMM'
          break;

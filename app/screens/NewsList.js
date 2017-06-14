@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -24,20 +24,23 @@ const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
 /**
  * New initialisation of the ListView datasource object
  */
- const ds = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
- });
+const dataSource = new ListView.DataSource({
+   rowHasChanged: (r1, r2) => r1 !== r2,
+   sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
+});
+
 var listData = [];
 
 export default class NewsList extends Component {
    constructor(props) {
       super(props);
-      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
+
       this.state = {
-         dataSource: dataSource.cloneWithRows(listData),
+         dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
          isLoading:true,
          rawData: '',
          apiData: '',
+         refreshing: false,
          searchText: '',
          myKey: ''
       };
@@ -64,10 +67,10 @@ export default class NewsList extends Component {
          if(isValidKey) {
             getStorageData(storageKey).then((data) => {
 
-               storageData = JSON.parse(data.results);
+               storageData = JSON.parse(data.articles);
 
                this.setState({
-                  dataSource: this.state.dataSource.cloneWithRows(storageData),
+                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
                   apiData: storageData,
                   isLoading: false,
                   empty: false,
@@ -77,19 +80,18 @@ export default class NewsList extends Component {
          } else {
             Api.getData(apiLink,headers)
                .then((data) => {
+
                   listData = data.articles;
-                  console.log(listData);
+
                   this.setState({
-                     dataSource: this.state.dataSource.cloneWithRows(data.articles),
+                     dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
                      apiData: data,
                      isLoading: false,
                      empty: false,
                      rawData: data,
                   });
 
-                  console.log(listData);
-                  //setStorageData(storageKey, listData);
-
+                  //console.log(listData);
 
                })
                .catch((error) => {
@@ -101,6 +103,34 @@ export default class NewsList extends Component {
                });
          }
       });
+   }
+
+   /**
+    * formats the data for the ListView
+    * @param  {object} data dataObject from the server
+    * @return {object}      [returns formated data object that can be readed by sectionlistview]
+    */
+   formatData(data) {
+      // new store map array
+      const eventMap = [];
+
+      var startDate = '2017-06-14T09:21:25+00:00';
+      eventMap[startDate] = data;
+      console.log(eventMap);
+      // loops al data from data object
+      // for (let sectionId = 0; sectionId  < data.length; sectionId++) {
+      //    // if data array is not already added to the store map
+      //    //var startDate = eventMap[data[sectionId].startDate];
+      //    var startDate = '2017-06-14T09:21:25+00:00';
+      //    //if(!startDate) {
+      //       // Add  new array in array
+      //       eventMap[startDate] = data;
+      //    //}
+      //    // console.log(data[sectionId]);
+      //    // eventMap[startDate].push(data[sectionId]);
+      //    // console.log(eventMap);
+      // }
+      return eventMap ;
    }
 
    /**
@@ -116,34 +146,90 @@ export default class NewsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
+
    onItemPress(id) {
       console.log('You Pressed');
       Actions.newsItem({newsId:id})
+   }
+
+   _onRefresh() {
+      this.setState({refreshing: true});
+
+      this.fetchData().then(() => {
+         this.setState({refreshing: false})
+      });
+
+   }
+   //WIP
+   /**
+    * When the user scrolled to the end, this function will run.
+    * @return {[type]} [description]
+    */
+   onEndReached() {
+      // if (!this.state.waiting) {
+      //
+      //
+      // }
+   }
+   /**
+    * Renders section headers with date
+    * @param  {object} sectionData section data object, including keys en children data
+    * @param  {string} date       ISO Date format
+    * @return {object}            returns rendered data object
+    */
+   _renderSectionHeader(sectionData, date) {
+      return (
+         <View style={[ListViewStyle.sectionHeader,ListViewStyle.sectionHeaderEvents]}>
+            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date, 'listView')}</Text>
+         </View>
+      )
    }
 
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
     * @return [markup]        Returns the template for the row in ListView.
-    * <Image source={{ uri: rowData.images[0].imageVariantDtoList[0].fileName}} style={ListViewStyle.photo} />
+    *
     */
-   _renderRow (rowData) {
+    _renderRow (rowData) {
+      var pictureUrl = require('../assets/images/noImage.png');
+      // WIP this is for pulling images
+      // if(rowData.images.length > 0) {
+      //    var picture = rowData.images[0].imageVariantDtoList[0].fileName;
+      //    fetch(picture,{headers})
+      //    .then(
+      //       (response) => {
+      //          let base64Str = response.data;
+      //            pictureUrl = 'data:'+mimetype_attachment+';base64,'+base64Str;
+      //            // Return base64 image
+      //            RESOLVE(pictureUrl)
+      //       }
+      //
+      //    ).catch((error) => {
+      //       console.log(error)     });
+      // } else {
+      //    pictureUrl = '../assets/noImage.png';
+      // }
+      // console.log(pictureUrl);
+      //var picture =
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
-            <View style={[{flexDirection: 'row', padding: 8, borderBottomWidth: 1, borderColor: COLOR.DARKWHITE}]}>
-               <View style={{flex: 2,position:'relative',}}>
-                  <Text style={{position: 'absolute', top: 4, left: 12, zIndex: 999, backgroundColor: 'transparent', color: COLOR.WHITE, fontFamily: 'Muli-Bold'}}>
-                     12:00
-                  </Text>
-                  <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: COLOR.BLACK20, zIndex: 900}}>
-                  </View>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
+         <View style={ListViewStyle.row}>
+            <View style={ListViewStyle.pic}>
+               <Image source={pictureUrl} style={ListViewStyle.photo} />
 
-               </View>
-
-               <View style={{flex: 4}}>
-                  <Text>{rowData.title}</Text>
-               </View>
             </View>
+            <View style={ListViewStyle.body}>
+
+                     <Text style={[General.h2,ListViewStyle.title]}>
+                       {rowData.title}
+                     </Text>
+                  <Text numberOfLines={2} style={ListViewStyle.description}>
+                     dgasdkflkasdnkfn
+                  </Text>
+
+            </View>
+         </View>
          </TouchableOpacity>
       )
    }
@@ -152,12 +238,21 @@ export default class NewsList extends Component {
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
+         stickySectionHeadersEnabled={true}
          renderRow={this._renderRow.bind(this)}
+         renderSectionHeader={this._renderSectionHeader.bind(this)}
          renderSeparator={(sectionID, rowID) =>
-           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
+         onEndReached={this.onEndReached.bind(this)}
+         refreshControl={
+            <RefreshControl
+               refreshing={this.state.refreshing}
+               onRefresh={this._onRefresh.bind(this)}
+            />
+         }
       />
       return (
          <View style={General.container}>
@@ -168,12 +263,12 @@ export default class NewsList extends Component {
 
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>
-                     {getTranslation('newsMenuItem')}
+                     {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={18} color={COLOR.WHITE} />
+                     <Icon name="search" size={24} color={COLOR.WHITE} />
                   </View>
                </View>
             </View>

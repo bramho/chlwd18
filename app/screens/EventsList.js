@@ -45,9 +45,6 @@ var favoritesIds = [];
 var favoriteButton;
 var categories;
 
-const getSectionData = (dataBlob, sectionId) => dataBlob[sectionId];
-const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`];
-
 const dataSource = new ListView.DataSource({
    rowHasChanged: (r1, r2) => r1 !== r2,
    sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
@@ -141,18 +138,16 @@ export default class EventsList extends Component {
     * @return {object}      [returns formated data object that can be readed by sectionlistview]
     */
    formatData(data) {
-
+      // new store map array
       const eventMap = [];
-
+      // loops al data from data object
       for (let sectionId = 0; sectionId  < data.length; sectionId++) {
-         //console.log(dates.indexOf(data[sectionId].startDate));
-         //var datesKey = dates.indexOf(data[sectionId].startDate);
+         // if data array is not already added to the store map
          if(!eventMap[data[sectionId].startDate]) {
-
+            // Add  new array in array
             eventMap[data[sectionId].startDate] = [];
          }
          eventMap[data[sectionId].startDate].push(data[sectionId]);
-
       }
       return eventMap ;
    }
@@ -198,7 +193,11 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-
+   /**
+    * When user pressed on event item
+    * @param  {interger} id of the event
+    * @param  {object} data data object
+    */
    onItemPress(id, data) {
       Actions.eventItem({eventId:id, rowData:data})
    }
@@ -222,22 +221,27 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
-   // WIP
-   // /**
-   //  * When the user scrolled to the end, this function will run.
-   //  * @return {[type]} [description]
-   //  */
-   // onEndReached() {
-   //    if (!this.state.waiting) {
-   //
-   //
-   //    }
+   //WIP
+   /**
+    * When the user scrolled to the end, this function will run.
+    * @return {[type]} [description]
+    */
+   onEndReached() {
+      // if (!this.state.waiting) {
+      //
+      //
+      // }
    }
-
+   /**
+    * Renders section headers with date
+    * @param  {object} sectionData section data object, including keys en children data
+    * @param  {string} date       ISO Date format
+    * @return {object}            returns rendered data object
+    */
    _renderSectionHeader(sectionData, date) {
       return (
          <View style={[ListViewStyle.sectionHeader,ListViewStyle.sectionHeaderEvents]}>
-            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date)}</Text>
+            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date, 'listView')}</Text>
          </View>
       )
    }
