@@ -13,6 +13,7 @@ import Tags from "./Tags";
 import MapsStyle from "./Maps";
 import Buttons from "./Buttons";
 import FilterStyles from './Filter';
+import SettingsStyles from './Settings';
 import {SearchBar} from "./Components";
 
 COLOR = require('./COLOR');
@@ -109,4 +110,4 @@ const General = StyleSheet.create({
    }
 });
 
-export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons, MapsStyle };
+export { General, MenuStyle, ListViewStyle, EventStyle, NewsStyle, ComponentStyle, Tags, FilterStyles, Buttons, MapsStyle, SettingsStyles };

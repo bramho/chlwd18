@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import LoadingIcon from '../components/LoadingIcon';
 
+import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
@@ -117,7 +117,6 @@ export default class NewsList extends Component {
       });
    }
    onItemPress(id) {
-      console.log('You Pressed');
       Actions.newsItem({newsId:id})
    }
 
@@ -129,7 +128,7 @@ export default class NewsList extends Component {
     */
    _renderRow (rowData) {
       return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id)}.bind(this)}>
+         <TouchableOpacity onPress={function(){this.onItemPress(rowData.articleId)}.bind(this)}>
             <View style={[{flexDirection: 'row', padding: 8, borderBottomWidth: 1, borderColor: COLOR.DARKWHITE}]}>
                <View style={{flex: 2,position:'relative',}}>
                   <Text style={{position: 'absolute', top: 4, left: 12, zIndex: 999, backgroundColor: 'transparent', color: COLOR.WHITE, fontFamily: 'Muli-Bold'}}>
@@ -161,16 +160,19 @@ export default class NewsList extends Component {
       />
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.headerContainer}>
-               <View style={ComponentStyle.filterIconContainer}>
-
-               </View>
+            <View style={[ComponentStyle.headerContainer, ComponentStyle.newsHeader]}>
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
+                  <View style={ComponentStyle.filterIcon}>
+                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                  </View>
+               </TouchableOpacity>
 
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('newsMenuItem')}
                   </Text>
                </View>
+
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={18} color={COLOR.WHITE} />

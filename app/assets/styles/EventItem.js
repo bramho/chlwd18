@@ -59,7 +59,6 @@ export default EventItem = StyleSheet.create({
       width: null,
       height: HEADER_MAX_HEIGHT,
       resizeMode: 'cover',
-
    },
    button: {
       color:"#fff",

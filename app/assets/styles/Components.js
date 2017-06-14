@@ -100,9 +100,12 @@ export default ComponentStyle = StyleSheet.create({
       borderRadius: 50,
       justifyContent: 'center',
    },
-
    headerTitleContainer: {
       flex: 5,
+   },
+   newsHeaderTitleContainer: {
+      flex: 3,
+      alignItems: 'center',
    },
    backIconContainer: {
       flex: 4
@@ -129,6 +132,9 @@ export default ComponentStyle = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       marginTop: 30,
+   },
+   newsHeader: {
+      backgroundColor: COLOR.GRAYBLUE,
    },
 
 });
