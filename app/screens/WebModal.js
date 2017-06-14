@@ -19,7 +19,7 @@ class WebModal extends Component {
    // show or hide Modal based on 'hide' prop
    render() {
       return (
-         <View style={[General.container, {backgroundColor: '#F02C32'}]}>
+         <View style={[General.container, {backgroundColor: 'rgb(40, 45, 41)'}]}>
             <View style={ComponentStyle.singleHeaderContainer}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={ComponentStyle.filterIcon}>
@@ -31,7 +31,7 @@ class WebModal extends Component {
             <View style={{flex: 1}}>
                <WebView
                   source={{uri: this.state.url}}
-                  style={{marginBottom: 60}}
+                  style={{marginBottom: 50}}
                />
             </View>
          </View>

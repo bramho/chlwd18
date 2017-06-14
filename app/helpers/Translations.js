@@ -62,6 +62,7 @@ I18n.translations = {
       version: 'Version',
       watchOnboarding: 'Watch the onboarding again',
       backToSettings: 'Back to settings',
+      skip: 'Skip',
    },
    'nl-NL': {
       greeting: 'Hallo!',
@@ -120,6 +121,7 @@ I18n.translations = {
       version: 'Versie',
       watchOnboarding: 'Bekijk de onboarding nogmaals',
       backToSettings: 'Terug naar instellingen',
+      skip: 'Overslaan',
    },
 }
 

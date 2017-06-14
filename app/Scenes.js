@@ -6,7 +6,7 @@ import { getTranslation } from './helpers/Translations';
 
 import { General, MenuStyle } from './assets/styles/General';
 // Import Components
-import TabItem, { TabItemNews, TabItemFav,TabItemMaps } from './components/TabBar';
+import TabItem, { TabItemNews, TabItemFav, TabItemMaps } from './components/TabBar';
 
 // Import Screens
 import TestNews from './screens/TestNews';
@@ -23,6 +23,8 @@ import FilterModal from './screens/FilterModal';
 import SettingsScene from './screens/SettingsScene';
 import AdvertisementScene from './screens/AdvertisementScene';
 import DevelopmentBy from './screens/DevelopmentBy';
+
+import OnBoarding from './screens/OnBoarding';
 
 import { statusBar } from './helpers/StatusBar';
 
@@ -80,6 +82,14 @@ const scenes = Actions.create(
                   component={DevelopmentBy}
                   direction="horizontal"
                   hideNavBar
+               />
+
+               <Scene
+                  key="onBoarding"
+                  component={OnBoarding}
+                  direction="horizontal"
+                  hideNavBar
+                  hideTabBar
                />
 
             </Scene>
