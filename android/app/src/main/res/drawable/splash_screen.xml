@@ -4,6 +4,8 @@
         android:drawable="@color/red"/>
     <item>
         <bitmap
+            android:width="64dp"
+            android:height="64dp"
             android:gravity="center"
             android:src="@mipmap/ic_launcher"/>
     </item>
