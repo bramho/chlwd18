@@ -20,6 +20,10 @@ import Maps from './screens/Maps';
 import WebModal from './screens/WebModal';
 import FilterModal from './screens/FilterModal';
 
+import SettingsScene from './screens/SettingsScene';
+import AdvertisementScene from './screens/AdvertisementScene';
+import DevelopmentBy from './screens/DevelopmentBy';
+
 import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
@@ -29,28 +33,7 @@ const scenes = Actions.create(
             tabs
             tabBarStyle={[MenuStyle.tabBar, General.grayBorderTop]}
          >
-            <Scene key="newsTab" initial title={getTranslation('newsMenuItem')} icon={TabItemNews}>
-               <Scene
-                 key="news"
-                 searchText
-                 component={NewsList}
-                 icon={TabItemNews}
-                 hideNavBar
-               />
-               <Scene
-                 key="newsItem"
-                 component={NewsItem}
-                 hideNavBar = {true}
-                 navigationBarStyle={MenuStyle.newsNavbar}
-                 backTitle={getTranslation('navBarBackTitle')}
-                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
-                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
-                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
-                 hideNavBar
-               />
-            </Scene>
-
-            <Scene key="eventsTab" title={getTranslation('eventsMenuItem')} icon={TabItem}>
+            <Scene key="eventsTab" initial title={getTranslation('eventsMenuItem')} icon={TabItem}>
                <Scene
                  key="events"
                  searchText
@@ -77,6 +60,65 @@ const scenes = Actions.create(
                <Scene
                   key="filterModal"
                   component={FilterModal}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="settings"
+                  component={SettingsScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="advertisement"
+                  component={AdvertisementScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="developmentBy"
+                  component={DevelopmentBy}
+                  direction="horizontal"
+                  hideNavBar
+               />
+
+            </Scene>
+
+            <Scene key="newsTab" title={getTranslation('newsMenuItem')} icon={TabItemNews}>
+               <Scene
+                 key="news"
+                 searchText
+                 component={NewsList}
+                 icon={TabItemNews}
+                 hideNavBar
+               />
+               <Scene
+                 key="newsItem"
+                 component={NewsItem}
+                 hideNavBar = {true}
+                 navigationBarStyle={MenuStyle.newsNavbar}
+                 backTitle={getTranslation('navBarBackTitle')}
+                 backButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 leftButtonIconStyle={MenuStyle.newsBackButtonIconStyle}
+                 rightButtonTextStyle={MenuStyle.newsBackButtonTextStyle}
+                 hideNavBar
+               />
+
+               <Scene
+                  key="settings"
+                  component={SettingsScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="advertisement"
+                  component={AdvertisementScene}
+                  direction="horizontal"
+                  hideNavBar
+               />
+               <Scene
+                  key="developmentBy"
+                  component={DevelopmentBy}
                   direction="horizontal"
                   hideNavBar
                />
