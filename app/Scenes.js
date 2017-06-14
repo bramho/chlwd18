@@ -24,6 +24,8 @@ import SettingsScene from './screens/SettingsScene';
 import AdvertisementScene from './screens/AdvertisementScene';
 import DevelopmentBy from './screens/DevelopmentBy';
 
+import OnBoarding from './screens/OnBoarding';
+
 import { statusBar } from './helpers/StatusBar';
 
 const scenes = Actions.create(
@@ -80,6 +82,14 @@ const scenes = Actions.create(
                   component={DevelopmentBy}
                   direction="horizontal"
                   hideNavBar
+               />
+
+               <Scene
+                  key="onBoarding"
+                  component={OnBoarding}
+                  direction="horizontal"
+                  hideNavBar
+                  hideTabBar
                />
 
             </Scene>
