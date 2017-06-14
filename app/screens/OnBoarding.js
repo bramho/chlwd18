@@ -7,65 +7,9 @@ import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
 import { setStorageData, checkStorageKey } from '../helpers/Storage';
 
-import { General, SettingsStyles, ComponentStyle, FilterStyles } from '../assets/styles/General';
-
-const styles = StyleSheet.create({
-   slide: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: COLOR.WHITE,
-      paddingLeft: 25,
-      paddingRight: 25,
-   },
-   pagination: {
-     paddingBottom: 175,
-   },
-   image: {
-      position: 'absolute',
-      top: 80,
-   },
-   text: {
-      fontFamily: 'Muli-Regular',
-      fontSize: 16,
-      color: COLOR.DARK,
-   },
-   subText: {
-      fontFamily: 'HindSiliguri-Regular',
-      fontSize: 12,
-      lineHeight: 22,
-      color: COLOR.MEDIUMGRAY,
-      textAlign: 'center',
-      marginTop: 8,
-   },
-   button: {
-      padding: 10,
-      minWidth: 220,
-      backgroundColor: COLOR.RED,
-      borderRadius: 8,
-      position: 'absolute',
-      bottom: 65,
-   },
-   buttonText: {
-      fontFamily: 'Muli-Regular',
-      fontSize: 14,
-      color: COLOR.WHITE,
-      textAlign: 'center',
-   },
-   skipTextContainer: {
-      position: 'absolute',
-      bottom: 24,
-   },
-   skipText: {
-      fontFamily: 'HindSiliguri-Regular',
-      fontSize: 12,
-      color: COLOR.BLACK40,
-      textDecorationLine: 'underline',
-   },
-});
+import { General, ComponentStyle } from '../assets/styles/General';
 
 const ONBOARDING_STORAGE_KEY = 'onBoardingComplete';
-
 
 class OnBoarding extends Component {
 
@@ -102,78 +46,78 @@ class OnBoarding extends Component {
       return (
          <View style={{position: 'relative'}}>
             <Swiper
-               paginationStyle={styles.pagination}
+               paginationStyle={ComponentStyle.onBoardingPagination}
                dotColor={COLOR.BLUEGRAY}
                loop={false}
                ref='onBoardingSwiper'
             >
-               <View style={styles.slide}>
+               <View style={ComponentStyle.onBoardingSlide}>
                   <Image
                      source={require('../assets/images/find-events_ob.png')}
-                     style={styles.image}
+                     style={ComponentStyle.onBoardingImage}
                   />
 
-                  <Text style={styles.text}>
+                  <Text style={ComponentStyle.onBoardingText}>
                      Vind je evenementen!
                   </Text>
-                  <Text style={styles.subText}>
+                  <Text style={ComponentStyle.onBoardingSubText}>
                      De uitspraak van het gerechtshof dat er strafrechtelijke vervolging moet worden ingesteld tegen.
                   </Text>
 
-                  <TouchableOpacity style={styles.button} onPress={() => this.jumpSlide()}>
-                     <Text style={styles.buttonText}>
+                  <TouchableOpacity style={ComponentStyle.onBoardingBtn} onPress={() => this.jumpSlide()}>
+                     <Text style={ComponentStyle.onBoardingBtnText}>
                         Volgende
                      </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.skipTextContainer} onPress={() => this.completeOnBoarding()}>
-                     <Text style={styles.skipText}>
+                  <TouchableOpacity style={ComponentStyle.skipTextContainer} onPress={() => this.completeOnBoarding()}>
+                     <Text style={ComponentStyle.skipText}>
                         Overslaan
                      </Text>
                   </TouchableOpacity>
                </View>
 
-               <View style={styles.slide}>
+               <View style={ComponentStyle.onBoardingSlide}>
                   <Image
                      source={require('../assets/images/find-news_ob.png')}
-                     style={styles.image}
+                     style={ComponentStyle.onBoardingImage}
                   />
 
-                  <Text style={styles.text}>
+                  <Text style={ComponentStyle.onBoardingText}>
                      Vind nieuws omtrent LWD 2018
                   </Text>
-                  <Text style={styles.subText}>
+                  <Text style={ComponentStyle.onBoardingSubText}>
                      De uitspraak van het gerechtshof dat er strafrechtelijke vervolging moet worden ingesteld tegen.
                   </Text>
 
-                  <TouchableOpacity style={styles.button} onPress={() => this.jumpSlide()}>
-                     <Text style={styles.buttonText}>
+                  <TouchableOpacity style={ComponentStyle.onBoardingBtn} onPress={() => this.jumpSlide()}>
+                     <Text style={ComponentStyle.onBoardingBtnText}>
                         Volgende
                      </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.skipTextContainer} onPress={() => this.completeOnBoarding()}>
-                     <Text style={styles.skipText}>
+                  <TouchableOpacity style={ComponentStyle.skipTextContainer} onPress={() => this.completeOnBoarding()}>
+                     <Text style={ComponentStyle.skipText}>
                         Overslaan
                      </Text>
                   </TouchableOpacity>
                </View>
 
-               <View style={styles.slide}>
+               <View style={ComponentStyle.onBoardingSlide}>
                   <Image
                      source={require('../assets/images/save-events_ob.png')}
-                     style={styles.image}
+                     style={ComponentStyle.onBoardingImage}
                   />
 
-                  <Text style={styles.text}>
+                  <Text style={ComponentStyle.onBoardingText}>
                      Sla je favoriete evenementen op!
                   </Text>
-                  <Text style={styles.subText}>
+                  <Text style={ComponentStyle.onBoardingSubText}>
                      De uitspraak van het gerechtshof dat er strafrechtelijke vervolging moet worden ingesteld tegen.
                   </Text>
 
-                  <TouchableOpacity style={styles.button} onPress={() => this.completeOnBoarding()}>
-                     <Text style={styles.buttonText}>
+                  <TouchableOpacity style={ComponentStyle.onBoardingBtn} onPress={() => this.completeOnBoarding()}>
+                     <Text style={ComponentStyle.onBoardingBtnText}>
                         Ik begrijp het!
                      </Text>
                   </TouchableOpacity>
