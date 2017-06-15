@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
-var moment = require('moment');
+import Icon from '../helpers/Icons';
 
 import LoadingIcon from '../components/LoadingIcon';
 
-import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -13,15 +12,14 @@ import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
-var COLOR = require('../assets/styles/COLOR.js');
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
 
 /**
  * Apilink for calling data for the listview
  */
 var params = {
-   number: 10,
-   pageNumber:1,
+   number: 30,
+   pageNumber:2,
    sort:'date',
    from:'',
    until:'',
@@ -31,9 +29,6 @@ var params = {
    maxPrice:'',
 }
 
-
-const MAXPRICEVALUE = 230;
-
 const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
@@ -41,9 +36,7 @@ const imgLink = "https://www.vanplan.nl/contentfiles/";
 /**
  * New initialisation of the ListView datasource object
  */
- const ds = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
- });
+
 var listData = [];
 
 var favorites = [];
@@ -52,12 +45,17 @@ var favoritesIds = [];
 var favoriteButton;
 var categories;
 
+const dataSource = new ListView.DataSource({
+   rowHasChanged: (r1, r2) => r1 !== r2,
+   sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
+});
+
 export default class EventsList extends Component {
    constructor(props) {
       super(props);
-      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
+
       this.state = {
-         dataSource: dataSource.cloneWithRows(listData),
+         dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
          isLoading:true,
          rawData: '',
          apiData: '',
@@ -67,32 +65,9 @@ export default class EventsList extends Component {
          index: 0,
          waiting:false,
          pageNumber:1,
-         maxPriceValue: MAXPRICEVALUE,
       };
 
 
-      // params.minPrice = this.props.minPrice;
-
-   }
-
-   componentWillReceiveProps(props) {
-
-      var fromDateFormat = moment(props.from).toISOString();
-      var untilDateFormat = moment(props.until).toISOString();
-
-      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
-
-      console.log(newApiLink);
-
-      this.setState({
-         isLoading: true,
-         maxPriceValue: props.maxPrice,
-         categoryId: props.categoryId,
-         fromDate: props.from,
-         untilDate: props.until,
-      });
-
-      this.getEventData(newApiLink, 'eventList', true);
    }
 
    componentDidMount() {
@@ -111,7 +86,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      // removeItemFromStorage('eventList');
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -121,7 +96,8 @@ export default class EventsList extends Component {
                storageData = JSON.parse(data);
 
                this.setState({
-                  dataSource: this.state.dataSource.cloneWithRows(storageData),
+                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+
                   apiData: storageData,
                   // isLoading: false,
                   empty: false,
@@ -129,52 +105,51 @@ export default class EventsList extends Component {
                });
             });
          } else {
-            this.getEventData(apiLink, storageKey, false);
+            Api.getData(apiLink)
+               .then((data) => {
+                  listData = data.results;
+
+                  this.setState({
+                     dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+                     apiData: data.results,
+                     isLoading: false,
+                     empty: false,
+                     rawData: data.results,
+                  });
+
+                  setStorageData(storageKey, listData);
+
+
+               })
+               .catch((error) => {
+                  console.log(error)
+                  this.setState({
+                     empty: true,
+                     isLoading: false,
+                  });
+               });
          }
       });
    }
 
    /**
-    * Gets event data from apiLink and stores it in the cache
-    * @param  {string} apiLink      Url to API
-    * @param  {string} storageKey   Key for local storage
-    * @return {JSON}                List of events
+    * formats the data for the ListView
+    * @param  {object} data dataObject from the server
+    * @return {object}      [returns formated data object that can be readed by sectionlistview]
     */
-   getEventData(apiLink, storageKey, isFilter) {
-
-      if (this.state.isLoading === false) {
-         this.setState({isLoading: true});
+   formatData(data) {
+      // new store map array
+      const eventMap = [];
+      // loops al data from data object
+      for (let sectionId = 0; sectionId  < data.length; sectionId++) {
+         // if data array is not already added to the store map
+         if(!eventMap[data[sectionId].startDate]) {
+            // Add  new array in array
+            eventMap[data[sectionId].startDate] = [];
+         }
+         eventMap[data[sectionId].startDate].push(data[sectionId]);
       }
-
-      Api.getData(apiLink)
-         .then((data) => {
-            listData = data.results;
-
-            this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(data.results),
-               apiData: data.results,
-               isLoading: false,
-               empty: false,
-               rawData: data.results,
-            });
-
-            if (!isFilter) {
-               setStorageData(storageKey, listData);
-
-               if (this.state.refreshing) {
-                  this.setState({refreshing: false})
-               }
-            }
-
-
-         })
-         .catch((error) => {
-            console.log(error)
-            this.setState({
-               empty: true,
-               isLoading: false,
-            });
-         });
+      return eventMap ;
    }
 
    /**
@@ -205,11 +180,6 @@ export default class EventsList extends Component {
       });
    }
 
-   setFavoriteButton(id, isReset) {
-
-
-   }
-
    /**
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
@@ -223,7 +193,11 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-
+   /**
+    * When user pressed on event item
+    * @param  {interger} id of the event
+    * @param  {object} data data object
+    */
    onItemPress(id, data) {
       Actions.eventItem({eventId:id, rowData:data})
    }
@@ -234,8 +208,6 @@ export default class EventsList extends Component {
       this.fetchData().then(() => {
          this.setState({refreshing: false})
       });
-
-      this.getEventData(apiLink, 'eventList', false);
 
    }
 
@@ -249,14 +221,29 @@ export default class EventsList extends Component {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+   //WIP
    /**
     * When the user scrolled to the end, this function will run.
     * @return {[type]} [description]
     */
    onEndReached() {
-      if (!this.state.waiting) {
-
-      }
+      // if (!this.state.waiting) {
+      //
+      //
+      // }
+   }
+   /**
+    * Renders section headers with date
+    * @param  {object} sectionData section data object, including keys en children data
+    * @param  {string} date       ISO Date format
+    * @return {object}            returns rendered data object
+    */
+   _renderSectionHeader(sectionData, date) {
+      return (
+         <View style={[ListViewStyle.sectionHeader,ListViewStyle.sectionHeaderEvents]}>
+            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date, 'listView')}</Text>
+         </View>
+      )
    }
    /**
     * [Set row attribute for the ListView in render()]
@@ -264,65 +251,47 @@ export default class EventsList extends Component {
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
-
       return (
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
-            <View>
+            <View style={ListViewStyle.pic}>
                <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
-               <View style={ListViewStyle.priceContainer}>
-                  <View style={ListViewStyle.price}>
-                     <Text style={ListViewStyle.priceText}>
-                        € {rowData.ticketUrls[0].price}
-                     </Text>
-                  </View>
-               </View>
 
-
-               <View style={ListViewStyle.categoriesContainer}>
-                  <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
-                     <Text style={ListViewStyle.categoryItem}>
-                        {rowData.categories[0].name}
-                     </Text>
-                  </View>
-               </View>
             </View>
             <View style={ListViewStyle.body}>
-               <View style={ListViewStyle.dateContainer}>
-                  <View style={ListViewStyle.day}>
-                     <Text style={ListViewStyle.dayText}>
-                       {formatDate(rowData.startDate,'eventList-day')}
-                     </Text>
-                  </View>
-                  <View style={ListViewStyle.month}>
-                     <Text style={ListViewStyle.monthText}>
-                       {formatDate(rowData.startDate,'eventList-month')}
-                     </Text>
-                  </View>
-               </View>
-               <View style={ListViewStyle.textContainer}>
-                  <View style={ListViewStyle.titleContainer}>
-                     <Text style={ListViewStyle.title}>
+
+                     <Text style={[General.h2,ListViewStyle.title]}>
                        {rowData.title}
                      </Text>
-                  </View>
                   <Text numberOfLines={2} style={ListViewStyle.description}>
-                     <Icon name="pointer" size={18} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
+                     {rowData.city.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()) }
                   </Text>
+               <View style={ListViewStyle.categoriesContainer}>
+                  {rowData.categories.map((categorie,index) => (
+                     <View key={index} style={ListViewStyle.categoryItemContainer}>
+                        <Text style={ListViewStyle.categoryItem}>
+                           {'#'+categorie.name}
+                        </Text>
+                     </View>
+                  ))}
+
                </View>
             </View>
          </View>
          </TouchableOpacity>
       )
    }
+
    render() {
       var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
          style={ListViewStyle.container}
          dataSource={this.state.dataSource}
+         stickySectionHeadersEnabled={true}
          renderRow={this._renderRow.bind(this)}
+         renderSectionHeader={this._renderSectionHeader.bind(this)}
          renderSeparator={(sectionID, rowID) =>
-           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
@@ -343,16 +312,17 @@ export default class EventsList extends Component {
                   </View>
                </TouchableOpacity>
 
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={[General.h2, ComponentStyle.headerTitle]}>
+                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
+               <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={25} color={COLOR.WHITE} />
+                     <Icon name="search" size={24} color={COLOR.WHITE} />
                   </View>
-               </TouchableOpacity>
+               </View>
             </View>
             {currentView}
          </View>

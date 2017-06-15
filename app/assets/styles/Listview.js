@@ -21,20 +21,21 @@ const {width, height, scale} = Dimensions.get("window"),
       flex: 1,
       marginLeft:20,
       marginRight:20,
-      marginTop:20,
-      flexDirection: 'column',
+      flexDirection: 'row',
       alignItems: 'center',
       backgroundColor:"#fff",
       borderRadius: 5,
+      marginVertical:10
    },
    body: {
      paddingRight: 20,
      paddingTop: 10,
      paddingBottom: 10,
-     flex:1,
-     flexDirection: 'row',
+     paddingLeft:20,
+     flex:2,
+     flexDirection: 'column',
+     alignItems:'flex-start'
    },
-
    dateContainer: {
       flex: 1,
       flexDirection: 'column',
@@ -42,36 +43,20 @@ const {width, height, scale} = Dimensions.get("window"),
       paddingRight: 10,
       paddingLeft: 0,
    },
-   dayText: {
-      fontSize: 16,
-      color: COLOR.DARKPURPLE,
-      fontFamily: 'Muli-Regular',
-   },
-
-   monthText: {
-      color: 'rgb(178, 178, 178)',
-      fontSize: 14,
-      fontFamily: 'Muli-Regular',
-   },
-
-   textContainer: {
-      flex: 5,
-   },
-
    title: {
-      fontSize:16,
-      flex:4,
-      color: '#000',
-      fontFamily: 'Muli-Regular',
+      color:  COLOR.DARKPURPLE,
+      lineHeight:21,
    },
    titleContainer: {
       flex: 1,
       flexDirection: 'row',
    },
    description: {
-      color: 'rgb(178, 178, 178)',
+      color: COLOR.BLUE,
       fontSize: 14,
-      fontFamily: 'Muli-Regular',
+      marginTop:-4,
+      marginBottom:10,
+      fontWeight: "500",
    },
    priceContainer: {
       position: 'absolute',
@@ -104,23 +89,20 @@ const {width, height, scale} = Dimensions.get("window"),
    },
 
    categoriesContainer: {
-      position: 'absolute',
-      bottom: 10,
-      left: 15,
-      flex: 1,
-      flexDirection: 'row',
+      flexDirection:'row'
    },
    categoryItemContainer: {
       marginRight: 10,
-      padding: 3,
-      paddingLeft: 8,
-      paddingRight: 8,
-      borderRadius: 5,
+      paddingHorizontal:20,
+      height:24,
+      borderRadius: 16,
+      borderWidth:StyleSheet.hairlineWidth,
+      borderColor:COLOR.GRAY
    },
    categoryItem: {
       fontSize: 12,
-      color: '#fff',
       fontFamily: 'Muli-Regular',
+      lineHeight:19
    },
    categoryItemDance: {
       backgroundColor: 'rgb(77, 76, 193)',
@@ -133,21 +115,22 @@ const {width, height, scale} = Dimensions.get("window"),
       fontSize: 16,
    },
    photo: {
-      height:(100*vw-40)/2,
-      width: 100*vw-40,
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
+      height:100,
+      width: 120,
       borderRadius: 5,
+      resizeMode: 'cover',
+   },
+   picture: {
+      flex:1
    },
    separator: {
-      flex: 1,
-      height: 0,
+      height:StyleSheet.hairlineWidth,
+      backgroundColor:COLOR.GRAY
    },
    footer: {
       flex: 1,
       height: 10,
    },
-
    listViewTitleContainer: {
       marginLeft: 20,
       marginTop: 20,
@@ -157,9 +140,22 @@ const {width, height, scale} = Dimensions.get("window"),
       fontFamily: 'Muli-Bold',
       fontSize: 16,
    },
-
+   sectionHeader:{
+      paddingHorizontal:20,
+      paddingVertical:15,
+      borderTopWidth:StyleSheet.hairlineWidth,
+      borderTopColor:COLOR.GRAY
+   },
+   sectionHeaderEvents: {
+      backgroundColor:COLOR.WHITE
+   },
+   sectionHeaderText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color:COLOR.DARKPURPLE,
+   },
    newsBody: {
-      backgroundColor: COLOR.WHITE,
+      backgroundColor: COLOR.GRAYBLUE,
    },
    newsTitle: {
       color: COLOR.WHITE,
