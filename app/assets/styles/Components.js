@@ -136,5 +136,56 @@ export default ComponentStyle = StyleSheet.create({
    newsHeader: {
       backgroundColor: COLOR.GRAYBLUE,
    },
-
+   onBoardingSlide: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: COLOR.WHITE,
+      paddingLeft: 25,
+      paddingRight: 25,
+   },
+   onBoardingPagination: {
+      paddingBottom: 175,
+   },
+   onBoardingImage: {
+      position: 'absolute',
+      top: 80,
+   },
+   onBoardingText: {
+      fontFamily: 'Muli-Regular',
+      fontSize: 16,
+      color: COLOR.DARK,
+   },
+   onBoardingSubText: {
+      fontFamily: 'HindSiliguri-Regular',
+      fontSize: 12,
+      lineHeight: 22,
+      color: COLOR.MEDIUMGRAY,
+      textAlign: 'center',
+      marginTop: 8,
+   },
+   onBoardingBtn: {
+      padding: 10,
+      minWidth: 220,
+      backgroundColor: COLOR.RED,
+      borderRadius: 8,
+      position: 'absolute',
+      bottom: 65,
+   },
+   onBoardingBtnText: {
+      fontFamily: 'Muli-Regular',
+      fontSize: 14,
+      color: COLOR.WHITE,
+      textAlign: 'center',
+   },
+   skipTextContainer: {
+      position: 'absolute',
+      bottom: 24,
+   },
+   skipText: {
+      fontFamily: 'HindSiliguri-Regular',
+      fontSize: 12,
+      color: COLOR.BLACK40,
+      textDecorationLine: 'underline',
+   }
 });
