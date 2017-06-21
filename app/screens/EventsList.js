@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Swipeout from 'react-native-swipeout';
+
 import Icon from '../helpers/Icons';
 
 import LoadingIcon from '../components/LoadingIcon';
+import ErrorNotification from '../components/ErrorNotification';
 
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
@@ -28,6 +31,8 @@ var params = {
    minPrice:'',
    maxPrice:'',
 }
+
+const MAXPRICEVALUE = 230;
 
 const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
@@ -65,9 +70,30 @@ export default class EventsList extends Component {
          index: 0,
          waiting:false,
          pageNumber:1,
+         error: "",
       };
 
 
+   }
+
+   componentWillReceiveProps(props) {
+
+      var fromDateFormat = moment(props.from).toISOString();
+      var untilDateFormat = moment(props.until).toISOString();
+
+      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+
+      console.log(newApiLink);
+
+      this.setState({
+         isLoading: true,
+         maxPriceValue: props.maxPrice,
+         categoryId: props.categoryId,
+         fromDate: props.from,
+         untilDate: props.until,
+      });
+
+      this.getEventData(newApiLink, 'eventList', true);
    }
 
    componentDidMount() {
@@ -96,40 +122,72 @@ export default class EventsList extends Component {
                storageData = JSON.parse(data);
 
                this.setState({
-                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
-
+                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
                   apiData: storageData,
                   // isLoading: false,
                   empty: false,
                   rawData: storageData,
                });
-            });
-         } else {
-            Api.getData(apiLink)
-               .then((data) => {
-                  listData = data.results;
+            })
+            .catch((error) => {
+               console.error(error);
 
-                  this.setState({
-                     dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
-                     apiData: data.results,
-                     isLoading: false,
-                     empty: false,
-                     rawData: data.results,
-                  });
-
-                  setStorageData(storageKey, listData);
-
-
+               this.setState({
+                  empty: true,
+                  isLoading: false,
+                  error: <ErrorNotification errorNumber={100} />,
                })
-               .catch((error) => {
-                  console.log(error)
-                  this.setState({
-                     empty: true,
-                     isLoading: false,
-                  });
-               });
+            });
+
+         } else {
+            this.getEventData(apiLink, storageKey, false);
          }
       });
+   }
+
+   /**
+    * Gets event data from apiLink and stores it in the cache
+    * @param  {string} apiLink      Url to API
+    * @param  {string} storageKey   Key for local storage
+    * @return {JSON}                List of events
+    */
+   getEventData(apiLink, storageKey, isFilter) {
+
+      if (this.state.isLoading === false) {
+         this.setState({isLoading: true});
+      }
+
+      Api.getData(apiLink)
+         .then((data) => {
+            listData = data.results;
+
+            this.setState({
+               dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+               apiData: data.results,
+               isLoading: false,
+               empty: false,
+               rawData: data.results,
+            });
+
+            if (!isFilter) {
+               setStorageData(storageKey, listData);
+
+               if (this.state.refreshing) {
+                  this.setState({refreshing: false})
+               }
+            }
+
+
+         })
+         .catch((error) => {
+            console.log(error);
+
+            this.setState({
+               empty: true,
+               isLoading: false,
+               error: <ErrorNotification errorNumber={100} />,
+            });
+         });
    }
 
    /**
@@ -209,6 +267,8 @@ export default class EventsList extends Component {
          this.setState({refreshing: false})
       });
 
+      this.getEventData(apiLink, 'eventList', false);
+
    }
 
    addOrRemoveFavorite (rowData) {
@@ -251,7 +311,26 @@ export default class EventsList extends Component {
     * @return [markup]        Returns the template for the row in ListView.
     */
    _renderRow (rowData) {
+
+      var heartIcon;
+
+      if (favoritesIds.indexOf(rowData.id) !== -1) {
+         heartIcon = <Icon name="heart-fill" size={30} color={COLOR.WHITE} />
+      } else {
+         heartIcon = <Icon name="heart" size={30} color={COLOR.WHITE} />
+      }
+
+      var swipeOutBtnLeft = [
+         {
+            component: <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>{heartIcon}</View>,
+            backgroundColor: COLOR.BLUE,
+            underlayColor: COLOR.BLUE,
+            onPress: () => this.addOrRemoveFavorite(rowData),
+         }
+      ]
+
       return (
+      <Swipeout left={swipeOutBtnLeft} backgroundColor='transparent' buttonWidth={100}>
          <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
          <View style={ListViewStyle.row}>
             <View style={ListViewStyle.pic}>
@@ -279,6 +358,7 @@ export default class EventsList extends Component {
             </View>
          </View>
          </TouchableOpacity>
+      </Swipeout>
       )
    }
 
@@ -303,6 +383,9 @@ export default class EventsList extends Component {
             />
          }
       />
+
+      currentView = (this.state.error === "") ? currentView : this.state.error;
+
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
@@ -318,11 +401,12 @@ export default class EventsList extends Component {
                      {getTranslation('eventsMenuItem')}
                   </Text>
                </View>
-               <View style={ComponentStyle.filterIconContainer}>
+
+               <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
                      <Icon name="search" size={24} color={COLOR.WHITE} />
                   </View>
-               </View>
+               </TouchableOpacity>
             </View>
             {currentView}
          </View>

@@ -3,6 +3,7 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, As
 import { Scene, Actions } from 'react-native-router-flux';
 
 import LoadingIcon from '../components/LoadingIcon';
+import ErrorNotification from '../components/ErrorNotification';
 
 import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
@@ -40,6 +41,7 @@ export default class FavoriteList extends Component {
          searchText: '',
          myKey: '',
          refreshing: false,
+         error: "",
       };
    }
 
@@ -68,6 +70,12 @@ export default class FavoriteList extends Component {
 
                storageData = JSON.parse(data);
 
+               if (storageData.length === 0) {
+                  this.setState({
+                     error: <ErrorNotification errorNumber={1} />,
+                  })
+               }
+
                this.setState({
                   dataSource: this.state.dataSource.cloneWithRows(storageData),
                   apiData: storageData,
@@ -75,6 +83,13 @@ export default class FavoriteList extends Component {
                   empty: false,
                   rawData: storageData,
                });
+            })
+            .catch((error) => {
+               this.setState({
+                  empty: true,
+                  isLoading: false,
+                  error: <ErrorNotification errorNumber={300} />,
+               })
             });
          }
       });
@@ -250,6 +265,8 @@ export default class FavoriteList extends Component {
             />
          }
       />
+
+   currentView = (this.state.error === "") ? currentView : this.state.error;
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
