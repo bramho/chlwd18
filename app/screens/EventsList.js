@@ -5,6 +5,8 @@ import Swipeout from 'react-native-swipeout';
 
 import Icon from '../helpers/Icons';
 
+var moment = require('moment');
+
 import LoadingIcon from '../components/LoadingIcon';
 import ErrorNotification from '../components/ErrorNotification';
 
@@ -21,8 +23,8 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
  * Apilink for calling data for the listview
  */
 var params = {
-   number: 30,
-   pageNumber:2,
+   number: 10,
+   pageNumber:1,
    sort:'date',
    from:'',
    until:'',
@@ -37,10 +39,6 @@ const MAXPRICEVALUE = 230;
 const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
-
-/**
- * New initialisation of the ListView datasource object
- */
 
 var listData = [];
 
@@ -70,6 +68,7 @@ export default class EventsList extends Component {
          index: 0,
          waiting:false,
          pageNumber:1,
+         maxPriceValue: MAXPRICEVALUE,
          error: "",
       };
 
