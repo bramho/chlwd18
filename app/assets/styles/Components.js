@@ -187,5 +187,18 @@ export default ComponentStyle = StyleSheet.create({
       fontSize: 12,
       color: COLOR.BLACK40,
       textDecorationLine: 'underline',
-   }
+   },
+   errorContainer: {
+      flex: 1,
+      alignItems: 'center',
+      paddingLeft: 20,
+      paddingRight: 20,
+   },
+   errorText: {
+      position: 'absolute',
+      bottom: 81,
+      fontFamily: 'HindSiliguri-Regular',
+      color: COLOR.BLACK40,
+      textAlign: 'center',
+   },
 });

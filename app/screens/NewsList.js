@@ -3,6 +3,7 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, As
 import { Scene, Actions } from 'react-native-router-flux';
 
 import LoadingIcon from '../components/LoadingIcon';
+import ErrorNotification from '../components/ErrorNotification';
 
 import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
@@ -42,7 +43,8 @@ export default class NewsList extends Component {
          apiData: '',
          refreshing: false,
          searchText: '',
-         myKey: ''
+         myKey: '',
+         error: "",
       };
 
 
@@ -76,6 +78,12 @@ export default class NewsList extends Component {
                   empty: false,
                   rawData: storageData,
                });
+            })
+            .catch((error) => {
+               console.error(error);
+               this.setState({
+                  error: <ErrorNotification errorNumber={200} />,
+               });
             });
          } else {
             Api.getData(apiLink,headers)
@@ -99,6 +107,7 @@ export default class NewsList extends Component {
                   this.setState({
                      empty: true,
                      isLoading: false,
+                     error: <ErrorNotification errorNumber={200} />,
                   });
                });
          }
@@ -253,6 +262,9 @@ export default class NewsList extends Component {
             />
          }
       />
+
+      currentView = (this.state.error === "") ? currentView : this.state.error
+
       return (
          <View style={General.container}>
             <View style={[ComponentStyle.headerContainer, ComponentStyle.newsHeader]}>
