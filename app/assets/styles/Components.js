@@ -201,4 +201,24 @@ export default ComponentStyle = StyleSheet.create({
       color: COLOR.BLACK40,
       textAlign: 'center',
    },
+   sectionHeader:{
+      paddingHorizontal:20,
+      paddingVertical:15,
+      borderTopWidth:StyleSheet.hairlineWidth,
+      borderTopColor:COLOR.GRAY,
+      backgroundColor:COLOR.WHITE,
+   },
+   sectionHeaderNews: {
+      backgroundColor:COLOR.GRAYBLUE,
+   },
+   sectionHeaderText: {
+      color:COLOR.DARKPURPLE,
+      fontWeight: "bold",
+      fontSize: 16,
+   },
+   sectionHeaderNewsText: {
+      color:COLOR.WHITE,
+      fontWeight: "bold",
+      fontSize: 16,
+   },
 });

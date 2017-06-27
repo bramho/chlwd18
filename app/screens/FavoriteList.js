@@ -3,7 +3,10 @@ import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, As
 import { Scene, Actions } from 'react-native-router-flux';
 
 import LoadingIcon from '../components/LoadingIcon';
+
 import ErrorNotification from '../components/ErrorNotification';
+import SectionHeader from '../components/SectionHeader';
+import Row from '../components/EventRow';
 
 import Icon from '../helpers/Icons';
 import Api from '../helpers/Api';
@@ -250,11 +253,14 @@ export default class FavoriteList extends Component {
    render() {
       var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <ListView
-         style={[ListViewStyle.container, ListViewStyle.favoritesContainer]}
+         style={ListViewStyle.container}
          dataSource={this.state.dataSource}
-         renderRow={this._renderRow.bind(this)}
+         stickySectionHeadersEnabled={true}
+         renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
+         renderRow={(data) => <Row {...data} />}
+
          renderSeparator={(sectionID, rowID) =>
-           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
+          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
@@ -270,8 +276,10 @@ export default class FavoriteList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
+
+
                <View style={ComponentStyle.headerTitleContainer}>
-                  <Text style={[General.h2, ComponentStyle.headerTitle]}>
+                  <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('favoritesMenuItem')}
                   </Text>
                </View>
