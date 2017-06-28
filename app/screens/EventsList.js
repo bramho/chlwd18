@@ -9,6 +9,7 @@ var moment = require('moment');
 
 import LoadingIcon from '../components/LoadingIcon';
 import ErrorNotification from '../components/ErrorNotification';
+import PopUpNotification from '../components/PopUpNotification';
 
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
@@ -70,6 +71,7 @@ export default class EventsList extends Component {
          pageNumber:1,
          maxPriceValue: MAXPRICEVALUE,
          error: "",
+         favoritesIds: '',
       };
 
 
@@ -77,22 +79,26 @@ export default class EventsList extends Component {
 
    componentWillReceiveProps(props) {
 
-      var fromDateFormat = moment(props.from).toISOString();
-      var untilDateFormat = moment(props.until).toISOString();
+      if (props.isFilter === true) {
+         var fromDateFormat = moment(props.from).toISOString();
+         var untilDateFormat = moment(props.until).toISOString();
 
-      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+         const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort=date&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
-      console.log(newApiLink);
+         console.log(newApiLink);
 
-      this.setState({
-         isLoading: true,
-         maxPriceValue: props.maxPrice,
-         categoryId: props.categoryId,
-         fromDate: props.from,
-         untilDate: props.until,
-      });
+         this.setState({
+            isLoading: true,
+            maxPriceValue: props.maxPrice,
+            categoryId: props.categoryId,
+            fromDate: props.from,
+            untilDate: props.until,
+         });
 
-      this.getEventData(newApiLink, 'eventList', true);
+         this.getEventData(newApiLink, 'eventList', true);
+      } else {
+         this.getEventData(apiLink, 'eventList', false);
+      }
    }
 
    componentDidMount() {
@@ -241,7 +247,8 @@ export default class EventsList extends Component {
 
 
                   this.setState({
-                     isLoading: false
+                     isLoading: false,
+                     favoritesIds: favoritesIds,
                   });
                });
             });
@@ -284,10 +291,18 @@ export default class EventsList extends Component {
 
    addOrRemoveFavorite (rowData) {
 
-      var index = favoritesIds.indexOf(rowData.id);
+      var index = this.state.favoritesIds.indexOf(rowData.id);
+
+      console.log('Saved events index: ' + index);
 
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
+
+         var oldFavoritesIds = this.state.favoritesIds;
+         var newFavoritesIds = oldFavoritesIds.push(rowData.id);
+
+         console.log(newFavoritesIds);
+
       } else {
          setFavorite(rowData, false, favoritesIds);
       }
@@ -325,7 +340,7 @@ export default class EventsList extends Component {
 
       var heartIcon;
 
-      if (favoritesIds.indexOf(rowData.id) !== -1) {
+      if (this.state.favoritesIds.indexOf(rowData.id) !== -1) {
          heartIcon = <Icon name="heart-fill" size={30} color={COLOR.WHITE} />
       } else {
          heartIcon = <Icon name="heart" size={30} color={COLOR.WHITE} />
