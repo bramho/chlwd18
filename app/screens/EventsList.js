@@ -120,6 +120,12 @@ export default class EventsList extends Component {
 
                storageData = JSON.parse(data);
 
+               if (storageData.length === 0) {
+                  this.setState({
+                     error: <ErrorNotification errorNumber={1} />,
+                  })
+               }
+
                this.setState({
                   dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
                   apiData: storageData,
@@ -159,6 +165,12 @@ export default class EventsList extends Component {
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
+
+            if (listData.length === 0) {
+               this.setState({
+                  error: <ErrorNotification errorNumber={1} />,
+               })
+            }
 
             this.setState({
                dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),

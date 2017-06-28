@@ -22,6 +22,7 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 //const apiLink = "https://eric-project.c4x.nl/api/news";
 const apiLink = "https://kh2018-acc.ndcmediagroep.nl/services/article";
 const headers = {'Authorization': 'Basic bmRjOjJ0T01haGF3az8=' }
+
 /**
  * New initialisation of the ListView datasource object
  */
@@ -71,6 +72,12 @@ export default class NewsList extends Component {
 
                storageData = JSON.parse(data.articles);
 
+               if (storageData.length === 0) {
+                  this.setState({
+                     error: <ErrorNotification errorNumber={1} />,
+                  })
+               }
+
                this.setState({
                   dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
                   apiData: storageData,
@@ -90,6 +97,12 @@ export default class NewsList extends Component {
                .then((data) => {
 
                   listData = data.articles;
+
+                  if (listData.length === 0) {
+                     this.setState({
+                        error: <ErrorNotification errorNumber={1} />,
+                     })
+                  }
 
                   this.setState({
                      dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
