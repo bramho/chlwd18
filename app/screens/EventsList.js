@@ -71,7 +71,7 @@ export default class EventsList extends Component {
          pageNumber:1,
          maxPriceValue: MAXPRICEVALUE,
          error: "",
-         favoritesIds: '',
+         notification: "",
       };
 
 
@@ -228,7 +228,7 @@ export default class EventsList extends Component {
    }
 
    /**
-    * Gets favorites from local storage and assigns them to a favorites variable.
+    * Gets favorites from local storage and assigns them to a favorites variable and adds them to the state.
     */
    setFavorites() {
       this.setState({
@@ -245,10 +245,8 @@ export default class EventsList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
-
                   this.setState({
                      isLoading: false,
-                     favoritesIds: favoritesIds,
                   });
                });
             });
@@ -291,18 +289,16 @@ export default class EventsList extends Component {
 
    addOrRemoveFavorite (rowData) {
 
-      var index = this.state.favoritesIds.indexOf(rowData.id);
+      var index = favoritesIds.indexOf(rowData.id);
 
       console.log('Saved events index: ' + index);
 
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
 
-         var oldFavoritesIds = this.state.favoritesIds;
-         var newFavoritesIds = oldFavoritesIds.push(rowData.id);
+         this.setState({notification: 'Evenement is toegevoegd'});
 
-         console.log(newFavoritesIds);
-
+         setTimeout(function() { this.setState({notification: ''})}, 2000)
       } else {
          setFavorite(rowData, false, favoritesIds);
       }
@@ -340,7 +336,7 @@ export default class EventsList extends Component {
 
       var heartIcon;
 
-      if (this.state.favoritesIds.indexOf(rowData.id) !== -1) {
+      if (favoritesIds.indexOf(rowData.id) !== -1) {
          heartIcon = <Icon name="heart-fill" size={30} color={COLOR.WHITE} />
       } else {
          heartIcon = <Icon name="heart" size={30} color={COLOR.WHITE} />
@@ -434,6 +430,7 @@ export default class EventsList extends Component {
                   </View>
                </TouchableOpacity>
             </View>
+            <Text style={{marginTop: 50}}>{this.state.notification}</Text>
             {currentView}
          </View>
       )
