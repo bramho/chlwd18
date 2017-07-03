@@ -36,7 +36,7 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
    checkStorageKey('savedEvents').then((isValidKey) => {
 
       if (isValidKey) {
-         console.log("Saved Events Key: 'savedEvents' does exist");
+
          getStorageData('savedEvents').then((data) => {
             savedEvents = JSON.parse(data);
 
