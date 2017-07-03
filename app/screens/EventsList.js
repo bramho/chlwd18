@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
+import { StyleSheet, Text, Image, View, SectionList,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
 import StatusBarAlert from 'react-native-statusbar-alert';
@@ -44,9 +44,9 @@ var params = {
 
 const MAXPRICEVALUE = 230;
 
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
-const imgLink = "https://www.vanplan.nl/contentfiles/";
+const imgLink = "https://2018.vanplan.nl/contentfiles/";
 
 var listData = [];
 
@@ -56,17 +56,18 @@ var favoritesIds = [];
 var favoriteButton;
 var categories;
 
-const dataSource = new ListView.DataSource({
-   rowHasChanged: (r1, r2) => r1 !== r2,
-   sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
-});
+
 
 export default class EventsList extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
-         dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+         // dataSource:new ListView.DataSource({
+         //    rowHasChanged: (r1, r2) => r1 !== r2,
+         //    sectionHeaderHasChanged : (s1, s2) => s1 !== s2,
+         // }),
+         data:[],
          isLoading:true,
          rawData: '',
          apiData: '',
@@ -88,7 +89,7 @@ export default class EventsList extends Component {
          var fromDateFormat = moment(props.from).toISOString();
          var untilDateFormat = moment(props.until).toISOString();
 
-         const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort=date&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+         const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
          console.log(newApiLink);
 
@@ -107,6 +108,9 @@ export default class EventsList extends Component {
    }
 
    componentDidMount() {
+      // this.setState({
+      //    dataSource: this.state.dataSource.cloneWithRowsAndSections(this.formatData(listData))
+      // })
       this.fetchData();
 
       this.setFavorites();
@@ -143,7 +147,8 @@ export default class EventsList extends Component {
                }
 
                this.setState({
-                  dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
+                  //dataSource: this.state.dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
+                  data:this.formatData(storageData),
                   apiData: storageData,
                   // isLoading: false,
                   empty: false,
@@ -189,7 +194,8 @@ export default class EventsList extends Component {
             }
 
             this.setState({
-               dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+               //dataSource: this.state.dataSource.cloneWithRowsAndSections(this.formatData(listData)),
+               data:this.formatData(listData),
                apiData: data.results,
                isLoading: false,
                empty: false,
@@ -225,6 +231,7 @@ export default class EventsList extends Component {
    formatData(data) {
       // new store map array
       const eventMap = [];
+      const returnArray = [];
       // loops al data from data object
       for (let sectionId = 0; sectionId  < data.length; sectionId++) {
          // if data array is not already added to the store map
@@ -232,9 +239,20 @@ export default class EventsList extends Component {
             // Add  new array in array
             eventMap[data[sectionId].startDate] = [];
          }
+         data[sectionId].key = sectionId;
          eventMap[data[sectionId].startDate].push(data[sectionId]);
       }
-      return eventMap ;
+      console.log(eventMap);
+      for(eventKey in eventMap) {
+         console.log(eventKey);
+         let eventObject = {
+            data:eventMap[eventKey],
+            key:eventKey
+         }
+         returnArray.push(eventObject);
+      }
+      console.log(returnArray);
+      return returnArray ;
    }
 
    /**
@@ -268,15 +286,15 @@ export default class EventsList extends Component {
     * Gets user input and sets dataSource to returned search results
     * @param {Event} event    User input/search query
     */
-   setSearchText(event) {
-      let searchText = event.nativeEvent.text;
-      let filteredData = filterData(searchText, this.state.apiData, 'events');
-
-      this.setState({
-         searchText,
-         dataSource: this.state.dataSource.cloneWithRows(filteredData),
-      });
-   }
+   // setSearchText(event) {
+   //    let searchText = event.nativeEvent.text;
+   //    let filteredData = filterData(searchText, this.state.apiData, 'events');
+   //
+   //    this.setState({
+   //       searchText,
+   //       dataSource: this.state.dataSource.cloneWithRows(filteredData),
+   //    });
+   // }
 
    /**
     * When user pressed on event item
@@ -320,10 +338,12 @@ export default class EventsList extends Component {
 
          this.setNotification(notificationText);
 
-
-
       } else {
          setFavorite(rowData, false, favoritesIds);
+
+         let notificationText = 'Evenement is verwijderd uit jou favorieten';
+
+         this.setNotification(notificationText);
       }
    }
 
@@ -340,6 +360,8 @@ export default class EventsList extends Component {
         color="white"
         statusbarHeight={15}
       />});
+
+      setTimeout(() => {this.setState({refreshHeartIcon: true})}, 200)
 
       setTimeout(() => {   this.setState({notification: <StatusBarAlert
                                  visible={false}
@@ -364,30 +386,10 @@ export default class EventsList extends Component {
       // }
    }
 
-   /**
-    * Renders section headers with date
-    * @param  {object} sectionData section data object, including keys en children data
-    * @param  {string} date       ISO Date format
-    * @return {object}            returns rendered data object
-    */
-   _renderSectionHeader(sectionData, date) {
-      return (
-         <View style={[ListViewStyle.sectionHeader,ListViewStyle.sectionHeaderEvents]}>
-            <Text style={ListViewStyle.sectionHeaderText}>{formatDate(date, 'listView')}</Text>
-         </View>
-      )
-   }
-   
-   /**
-    * [Set row attribute for the ListView in render()]
-    * @param  {dataObject}    rowData  dataObject with data to display in a row.
-    * @return [markup]        Returns the template for the row in ListView.
-    */
-   _renderRow (rowData) {
-
+   renderItem = (itemData) => {
       var heartIcon;
 
-      if (favoritesIds.indexOf(rowData.id) !== -1) {
+      if (favoritesIds.indexOf(itemData.id) !== -1) {
          heartIcon = <Icon name="heart-fill" size={30} color={COLOR.WHITE} />
       } else {
          heartIcon = <Icon name="heart" size={30} color={COLOR.WHITE} />
@@ -398,37 +400,27 @@ export default class EventsList extends Component {
             component: <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>{heartIcon}</View>,
             backgroundColor: COLOR.BLUE,
             underlayColor: COLOR.BLUE,
-            onPress: () => this.addOrRemoveFavorite(rowData),
+            onPress: () => this.addOrRemoveFavorite(itemData),
          }
       ]
-
       return (
-      <Swipeout left={swipeOutBtnLeft} backgroundColor='transparent' buttonWidth={100}>
-         <Row {...rowData} />
-      </Swipeout>
+         <Swipeout left={swipeOutBtnLeft} backgroundColor='transparent' buttonWidth={100}>
+            <Row {...itemData} />
+         </Swipeout>
       )
    }
 
    render() {
-      var currentView = (this.state.isLoading) ? <LoadingIcon /> :
-      <ListView
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> : <SectionList
          style={ListViewStyle.container}
-         dataSource={this.state.dataSource}
-         stickySectionHeadersEnabled={true}
-         renderRow={this._renderRow.bind(this)}
+         sections={this.state.data}
+         renderItem={({item}) => this.renderItem(item)}
          renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
-         renderSeparator={(sectionID, rowID) =>
-          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
-         }
+         stickySectionHeadersEnabled={true}
          renderFooter={() =><View style={ListViewStyle.footer} />}
-         enableEmptySections={true}
          onEndReached={this.onEndReached.bind(this)}
-         refreshControl={
-            <RefreshControl
-               refreshing={this.state.refreshing}
-               onRefresh={this._onRefresh.bind(this)}
-            />
-         }
+         refreshing={this.state.refreshing}
+         onRefresh={this._onRefresh.bind(this)}
       />
 
       currentView = (this.state.error === "") ? currentView : this.state.error;
@@ -441,7 +433,6 @@ export default class EventsList extends Component {
                      <Icon name="clock" size={25} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
-
 
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>

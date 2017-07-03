@@ -7,8 +7,7 @@ import { ComponentStyle } from '../assets/styles/General';
 
 const SectionHeader = (props) => (
    <View style={[ComponentStyle.sectionHeader]}>
-   {console.log(props.listview)}
-      <Text style={ComponentStyle.sectionHeaderText}>{formatDate(props, 'listView')}</Text>
+      <Text style={ComponentStyle.sectionHeaderText}>{formatDate(props.section.key, 'listView')}</Text>
   </View>
 );
 

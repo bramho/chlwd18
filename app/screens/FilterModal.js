@@ -13,7 +13,7 @@ COLOR = require('../assets/styles/COLOR');
 
 const MAXPRICEVALUE = 230;
 
-const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
+const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lf2018/';
 
 var categoryList = '';
 var categoriesArray = [];
