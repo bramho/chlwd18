@@ -92,7 +92,9 @@ export default class FavoriteList extends Component {
                   empty: true,
                   isLoading: false,
                   error: <ErrorNotification errorNumber={300} />,
-               })
+               });
+
+               console.log(error);
             });
          }
       });

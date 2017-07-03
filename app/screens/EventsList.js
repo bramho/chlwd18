@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, SectionList,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
+import StatusBarAlert from 'react-native-statusbar-alert';
 
 import Icon from '../helpers/Icons';
 
 var moment = require('moment');
+var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
 
@@ -81,23 +83,29 @@ export default class EventsList extends Component {
 
    }
 
-   // componentWillReceiveProps(props) {
-   //
-   //    var fromDateFormat = moment(props.from).toISOString();
-   //    var untilDateFormat = moment(props.until).toISOString();
-   //
-   //    const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
-   //
-   //    this.setState({
-   //       isLoading: true,
-   //       maxPriceValue: props.maxPrice,
-   //       categoryId: props.categoryId,
-   //       fromDate: props.from,
-   //       untilDate: props.until,
-   //    });
-   //
-   //    this.getEventData(newApiLink, 'eventList', true);
-   // }
+   componentWillReceiveProps(props) {
+
+      if (props.isFilter === true) {
+         var fromDateFormat = moment(props.from).toISOString();
+         var untilDateFormat = moment(props.until).toISOString();
+
+         const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+
+         console.log(newApiLink);
+
+         this.setState({
+            isLoading: true,
+            maxPriceValue: props.maxPrice,
+            categoryId: props.categoryId,
+            fromDate: props.from,
+            untilDate: props.until,
+         });
+
+         this.getEventData(newApiLink, 'eventList', true);
+      } else {
+         this.getEventData(apiLink, 'eventList', false);
+      }
+   }
 
    componentDidMount() {
       // this.setState({
@@ -110,6 +118,11 @@ export default class EventsList extends Component {
       statusBar();
    }
 
+   componentWillUnmound() {
+      // This prevents memory leaks when a user leaves the component while a timeout is running
+      clearTimeout();
+   }
+
    /**
     * Fetches data from Api and returns the result
     * @return [data] Data returned from Api
@@ -118,7 +131,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      //removeItemFromStorage('eventList');
+      removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -272,6 +285,10 @@ export default class EventsList extends Component {
    //    });
    // }
 
+   /**
+    * Gets called when a user drags the listview down to reload.
+    * It reloads the events by calling the API.
+    */
    _onRefresh() {
       this.setState({refreshing: true});
 
@@ -280,19 +297,63 @@ export default class EventsList extends Component {
       });
 
       this.getEventData(apiLink, 'eventList', false);
+      this.setFavorites();
 
    }
 
+   /**
+    * Adds event to favorites
+    * @param {Object} rowData    Data containing row information
+    */
    addOrRemoveFavorite (rowData) {
 
       var index = favoritesIds.indexOf(rowData.id);
 
+      console.log('Saved events index: ' + index);
+
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
+
+         let notificationText = 'Evenement is toegevoegd aan jou favorieten';
+
+         this.setNotification(notificationText);
+
       } else {
          setFavorite(rowData, false, favoritesIds);
+
+         let notificationText = 'Evenement is verwijderd uit jou favorieten';
+
+         this.setNotification(notificationText);
       }
    }
+
+   /**
+    * Sets notification for user feedback
+    * @param {String} notificationText
+    */
+   setNotification(notificationText) {
+
+      this.setState({notification: <StatusBarAlert
+        visible={true}
+        message={notificationText}
+        backgroundColor={COLOR.BLUE}
+        color="white"
+        statusbarHeight={15}
+      />});
+
+      setTimeout(() => {this.setState({refreshHeartIcon: true})}, 200)
+
+      setTimeout(() => {   this.setState({notification: <StatusBarAlert
+                                 visible={false}
+                                 statusbarHeight={0}
+                                 backgroundColor={COLOR.BLUE}
+                              />
+                           });
+                           clearTimeout()
+                        }, 4000);
+
+   }
+
    //WIP
    /**
     * When the user scrolled to the end, this function will run.
@@ -330,10 +391,19 @@ export default class EventsList extends Component {
    }
 
    render() {
-      //var currentView = (this.state.isLoading) ? <LoadingIcon /> :
+      var currentView = (this.state.isLoading) ? <LoadingIcon /> : <SectionList
+         style={ListViewStyle.container}
+         sections={this.state.data}
+         renderItem={({item}) => this.renderItem(item)}
+         renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
+         stickySectionHeadersEnabled={true}
+         renderFooter={() =><View style={ListViewStyle.footer} />}
+         onEndReached={this.onEndReached.bind(this)}
+         refreshing={this.state.refreshing}
+         onRefresh={this._onRefresh.bind(this)}
+      />
 
-
-      //currentView = (this.state.error === "") ? currentView : this.state.error;
+      currentView = (this.state.error === "") ? currentView : this.state.error;
 
       return (
          <View style={General.container}>
@@ -356,17 +426,8 @@ export default class EventsList extends Component {
                   </View>
                </TouchableOpacity>
             </View>
-            <SectionList
-               style={ListViewStyle.container}
-               sections={this.state.data}
-               renderItem={({item}) => this.renderItem(item)}
-               renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
-               stickySectionHeadersEnabled={true}
-               renderFooter={() =><View style={ListViewStyle.footer} />}
-               onEndReached={this.onEndReached.bind(this)}
-               refreshing={this.state.refreshing}
-               onRefresh={this._onRefresh.bind(this)}
-            />
+            {this.state.notification}
+            {currentView}
          </View>
       )
    }
