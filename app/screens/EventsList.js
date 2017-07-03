@@ -80,8 +80,6 @@ export default class EventsList extends Component {
          error: "",
          notification: <PopUpNotification />,
       };
-
-
    }
 
    componentWillReceiveProps(props) {
@@ -117,7 +115,7 @@ export default class EventsList extends Component {
    }
 
    componentWillUnmound() {
-      // To prevent memory leaks
+      // This prevents memory leaks when a user leaves the component while a timeout is running
       clearTimeout();
    }
 
@@ -281,6 +279,15 @@ export default class EventsList extends Component {
    }
 
    /**
+    * When user pressed on event item
+    * @param  {interger} id of the event
+    * @param  {object} data data object
+    */
+   onItemPress(id, data) {
+      Actions.eventItem({eventId:id, rowData:data})
+   }
+
+   /**
     * Gets called when a user drags the listview down to reload.
     * It reloads the events by calling the API.
     */
@@ -320,6 +327,10 @@ export default class EventsList extends Component {
       }
    }
 
+   /**
+    * Sets notification for user feedback
+    * @param {String} notificationText
+    */
    setNotification(notificationText) {
 
       this.setState({notification: <StatusBarAlert
@@ -352,6 +363,7 @@ export default class EventsList extends Component {
       //
       // }
    }
+
    /**
     * Renders section headers with date
     * @param  {object} sectionData section data object, including keys en children data
@@ -365,6 +377,7 @@ export default class EventsList extends Component {
          </View>
       )
    }
+   
    /**
     * [Set row attribute for the ListView in render()]
     * @param  {dataObject}    rowData  dataObject with data to display in a row.
