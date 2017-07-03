@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS, DatePickerAndroid, Platform} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
@@ -22,7 +22,7 @@ var date = new Date();
 var year = date.getFullYear();
 var month = date.getMonth();
 var day = date.getDate();
-var untilDate = new Date(year + 2, month, day);
+var untilDate = new Date(year+1, month, day);
 
 class FilterModal extends Component {
 
@@ -61,7 +61,7 @@ class FilterModal extends Component {
     * @param  {date}    Selected date
     */
    onDateChange = (date) => {
-      this.setState({date: date});
+      this.setState({date: moment(date).toDate()});
    };
 
    /**
@@ -69,7 +69,8 @@ class FilterModal extends Component {
     * @param  {date}    Selected date
     */
    onUntilDateChange = (date) => {
-      this.setState({untilDate: date});
+      console.log(moment(date).toISOString());
+      this.setState({untilDate: moment(date).toDate()});
    };
 
    toggleFromDate() {
@@ -77,6 +78,10 @@ class FilterModal extends Component {
          this.setState({showDatePicker: false})
       } else {
          this.setState({showUntilDatePicker: false, showDatePicker: true})
+      }
+
+      if(Platform.OS === 'android') {
+            this.pickDateAndroid(this.state.date);
       }
    }
 
@@ -86,8 +91,36 @@ class FilterModal extends Component {
       } else {
          this.setState({showDatePicker: false, showUntilDatePicker: true})
       }
+      if(Platform.OS === 'android') {
+         console.log(this.state.untilDate);
+            this.pickDateAndroid(this.state.untilDate,true);
+      }
    }
 
+   /**
+    * Android picker toggle function
+    * @param  {object}  defaultDate   default date state for the picker
+    * @param  {Boolean} [until=false] defining if its a untilDate picker
+    */
+   async pickDateAndroid(defaultDate, until = false){
+       try{
+          let pickedDate = await DatePickerAndroid.open({
+          date: defaultDate
+       });
+         if(pickedDate.action === 'dateSetAction') {
+            if(until) {
+               this.onUntilDateChange({day:pickedDate.day,month:pickedDate.month,year:pickedDate.year});
+            } else {
+               this.onDateChange(pickedDate);
+            }
+         }
+       }
+       catch(e){
+           console.log('caught error', e);
+           // Handle exceptions
+       }
+
+   }
    /**
     * Goes one scene back and send new props with it
     */
@@ -297,21 +330,22 @@ class FilterModal extends Component {
 
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.singleHeaderContainer}>
-               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
-                  <View style={[ComponentStyle.filterIcon, ComponentStyle.filterModalIcon]}>
-                     <Icon name="back" size={32} color="#F02C32" />
-                  </View>
-               </TouchableOpacity>
+         <View style={ComponentStyle.headerContainer}>
+            <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.pop()}>
+               <View style={ComponentStyle.filterIcon}>
+                  <Icon name="back" size={32} color={COLOR.WHITE} />
+               </View>
+            </TouchableOpacity>
 
-               <Text style={[General.h4, {flex: 5}]}>
+            <View style={ComponentStyle.headerTitleContainer}>
+               <Text style={[General.h2, ComponentStyle.headerTitle]}>
                   {getTranslation('searchFilter')}
                </Text>
-
-               <View style={{flex: 4}}>
-
-               </View>
             </View>
+
+            <View style={ComponentStyle.filterIconContainer}>
+            </View>
+         </View>
 
             {currentView}
 

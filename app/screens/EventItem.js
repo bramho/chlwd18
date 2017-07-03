@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions, WebView} from 'react-native';
+import { StyleSheet, Text, Image, View,TextInput, Animated, ScrollView,TouchableOpacity, Button,Share, Dimensions, WebView, Platform} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import LoadingIcon from '../components/LoadingIcon';
@@ -178,7 +178,7 @@ export default class EventItem extends Component {
       const {width, height, scale} = Dimensions.get("window");
       //Set animated header size
       const HEADER_MAX_HEIGHT = 60*(height/100);
-      const HEADER_MIN_HEIGHT = 62;
+      const HEADER_MIN_HEIGHT = Platform.OS === 'android' ? 80 : 60;
       const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
       // Variables for carousel
