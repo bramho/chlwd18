@@ -18,9 +18,9 @@ import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } fro
 /**
  * Apilink for calling data for the listview
  */
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc/";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018/";
 
-const imgLink = "https://www.vanplan.nl/contentfiles/";
+const imgLink = "https://2018.vanplan.nl/contentfiles/";
 
 var favorite;
 var rowRefs;
@@ -153,7 +153,9 @@ export default class EventItem extends Component {
            />
            <View style={EventStyle.headerContent}>
                <Text style={[General.title,EventStyle.headerText]}>{this.state.data.title}</Text>
+               {this.state.data.tickets !== 'nee' ?
                <Text style={[General.subTitle,EventStyle.headerText]}>{"€"+this.state.data.ticket_prices.adult}</Text>
+               : null}
                <Text style={[General.h2,EventStyle.headerText]}>{
                   formatDate(this.state.data.dateStart,'eventItem')
                }
@@ -320,7 +322,7 @@ export default class EventItem extends Component {
                      <Text style={[ComponentStyle.tabelCellOne, General.boldText, General.redText, General.rightText, General.blueText]}>{this.state.data.datetimes[0].endTime}</Text>
                   </View>
                </View>
-
+               {this.state.data.tickets !== 'nee' ?
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('pricing')}</Text>
 
@@ -341,7 +343,7 @@ export default class EventItem extends Component {
                   </View>
 
                </View>
-
+               : null}
                <View style={EventStyle.section}>
                   <Text style={General.h3}>{getTranslation('usefulLinks')}</Text>
                   <Text style={[General.linkText, {padding: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 8}]} onPress={function(){this.openUrl(this.state.data.ticketUrls[0].url)}.bind(this)}>Tickets</Text>
@@ -368,6 +370,7 @@ export default class EventItem extends Component {
                />
               <Animated.View style={[EventStyle.overlay,{opacity: imageOpacity}]}/>
               <Animated.View style={[EventStyle.headerContent,{opacity: imageOpacity}]}>
+               {this.state.data.tickets !== 'nee' ?
                   <View style={EventStyle.priceContainer}>
                      <View style={EventStyle.innerPriceContainer}>
                         <Text style={[General.subTitle, EventStyle.headerText, EventStyle.price]}>
@@ -375,6 +378,7 @@ export default class EventItem extends Component {
                         </Text>
                      </View>
                   </View>
+               : null}
 
                   <View style={EventStyle.bottomHeaderContent}>
                      <Text style={[General.h1, EventStyle.headerText, EventStyle.title]}>
