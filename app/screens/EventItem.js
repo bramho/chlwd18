@@ -419,13 +419,13 @@ export default class EventItem extends Component {
             <View style={[ComponentStyle.singleHeaderContainer,ComponentStyle.transparentHeader]}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="back" size={25} color="#fff" />
+                     <Icon name="back" size={32} color="#fff" />
                   </View>
                </TouchableOpacity>
 
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.singleFilterIconContainer]} onPress={function(){this.shareEvent()}.bind(this)}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="share" size={25} color="#fff" />
+                     <Icon name="share" size={32} color="#fff" />
                   </View>
                </TouchableOpacity>
             </View>

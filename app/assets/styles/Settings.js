@@ -21,8 +21,8 @@ export default Settings = StyleSheet.create({
    },
    itemIcon: {
       position: 'absolute',
-      top: 10,
-      right: 0,
+      top: 12,
+      right: 12,
    },
    textBlock: {
       marginTop: 10,

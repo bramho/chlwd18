@@ -173,8 +173,9 @@ class FilterModal extends Component {
                <TouchableHighlight underlayColor='transparent' key={index} style={FilterStyles.filterItemContainer} onPress={() => this.setCategory(this.state.apiData[index].id)}>
                   <View style={active ? [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderBlue] : [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderGray]}>
                      <View style={FilterStyles.itemIconContainer}>
-                        <Icon name="search" size={30} color={active ? COLOR.LIGHTBLUE : COLOR.GRAY} />
+                        <Icon name={this.state.apiData[index].name.toLowerCase()} size={30} color={active ? COLOR.LIGHTBLUE : COLOR.GRAY} />
                      </View>
+
                      <Text style={active ? [FilterStyles.itemText, FilterStyles.itemTextColorBlue] : [FilterStyles.itemText, FilterStyles.itemTextColorGray]}>{this.state.apiData[index].name}</Text>
                   </View>
                </TouchableHighlight>
@@ -298,7 +299,7 @@ class FilterModal extends Component {
             <View style={ComponentStyle.singleHeaderContainer}>
                <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
                   <View style={[ComponentStyle.filterIcon, ComponentStyle.filterModalIcon]}>
-                     <Icon name="back" size={25} color="#F02C32" />
+                     <Icon name="back" size={32} color="#F02C32" />
                   </View>
                </TouchableOpacity>
 

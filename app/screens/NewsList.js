@@ -268,10 +268,10 @@ export default class NewsList extends Component {
 
       return (
          <View style={General.container}>
-            <View style={[ComponentStyle.headerContainer, ComponentStyle.newsHeader]}>
+            <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                     <Icon name="settings" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
 
@@ -283,7 +283,7 @@ export default class NewsList extends Component {
 
                <View style={ComponentStyle.filterIconContainer}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={24} color={COLOR.WHITE} />
+                     <Icon name="search" size={32} color={COLOR.WHITE} />
                   </View>
                </View>
             </View>
