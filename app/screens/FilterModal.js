@@ -22,7 +22,7 @@ var date = new Date();
 var year = date.getFullYear();
 var month = date.getMonth();
 var day = date.getDate();
-var untilDate = new Date(year + 2, month, day);
+var untilDate = new Date(year+1, month, day);
 
 class FilterModal extends Component {
 

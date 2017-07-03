@@ -414,6 +414,7 @@ export default class EventsList extends Component {
          renderItem={({item}) => this.renderItem(item)}
          renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
          stickySectionHeadersEnabled={true}
+         ItemSeparatorComponent={()=><View style={ListViewStyle.separator} /> }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          onEndReached={this.onEndReached.bind(this)}
          refreshing={this.state.refreshing}
