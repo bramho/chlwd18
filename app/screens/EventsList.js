@@ -430,7 +430,7 @@ export default class EventsList extends Component {
             <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                     <Icon name="settings" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
 
@@ -442,7 +442,7 @@ export default class EventsList extends Component {
 
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={24} color={COLOR.WHITE} />
+                     <Icon name="search" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
             </View>

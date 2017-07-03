@@ -24,7 +24,7 @@ class SettingsScene extends Component {
             <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.pop()}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="back" size={25} color={COLOR.WHITE} />
+                     <Icon name="back" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
 
@@ -43,22 +43,22 @@ class SettingsScene extends Component {
 
                <TouchableOpacity style={SettingsStyles.itemContainer} onPress={() => Actions.advertisement()}>
                   <Text style={SettingsStyles.itemText}>{getTranslation('advertisementText')}</Text>
-                  <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                  <Icon name="arrow-right" size={12} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                </TouchableOpacity>
 
                <TouchableOpacity style={SettingsStyles.itemContainer}>
                   <Text style={SettingsStyles.itemText}>{getTranslation('terms')}</Text>
-                  <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                  <Icon name="pdf" size={16} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                </TouchableOpacity>
 
                <TouchableOpacity style={SettingsStyles.itemContainer}>
                   <Text style={SettingsStyles.itemText}>{getTranslation('privacy')}</Text>
-                  <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                  <Icon name="pdf" size={16} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                </TouchableOpacity>
 
                <TouchableOpacity style={SettingsStyles.itemContainer} onPress={() => Actions.developmentBy()}>
                   <Text style={SettingsStyles.itemText}>{getTranslation('developedBy')} </Text>
-                  <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                  <Icon name="arrow-right" size={12} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                </TouchableOpacity>
 
                <View style={SettingsStyles.itemContainer}>
