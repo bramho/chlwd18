@@ -6,6 +6,7 @@ import Swiper from 'react-native-swiper';
 import Icon from '../helpers/Icons';
 import { getTranslation } from '../helpers/Translations';
 import { setStorageData, checkStorageKey } from '../helpers/Storage';
+import { statusBar } from '../helpers/StatusBar';
 
 import { General, ComponentStyle } from '../assets/styles/General';
 
@@ -15,7 +16,7 @@ class OnBoarding extends Component {
 
    constructor(props) {
       super(props)
-
+      statusBar('transparent');
       this.state = {
 
       }

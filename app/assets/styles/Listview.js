@@ -25,7 +25,7 @@ const {width, height, scale} = Dimensions.get("window"),
       alignItems: 'center',
       backgroundColor:"#fff",
       borderRadius: 5,
-      marginVertical:10
+      marginVertical:10,
    },
    body: {
      paddingRight: 20,
@@ -139,20 +139,6 @@ const {width, height, scale} = Dimensions.get("window"),
       color: COLOR.RED,
       fontFamily: 'Muli-Bold',
       fontSize: 16,
-   },
-   sectionHeader:{
-      paddingHorizontal:20,
-      paddingVertical:15,
-      borderTopWidth:StyleSheet.hairlineWidth,
-      borderTopColor:COLOR.GRAY
-   },
-   sectionHeaderEvents: {
-      backgroundColor:COLOR.WHITE
-   },
-   sectionHeaderText: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color:COLOR.DARKPURPLE,
    },
    newsBody: {
       backgroundColor: COLOR.GRAYBLUE,
