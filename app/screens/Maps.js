@@ -14,7 +14,7 @@ import PointerActive from '../assets/images/pointerActive.png';
  * Apilink for calling data for the listview
  */
 var params = {
-   number: 100,
+   number: 10,
    pageNumber:1,
    sort:'date',
    from:'',
@@ -68,32 +68,34 @@ export default class Maps extends Component {
           var markers = [];
           var locations = [];
           for (var i = 0; i < listData.length; i++) {
-             var keyInArray = locations.indexOf(listData[i].locationId);
+             if(listData[i].latitude !== null && listData[i].longitude !== null) {
 
-             var eventRow = {
-                id:listData[i].id,
-                title:listData[i].title,
-                subTitle:listData[i].subtitle,
-                thumb:listData[i].image_uri,
-                tags:listData[i].categories
-             }
-            if (keyInArray == -1) {
-               var marker = {
-                 id: listData[i].locationId,
-                 key: i,
-                 coordinate: {
-                     latitude: listData[i].latitude,
-                     longitude: listData[i].longitude,
+                var keyInArray = locations.indexOf(listData[i].locationId);
 
-                 },
-                 title:listData[i].location,
-                 events: [eventRow]
+                var eventRow = {
+                   id:listData[i].id,
+                   title:listData[i].title,
+                   subTitle:listData[i].subtitle,
+                   thumb:listData[i].image_uri,
+                   tags:listData[i].categories
+                }
+               if (keyInArray == -1) {
+                  var marker = {
+                    id: listData[i].locationId,
+                    key: i,
+                    coordinate: {
+                        latitude: listData[i].latitude,
+                        longitude: listData[i].longitude,
+                    },
+                    title:listData[i].location,
+                    events: [eventRow]
+                  }
+                  locations.push(listData[i].locationId);
+                  markers.push(marker);
+
+               } else {
+                  markers[keyInArray].events.push(eventRow);
                }
-               locations.push(listData[i].locationId);
-               markers.push(marker);
-
-            } else {
-               markers[keyInArray].events.push(eventRow);
             }
             console.log(markers);
           }
@@ -101,7 +103,7 @@ export default class Maps extends Component {
               rawData: data.results,
               markers:markers
           });
-          console.log(this.state.rawData);
+          //console.log(this.state.rawData);
        })
        .catch((error) => {
           console.log(error)
@@ -204,6 +206,7 @@ export default class Maps extends Component {
  }
      render() {
         var activeEvent = this.state.activeEvent !== null ? this.state.activeEvent : {key:null};
+        console.log(this.state.marker);
        return (
          <View style ={MapsStyle.container}>
             <MapView

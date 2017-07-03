@@ -10,8 +10,13 @@ var moment = require('moment');
 var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
+
 import ErrorNotification from '../components/ErrorNotification';
 import PopUpNotification from '../components/PopUpNotification';
+
+import Row from '../components/EventRow';
+import SectionHeader from '../components/SectionHeader';
+
 
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
@@ -274,14 +279,6 @@ export default class EventsList extends Component {
          dataSource: this.state.dataSource.cloneWithRows(filteredData),
       });
    }
-   /**
-    * When user pressed on event item
-    * @param  {interger} id of the event
-    * @param  {object} data data object
-    */
-   onItemPress(id, data) {
-      Actions.eventItem({eventId:id, rowData:data})
-   }
 
    /**
     * Gets called when a user drags the listview down to reload.
@@ -394,33 +391,7 @@ export default class EventsList extends Component {
 
       return (
       <Swipeout left={swipeOutBtnLeft} backgroundColor='transparent' buttonWidth={100}>
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
-         <View style={ListViewStyle.row}>
-            <View style={ListViewStyle.pic}>
-               <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
-
-            </View>
-            <View style={ListViewStyle.body}>
-
-                     <Text style={[General.h2,ListViewStyle.title]}>
-                       {rowData.title}
-                     </Text>
-                  <Text numberOfLines={2} style={ListViewStyle.description}>
-                     {rowData.city.toLowerCase().replace(/\b\w/g, l => l.toUpperCase()) }
-                  </Text>
-               <View style={ListViewStyle.categoriesContainer}>
-                  {rowData.categories.map((categorie,index) => (
-                     <View key={index} style={ListViewStyle.categoryItemContainer}>
-                        <Text style={ListViewStyle.categoryItem}>
-                           {'#'+categorie.name}
-                        </Text>
-                     </View>
-                  ))}
-
-               </View>
-            </View>
-         </View>
-         </TouchableOpacity>
+         <Row {...rowData} />
       </Swipeout>
       )
    }
@@ -432,7 +403,7 @@ export default class EventsList extends Component {
          dataSource={this.state.dataSource}
          stickySectionHeadersEnabled={true}
          renderRow={this._renderRow.bind(this)}
-         renderSectionHeader={this._renderSectionHeader.bind(this)}
+         renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
          renderSeparator={(sectionID, rowID) =>
           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }

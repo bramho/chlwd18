@@ -261,10 +261,11 @@ export default class NewsList extends Component {
          dataSource={this.state.dataSource}
          stickySectionHeadersEnabled={true}
          renderRow={this._renderRow.bind(this)}
-         renderSectionHeader={this._renderSectionHeader.bind(this)}
          renderSeparator={(sectionID, rowID) =>
           <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
          }
+         renderSectionHeader={this._renderSectionHeader.bind(this)}
+
          renderFooter={() =><View style={ListViewStyle.footer} />}
          enableEmptySections={true}
          onEndReached={this.onEndReached.bind(this)}

@@ -1,7 +1,8 @@
 /**
  * This is a general stylesheet for common styles and variables
- */
-import React, {StyleSheet} from "react-native";
+*/
+
+import React, { StyleSheet } from "react-native";
 
 COLOR = require('./COLOR');
 
