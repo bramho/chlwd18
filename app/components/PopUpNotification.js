@@ -16,9 +16,9 @@ export default class PopUpNotification extends Component {
 
    render() {
       return (
-         <View style={ComponentStyle.popUpContainer}>
-            
-         </View>
+         <Text style={ComponentStyle.popUpContainer}>
+            Hallo!
+         </Text>
       )
    }
 }

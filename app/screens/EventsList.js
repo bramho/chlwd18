@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
+import StatusBarAlert from 'react-native-statusbar-alert';
 
 import Icon from '../helpers/Icons';
 
 var moment = require('moment');
+var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
 import ErrorNotification from '../components/ErrorNotification';
@@ -71,7 +73,7 @@ export default class EventsList extends Component {
          pageNumber:1,
          maxPriceValue: MAXPRICEVALUE,
          error: "",
-         notification: "",
+         notification: <PopUpNotification />,
       };
 
 
@@ -107,6 +109,11 @@ export default class EventsList extends Component {
       this.setFavorites();
 
       statusBar();
+   }
+
+   componentWillUnmound() {
+      // To prevent memory leaks
+      clearTimeout();
    }
 
    /**
@@ -276,6 +283,10 @@ export default class EventsList extends Component {
       Actions.eventItem({eventId:id, rowData:data})
    }
 
+   /**
+    * Gets called when a user drags the listview down to reload.
+    * It reloads the events by calling the API.
+    */
    _onRefresh() {
       this.setState({refreshing: true});
 
@@ -284,9 +295,14 @@ export default class EventsList extends Component {
       });
 
       this.getEventData(apiLink, 'eventList', false);
+      this.setFavorites();
 
    }
 
+   /**
+    * Adds event to favorites
+    * @param {Object} rowData    Data containing row information
+    */
    addOrRemoveFavorite (rowData) {
 
       var index = favoritesIds.indexOf(rowData.id);
@@ -296,13 +312,38 @@ export default class EventsList extends Component {
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
 
-         this.setState({notification: 'Evenement is toegevoegd'});
+         let notificationText = 'Evenement is toegevoegd aan jou favorieten';
 
-         setTimeout(function() { this.setState({notification: ''})}, 2000)
+         this.setNotification(notificationText);
+
+
+
       } else {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+
+   setNotification(notificationText) {
+
+      this.setState({notification: <StatusBarAlert
+        visible={true}
+        message={notificationText}
+        backgroundColor={COLOR.BLUE}
+        color="white"
+        statusbarHeight={15}
+      />});
+
+      setTimeout(() => {   this.setState({notification: <StatusBarAlert
+                                 visible={false}
+                                 statusbarHeight={0}
+                                 backgroundColor={COLOR.BLUE}
+                              />
+                           });
+                           clearTimeout()
+                        }, 4000);
+
+   }
+
    //WIP
    /**
     * When the user scrolled to the end, this function will run.
@@ -430,7 +471,7 @@ export default class EventsList extends Component {
                   </View>
                </TouchableOpacity>
             </View>
-            <Text style={{marginTop: 50}}>{this.state.notification}</Text>
+            {this.state.notification}
             {currentView}
          </View>
       )
