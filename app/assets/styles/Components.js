@@ -201,4 +201,15 @@ export default ComponentStyle = StyleSheet.create({
       color: COLOR.BLACK40,
       textAlign: 'center',
    },
+   popUpContainer: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      paddingTop: 10,
+      paddingRight: 40,
+      paddingBottom: 10,
+      paddingLeft: 40,
+      backgroundColor: COLOR.HEADERBLACK,
+      borderRadius: 8,
+   }
 });

@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, TouchableHighlight, AsyncStorage, RefreshControl, Alert} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
+import StatusBarAlert from 'react-native-statusbar-alert';
 
 import Icon from '../helpers/Icons';
 
 var moment = require('moment');
+var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
 import ErrorNotification from '../components/ErrorNotification';
+import PopUpNotification from '../components/PopUpNotification';
 
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
@@ -70,6 +73,7 @@ export default class EventsList extends Component {
          pageNumber:1,
          maxPriceValue: MAXPRICEVALUE,
          error: "",
+         notification: <PopUpNotification />,
       };
 
 
@@ -77,22 +81,26 @@ export default class EventsList extends Component {
 
    componentWillReceiveProps(props) {
 
-      var fromDateFormat = moment(props.from).toISOString();
-      var untilDateFormat = moment(props.until).toISOString();
+      if (props.isFilter === true) {
+         var fromDateFormat = moment(props.from).toISOString();
+         var untilDateFormat = moment(props.until).toISOString();
 
-      const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
+         const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort=date&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
-      console.log(newApiLink);
+         console.log(newApiLink);
 
-      this.setState({
-         isLoading: true,
-         maxPriceValue: props.maxPrice,
-         categoryId: props.categoryId,
-         fromDate: props.from,
-         untilDate: props.until,
-      });
+         this.setState({
+            isLoading: true,
+            maxPriceValue: props.maxPrice,
+            categoryId: props.categoryId,
+            fromDate: props.from,
+            untilDate: props.until,
+         });
 
-      this.getEventData(newApiLink, 'eventList', true);
+         this.getEventData(newApiLink, 'eventList', true);
+      } else {
+         this.getEventData(apiLink, 'eventList', false);
+      }
    }
 
    componentDidMount() {
@@ -101,6 +109,11 @@ export default class EventsList extends Component {
       this.setFavorites();
 
       statusBar();
+   }
+
+   componentWillUnmound() {
+      // To prevent memory leaks
+      clearTimeout();
    }
 
    /**
@@ -119,6 +132,12 @@ export default class EventsList extends Component {
             getStorageData(storageKey).then((data) => {
 
                storageData = JSON.parse(data);
+
+               if (storageData.length === 0) {
+                  this.setState({
+                     error: <ErrorNotification errorNumber={1} />,
+                  })
+               }
 
                this.setState({
                   dataSource: dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
@@ -159,6 +178,12 @@ export default class EventsList extends Component {
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
+
+            if (listData.length === 0) {
+               this.setState({
+                  error: <ErrorNotification errorNumber={1} />,
+               })
+            }
 
             this.setState({
                dataSource: dataSource.cloneWithRowsAndSections(this.formatData(listData)),
@@ -210,7 +235,7 @@ export default class EventsList extends Component {
    }
 
    /**
-    * Gets favorites from local storage and assigns them to a favorites variable.
+    * Gets favorites from local storage and assigns them to a favorites variable and adds them to the state.
     */
    setFavorites() {
       this.setState({
@@ -227,9 +252,8 @@ export default class EventsList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
-
                   this.setState({
-                     isLoading: false
+                     isLoading: false,
                   });
                });
             });
@@ -259,6 +283,10 @@ export default class EventsList extends Component {
       Actions.eventItem({eventId:id, rowData:data})
    }
 
+   /**
+    * Gets called when a user drags the listview down to reload.
+    * It reloads the events by calling the API.
+    */
    _onRefresh() {
       this.setState({refreshing: true});
 
@@ -267,19 +295,55 @@ export default class EventsList extends Component {
       });
 
       this.getEventData(apiLink, 'eventList', false);
+      this.setFavorites();
 
    }
 
+   /**
+    * Adds event to favorites
+    * @param {Object} rowData    Data containing row information
+    */
    addOrRemoveFavorite (rowData) {
 
       var index = favoritesIds.indexOf(rowData.id);
 
+      console.log('Saved events index: ' + index);
+
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
+
+         let notificationText = 'Evenement is toegevoegd aan jou favorieten';
+
+         this.setNotification(notificationText);
+
+
+
       } else {
          setFavorite(rowData, false, favoritesIds);
       }
    }
+
+   setNotification(notificationText) {
+
+      this.setState({notification: <StatusBarAlert
+        visible={true}
+        message={notificationText}
+        backgroundColor={COLOR.BLUE}
+        color="white"
+        statusbarHeight={15}
+      />});
+
+      setTimeout(() => {   this.setState({notification: <StatusBarAlert
+                                 visible={false}
+                                 statusbarHeight={0}
+                                 backgroundColor={COLOR.BLUE}
+                              />
+                           });
+                           clearTimeout()
+                        }, 4000);
+
+   }
+
    //WIP
    /**
     * When the user scrolled to the end, this function will run.
@@ -407,6 +471,7 @@ export default class EventsList extends Component {
                   </View>
                </TouchableOpacity>
             </View>
+            {this.state.notification}
             {currentView}
          </View>
       )

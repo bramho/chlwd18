@@ -93,6 +93,7 @@ class FilterModal extends Component {
     */
    sendParams() {
       Actions.pop({refresh: {
+         isFilter: true,
          sort: 'date',
          from: this.state.date,
          until: this.state.untilDate,
