@@ -19,6 +19,7 @@ module.exports = {
    BLACK40:    'rgba(0, 0, 0, 0.40)',
    BLACK78:    'rgba(0, 0, 0, 0.78)',
    HEADERBLACK:'rgba(11, 11, 15, 0.8)',
+   HEADERBLACKFULL: 'rgb(11, 11, 15)',
    HEADERGRAY: 'rgb(40, 45, 41)',
    GRAY:       '#b2b2b2',
    BLUEGRAY:   'rgb(219, 227, 238)',

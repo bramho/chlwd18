@@ -66,6 +66,8 @@ export default class FavoriteList extends Component {
 
       var storageKey = 'savedEvents';
 
+
+
       checkStorageKey(storageKey).then((isValidKey) => {
 
          if(isValidKey) {

@@ -12,6 +12,7 @@ var COLOR = require('../assets/styles/COLOR');
 import LoadingIcon from '../components/LoadingIcon';
 
 import ErrorNotification from '../components/ErrorNotification';
+import PopUpNotification from '../components/PopUpNotification';
 
 import Row from '../components/EventRow';
 import SectionHeader from '../components/SectionHeader';
@@ -78,9 +79,8 @@ export default class EventsList extends Component {
          pageNumber:1,
          maxPriceValue: MAXPRICEVALUE,
          error: "",
+         notification: <PopUpNotification />,
       };
-
-
    }
 
    componentWillReceiveProps(props) {
@@ -140,6 +140,12 @@ export default class EventsList extends Component {
 
                storageData = JSON.parse(data);
 
+               if (storageData.length === 0) {
+                  this.setState({
+                     error: <ErrorNotification errorNumber={1} />,
+                  })
+               }
+
                this.setState({
                   //dataSource: this.state.dataSource.cloneWithRowsAndSections(this.formatData(storageData)),
                   data:this.formatData(storageData),
@@ -180,6 +186,12 @@ export default class EventsList extends Component {
       Api.getData(apiLink)
          .then((data) => {
             listData = data.results;
+
+            if (listData.length === 0) {
+               this.setState({
+                  error: <ErrorNotification errorNumber={1} />,
+               })
+            }
 
             this.setState({
                //dataSource: this.state.dataSource.cloneWithRowsAndSections(this.formatData(listData)),
@@ -244,7 +256,7 @@ export default class EventsList extends Component {
    }
 
    /**
-    * Gets favorites from local storage and assigns them to a favorites variable.
+    * Gets favorites from local storage and assigns them to a favorites variable and adds them to the state.
     */
    setFavorites() {
       this.setState({
@@ -261,9 +273,8 @@ export default class EventsList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
-
                   this.setState({
-                     isLoading: false
+                     isLoading: false,
                   });
                });
             });
@@ -284,6 +295,15 @@ export default class EventsList extends Component {
    //       dataSource: this.state.dataSource.cloneWithRows(filteredData),
    //    });
    // }
+
+   /**
+    * When user pressed on event item
+    * @param  {interger} id of the event
+    * @param  {object} data data object
+    */
+   onItemPress(id, data) {
+      Actions.eventItem({eventId:id, rowData:data})
+   }
 
    /**
     * Gets called when a user drags the listview down to reload.
