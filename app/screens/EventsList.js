@@ -131,7 +131,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage('eventList');
+      //removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -242,16 +242,13 @@ export default class EventsList extends Component {
          data[sectionId].key = sectionId;
          eventMap[data[sectionId].startDate].push(data[sectionId]);
       }
-      console.log(eventMap);
       for(eventKey in eventMap) {
-         console.log(eventKey);
          let eventObject = {
             data:eventMap[eventKey],
             key:eventKey
          }
          returnArray.push(eventObject);
       }
-      console.log(returnArray);
       return returnArray ;
    }
 
