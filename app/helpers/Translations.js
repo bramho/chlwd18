@@ -4,6 +4,10 @@ I18n.fallbacks = true;
 
 setDefaultLocale();
 
+/**
+ * Object of translations for English (en) and Dutch (nl-NL)
+ * @type {Object}
+ */
 I18n.translations = {
    'en': {
       greeting: 'Hi!',

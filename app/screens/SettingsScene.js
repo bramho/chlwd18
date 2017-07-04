@@ -13,11 +13,10 @@ class SettingsScene extends Component {
       super(props)
 
       this.state = {
-         url: this.props.url
+
       }
    }
 
-   // show or hide Modal based on 'hide' prop
    render() {
       return (
          <View>
