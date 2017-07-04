@@ -1,5 +1,9 @@
 import { Linking } from 'react-native';
 
+/**
+ * Opens link in native browser.
+ * @param  {String} url    Url of webpage
+ */
 export function openLink(url) {
    Linking.canOpenURL(url).then(supported => {
       if (supported) {

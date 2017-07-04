@@ -12,6 +12,7 @@ moment.updateLocale('nl', {
     ]
 });
 moment.locale('nl');
+
 /**
  * Formats unix timestamp to human readable date format
 *  @param  {intr}   timestamp unix timestamp
