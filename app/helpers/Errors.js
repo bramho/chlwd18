@@ -1,7 +1,6 @@
 /**
  * Holds the list of errors and returns error requested by the component
  */
-
 errors = {
    1: 'Geen resultaten',
    100: 'Er is iets misgegaan bij het ophalen van de evenementen.',

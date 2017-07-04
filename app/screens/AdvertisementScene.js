@@ -13,18 +13,17 @@ class AdvertisementScene extends Component {
       super(props)
 
       this.state = {
-         url: this.props.url
+
       }
    }
 
-   // show or hide Modal based on 'hide' prop
    render() {
       return (
          <View>
             <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.pop()}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="back" size={25} color={COLOR.WHITE} />
+                     <Icon name="arrow-left" size={12} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                   </View>
                </TouchableOpacity>
 
@@ -41,7 +40,7 @@ class AdvertisementScene extends Component {
             <ScrollView style={General.generalPadding}>
                <TouchableOpacity style={SettingsStyles.itemContainer} onPress={() => Actions.pop()}>
                   <Text style={SettingsStyles.itemText}>{getTranslation('backToSettings')}</Text>
-                  <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                  <Icon name="arrow-left" size={12} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                </TouchableOpacity>
 
                <View style={SettingsStyles.textBlock}>

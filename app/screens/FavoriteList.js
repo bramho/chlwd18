@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, ListView,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
+import { StyleSheet, Text, Image, View, FlatList,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Swipeout from 'react-native-swipeout';
+import StatusBarAlert from 'react-native-statusbar-alert';
 
 import LoadingIcon from '../components/LoadingIcon';
-
 import ErrorNotification from '../components/ErrorNotification';
 import SectionHeader from '../components/SectionHeader';
 import Row from '../components/EventRow';
@@ -13,7 +14,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavoriteIds, setFavorite } from '../helpers/Storage';
 import { statusBar } from '../helpers/StatusBar';
 
 var COLOR = require('../assets/styles/COLOR');
@@ -21,12 +22,6 @@ import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
-/**
- * New initialisation of the ListView datasource object
- */
- const ds = new ListView.DataSource({
-    rowHasChanged: (row1, row2) => row1 !== row2,
- });
 var listData = [];
 
 var favorites = [];
@@ -35,9 +30,9 @@ var favoritesIds = [];
 export default class FavoriteList extends Component {
    constructor(props) {
       super(props);
-      var dataSource = new ListView.DataSource({rowHasChanged:(r1,r2) => r1.guid != r2.guid});
+
       this.state = {
-         dataSource: dataSource.cloneWithRows(listData),
+         data: listData,
          isLoading:true,
          rawData: '',
          apiData: '',
@@ -55,7 +50,14 @@ export default class FavoriteList extends Component {
    componentDidMount() {
       this.fetchData();
 
+      this.setFavorites();
+
       statusBar();
+   }
+
+   componentWillUnmound() {
+      // This prevents memory leaks when a user leaves the component while a timeout is running
+      clearTimeout();
    }
 
    /**
@@ -66,7 +68,8 @@ export default class FavoriteList extends Component {
 
       var storageKey = 'savedEvents';
 
-
+      // Use this to clear the favorite local storage.
+      // removeItemFromStorage(storageKey);
 
       checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -82,12 +85,14 @@ export default class FavoriteList extends Component {
                }
 
                this.setState({
-                  dataSource: this.state.dataSource.cloneWithRows(storageData),
+                  data: storageData,
                   apiData: storageData,
                   isLoading: false,
                   empty: false,
                   rawData: storageData,
                });
+
+
             })
             .catch((error) => {
                this.setState({
@@ -112,38 +117,12 @@ export default class FavoriteList extends Component {
 
       this.setState({
          searchText,
-         dataSource: this.state.dataSource.cloneWithRows(filteredData),
+         data: filteredData,
       });
    }
+
    onItemPress(id, data) {
       Actions.eventItemFavorites({eventId:id, rowData:data})
-   }
-       /**
-        * Gets favorites from local storage and assigns them to a favorites variable.
-        */
-       setFavorites() {
-          this.setState({
-             isLoading: true
-          });
-          checkStorageKey('savedEvents').then((isValidKey) => {
-
-             if (isValidKey) {
-                getStorageData('savedEvents').then((data) => {
-                   savedEvents = JSON.parse(data);
-
-                   favorites = savedEvents;
-
-                   setFavoriteIds(favorites).then((result) => {
-                      favoritesIds = result;
-
-
-                      this.setState({
-                         isLoading: false
-                      });
-                   });
-                });
-             }
-          });
    }
 
    /**
@@ -164,9 +143,8 @@ export default class FavoriteList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
-
                   this.setState({
-                     isLoading: false
+                     isLoading: false,
                   });
                });
             });
@@ -174,22 +152,52 @@ export default class FavoriteList extends Component {
       });
    }
 
-   setFavoriteButton(id, isReset) {
+   /**
+    * Removes item from favorite list
+    * @param  {Object} item   Item to be deleted
+    */
+   removeFromFavorite (item) {
+      var index = favoritesIds.indexOf(item.id);
+
+      newData = this.state.data;
+      newData.splice(index, 1);
+
+      this.setState({data: newData});
+
+      let notificationText = 'Evenement is verwijderd uit jou favorieten';
+      this.setNotification(notificationText);
+
+      setFavorite(item, false, favoritesIds);
+   }
+
+   /**
+    * Sets notification for user feedback
+    * @param {String} notificationText
+    */
+   setNotification(notificationText) {
+
+      this.setState({notification: <StatusBarAlert
+        visible={true}
+        message={notificationText}
+        backgroundColor={COLOR.RED}
+        color="white"
+        statusbarHeight={15}
+      />});
+
+      setTimeout(() => {   this.setState({notification: <StatusBarAlert
+                                 visible={false}
+                                 statusbarHeight={0}
+                                 backgroundColor={COLOR.RED}
+                              />
+                           });
+                           clearTimeout()
+                        }, 4000);
 
    }
 
-   addOrRemoveFavorite (id) {
-      console.log(id);
-
-      var index = favoritesIds.indexOf(id);
-
-      if (index === -1) {
-         setFavorite(id, true, favoritesIds);
-      } else {
-         setFavorite(id, false, favoritesIds);
-      }
-   }
-
+   /**
+    * Refreshes the scene
+    */
    _onRefresh() {
       this.setState({refreshing: true});
 
@@ -200,95 +208,53 @@ export default class FavoriteList extends Component {
    }
 
    /**
-    * [Set row attribute for the ListView in render()]
-    * @param  {dataObject}    rowData  dataObject with data to display in a row.
-    * @return [markup]        Returns the template for the row in ListView.
+    * Renders Swipeout Item for a row
+    * @param  {Object} itemData     Row item
+    * @return {Swipeout}            Swipeout row-wrapper
     */
-   _renderRow (rowData) {
-      return (
-         <TouchableOpacity onPress={function(){this.onItemPress(rowData.id, rowData)}.bind(this)}>
-            <View style={ListViewStyle.row}>
-               <View>
-                  <Image source={{ uri: imgLink+rowData.image_uri}} style={ListViewStyle.photo} />
-                  <View style={ListViewStyle.priceContainer}>
-                     <View style={ListViewStyle.price}>
-                        <Text style={ListViewStyle.priceText}>
-                           € {rowData.ticketUrls[0].price}
-                        </Text>
-                     </View>
-                  </View>
+   _renderItem = (itemData) => {
+      var trashIcon = <Icon name="delete" size={30} color={COLOR.WHITE} />;
 
-                  <View style={ListViewStyle.categoriesContainer}>
-                     <View style={[ListViewStyle.categoryItemContainer, ListViewStyle.categoryItemCultuur]}>
-                        <Text style={ListViewStyle.categoryItem}>
-                           {rowData.categories[0].name}
-                        </Text>
-                     </View>
-                  </View>
-               </View>
-               <View style={ListViewStyle.body}>
-                  <View style={ListViewStyle.dateContainer}>
-                     <View style={ListViewStyle.day}>
-                        <Text style={ListViewStyle.dayText}>
-                          {formatDate(rowData.startDate,'eventList-day')}
-                        </Text>
-                     </View>
-                     <View style={ListViewStyle.month}>
-                        <Text style={ListViewStyle.monthText}>
-                          {formatDate(rowData.startDate,'eventList-month')}
-                        </Text>
-                     </View>
-                  </View>
-                  <View style={ListViewStyle.textContainer}>
-                     <View style={ListViewStyle.titleContainer}>
-                        <Text style={ListViewStyle.title}>
-                          {rowData.title}
-                        </Text>
-                     </View>
-                     <Text numberOfLines={2} style={ListViewStyle.description}>
-                       <Icon name="pointer" size={18} color="#b2b2b2" /> {rowData.location + '- ' + rowData.city}
-                     </Text>
-                  </View>
-               </View>
-            </View>
-         </TouchableOpacity>
+      var swipeOutBtnRight = [
+         {
+            component: <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>{trashIcon}</View>,
+            backgroundColor: COLOR.RED,
+            underlayColor: COLOR.RED,
+            onPress: () => {this.removeFromFavorite(itemData)},
+         }
+      ]
+      return (
+         <Swipeout right={swipeOutBtnRight} backgroundColor='transparent' buttonWidth={100}>
+            <Row {...itemData} />
+         </Swipeout>
       )
    }
+
    render() {
       var currentView = (this.state.isLoading) ? <LoadingIcon /> :
-      <ListView
+      <FlatList
          style={ListViewStyle.container}
-         dataSource={this.state.dataSource}
-         stickySectionHeadersEnabled={true}
-         renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
-         renderRow={(data) => <Row {...data} />}
-
-         renderSeparator={(sectionID, rowID) =>
-          <View key={`${sectionID}-${rowID}`} style={ListViewStyle.separator} />
-         }
+         data={this.state.data}
+         renderItem={({item}) => this._renderItem(item)}
+         ItemSeparatorComponent={()=><View style={ListViewStyle.separator} /> }
+         keyExtractor={(item, index) => item.id}
          renderFooter={() =><View style={ListViewStyle.footer} />}
-         enableEmptySections={true}
-         refreshControl={
-            <RefreshControl
-               refreshing={this.state.refreshing}
-               onRefresh={this._onRefresh.bind(this)}
-            />
-         }
+         refreshing={this.state.refreshing}
+         onRefresh={this._onRefresh.bind(this)}
       />
 
-   currentView = (this.state.error === "") ? currentView : this.state.error;
+      currentView = (this.state.error === "") ? currentView : this.state.error;
+
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-
-
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('favoritesMenuItem')}
                   </Text>
                </View>
-
             </View>
+            {this.state.notification}
             {currentView}
          </View>
       )

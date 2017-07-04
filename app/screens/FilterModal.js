@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, WebView, Slider, DatePickerIOS, DatePickerAndroid, Platform} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 var moment = require('moment');
 
@@ -22,7 +22,7 @@ var date = new Date();
 var year = date.getFullYear();
 var month = date.getMonth();
 var day = date.getDate();
-var untilDate = new Date(year + 2, month, day);
+var untilDate = new Date(year+1, month, day);
 
 class FilterModal extends Component {
 
@@ -61,7 +61,7 @@ class FilterModal extends Component {
     * @param  {date}    Selected date
     */
    onDateChange = (date) => {
-      this.setState({date: date});
+      this.setState({date: moment(date).toDate()});
    };
 
    /**
@@ -69,23 +69,61 @@ class FilterModal extends Component {
     * @param  {date}    Selected date
     */
    onUntilDateChange = (date) => {
-      this.setState({untilDate: date});
+      this.setState({untilDate: moment(date).toDate()});
    };
 
+   /**
+    * Toggles datepicker for 'fromDate'
+    */
    toggleFromDate() {
       if (this.state.showDatePicker) {
          this.setState({showDatePicker: false})
       } else {
          this.setState({showUntilDatePicker: false, showDatePicker: true})
       }
+
+      if(Platform.OS === 'android') {
+         this.pickDateAndroid(this.state.date);
+      }
    }
 
+   /**
+    * Toggles datepicker for 'untilDate'
+    */
    toggleUntilDate() {
       if (this.state.showUntilDatePicker) {
          this.setState({showUntilDatePicker: false})
       } else {
          this.setState({showDatePicker: false, showUntilDatePicker: true})
       }
+      if(Platform.OS === 'android') {
+         this.pickDateAndroid(this.state.untilDate,true);
+      }
+   }
+
+   /**
+    * Android picker toggle function
+    * @param  {object}  defaultDate   default date state for the picker
+    * @param  {Boolean} [until=false] defining if its a untilDate picker
+    */
+   async pickDateAndroid(defaultDate, until = false){
+       try{
+          let pickedDate = await DatePickerAndroid.open({
+          date: defaultDate
+       });
+         if(pickedDate.action === 'dateSetAction') {
+            if(until) {
+               this.onUntilDateChange({day:pickedDate.day,month:pickedDate.month,year:pickedDate.year});
+            } else {
+               this.onDateChange(pickedDate);
+            }
+         }
+       }
+       catch(e){
+           console.log('caught error', e);
+           // Handle exceptions
+       }
+
    }
 
    /**
@@ -161,8 +199,6 @@ class FilterModal extends Component {
     * @return {ScrollView}    ScrollView with filter modal content
     */
    _renderContent() {
-
-
       if (this.state.hasCategories && !this.state.isSliding) {
 
          categoriesArray = [];
@@ -174,8 +210,9 @@ class FilterModal extends Component {
                <TouchableHighlight underlayColor='transparent' key={index} style={FilterStyles.filterItemContainer} onPress={() => this.setCategory(this.state.apiData[index].id)}>
                   <View style={active ? [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderBlue] : [FilterStyles.innerFilterItem, FilterStyles.innerFilterBorderGray]}>
                      <View style={FilterStyles.itemIconContainer}>
-                        <Icon name="search" size={30} color={active ? COLOR.LIGHTBLUE : COLOR.GRAY} />
+                        <Icon name={this.state.apiData[index].name.toLowerCase()} size={30} color={active ? COLOR.LIGHTBLUE : COLOR.GRAY} />
                      </View>
+
                      <Text style={active ? [FilterStyles.itemText, FilterStyles.itemTextColorBlue] : [FilterStyles.itemText, FilterStyles.itemTextColorGray]}>{this.state.apiData[index].name}</Text>
                   </View>
                </TouchableHighlight>
@@ -296,21 +333,22 @@ class FilterModal extends Component {
 
       return (
          <View style={General.container}>
-            <View style={ComponentStyle.singleHeaderContainer}>
-               <TouchableOpacity style={[ComponentStyle.filterIconContainer, ComponentStyle.backIconContainer]}  onPress={function(){Actions.pop()}}>
-                  <View style={[ComponentStyle.filterIcon, ComponentStyle.filterModalIcon]}>
-                     <Icon name="back" size={25} color="#F02C32" />
-                  </View>
-               </TouchableOpacity>
+         <View style={ComponentStyle.headerContainer}>
+            <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.pop()}>
+               <View style={ComponentStyle.filterIcon}>
+                  <Icon name="back" size={32} color={COLOR.WHITE} />
+               </View>
+            </TouchableOpacity>
 
-               <Text style={[General.h4, {flex: 5}]}>
+            <View style={ComponentStyle.headerTitleContainer}>
+               <Text style={[General.h2, ComponentStyle.headerTitle]}>
                   {getTranslation('searchFilter')}
                </Text>
-
-               <View style={{flex: 4}}>
-
-               </View>
             </View>
+
+            <View style={ComponentStyle.filterIconContainer}>
+            </View>
+         </View>
 
             {currentView}
 

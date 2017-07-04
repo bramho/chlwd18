@@ -13,11 +13,10 @@ class DevelopmentBy extends Component {
       super(props)
 
       this.state = {
-         url: this.props.url
+
       }
    }
 
-   // show or hide Modal based on 'hide' prop
    render() {
       return (
          <View>
@@ -43,7 +42,7 @@ class DevelopmentBy extends Component {
 
                   <TouchableOpacity style={SettingsStyles.itemContainer} onPress={() => Actions.pop()}>
                      <Text style={SettingsStyles.itemText}>{getTranslation('backToSettings')}</Text>
-                     <Icon name="back" size={20} color={COLOR.BLUE} style={SettingsStyles.itemIcon} />
+                     <Icon name="arrow-left" size={12} color={COLOR.DARKPURPLE} style={SettingsStyles.itemIcon} />
                   </TouchableOpacity>
 
                   <View style={SettingsStyles.textBlock}>

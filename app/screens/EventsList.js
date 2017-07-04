@@ -4,20 +4,15 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
 import StatusBarAlert from 'react-native-statusbar-alert';
 
-import Icon from '../helpers/Icons';
-
 var moment = require('moment');
-var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
-
 import ErrorNotification from '../components/ErrorNotification';
 import PopUpNotification from '../components/PopUpNotification';
-
 import Row from '../components/EventRow';
 import SectionHeader from '../components/SectionHeader';
 
-
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -26,6 +21,7 @@ import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
+var COLOR = require('../assets/styles/COLOR');
 
 /**
  * Apilink for calling data for the listview
@@ -91,8 +87,6 @@ export default class EventsList extends Component {
 
          const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
-         console.log(newApiLink);
-
          this.setState({
             isLoading: true,
             maxPriceValue: props.maxPrice,
@@ -131,7 +125,7 @@ export default class EventsList extends Component {
 
       var storageKey = 'eventList';
 
-      removeItemFromStorage('eventList');
+      //removeItemFromStorage('eventList');
 
       await checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -242,16 +236,13 @@ export default class EventsList extends Component {
          data[sectionId].key = sectionId;
          eventMap[data[sectionId].startDate].push(data[sectionId]);
       }
-      console.log(eventMap);
       for(eventKey in eventMap) {
-         console.log(eventKey);
          let eventObject = {
             data:eventMap[eventKey],
             key:eventKey
          }
          returnArray.push(eventObject);
       }
-      console.log(returnArray);
       return returnArray ;
    }
 
@@ -326,10 +317,7 @@ export default class EventsList extends Component {
     * @param {Object} rowData    Data containing row information
     */
    addOrRemoveFavorite (rowData) {
-
       var index = favoritesIds.indexOf(rowData.id);
-
-      console.log('Saved events index: ' + index);
 
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);
@@ -417,6 +405,7 @@ export default class EventsList extends Component {
          renderItem={({item}) => this.renderItem(item)}
          renderSectionHeader={(sectionData) => <SectionHeader listview="events" {...sectionData} />}
          stickySectionHeadersEnabled={true}
+         ItemSeparatorComponent={()=><View style={ListViewStyle.separator} /> }
          renderFooter={() =><View style={ListViewStyle.footer} />}
          onEndReached={this.onEndReached.bind(this)}
          refreshing={this.state.refreshing}
@@ -430,7 +419,7 @@ export default class EventsList extends Component {
             <View style={ComponentStyle.headerContainer}>
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.settings()}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="clock" size={25} color={COLOR.WHITE} />
+                     <Icon name="settings" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
 
@@ -442,7 +431,7 @@ export default class EventsList extends Component {
 
                <TouchableOpacity style={ComponentStyle.filterIconContainer} onPress={() => Actions.filterModal({maxPriceValue: this.state.maxPriceValue, categoryId: this.state.categoryId, date: this.state.fromDate, untilDate: this.state.untilDate})}>
                   <View style={ComponentStyle.filterIcon}>
-                     <Icon name="search" size={24} color={COLOR.WHITE} />
+                     <Icon name="search" size={32} color={COLOR.WHITE} />
                   </View>
                </TouchableOpacity>
             </View>

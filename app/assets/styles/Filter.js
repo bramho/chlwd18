@@ -12,15 +12,15 @@ export default FilterStyles = StyleSheet.create({
       height: 75,
    },
    innerFilterItem: {
-      paddingTop: 5,
+      paddingTop: 10,
       paddingRight: 10,
-      paddingBottom: 5,
+      paddingBottom: 10,
       paddingLeft: 10,
       borderWidth: 1,
       borderRadius: 3,
    },
    innerFilterContainer: {
-      padding: 20,
+      padding: 25,
    },
    innerFilterRow: {
       flex: 1,
@@ -48,7 +48,7 @@ export default FilterStyles = StyleSheet.create({
    },
    itemIconContainer: {
       alignItems: 'center',
-      paddingBottom: 10
+      paddingBottom: 5
    },
    scollViewContainer: {
       margin: 15,
