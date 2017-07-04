@@ -87,8 +87,6 @@ export default class EventsList extends Component {
 
          const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
 
-         console.log(newApiLink);
-
          this.setState({
             isLoading: true,
             maxPriceValue: props.maxPrice,
@@ -319,10 +317,7 @@ export default class EventsList extends Component {
     * @param {Object} rowData    Data containing row information
     */
    addOrRemoveFavorite (rowData) {
-
       var index = favoritesIds.indexOf(rowData.id);
-
-      console.log('Saved events index: ' + index);
 
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);

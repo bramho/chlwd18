@@ -32,8 +32,6 @@ export default class EventItem extends Component {
       this.rowRefs = [];
       this.savedEventsIds = [];
 
-      console.log(this.props);
-
       this.state = {
          data: '',
          isLoading: true,
@@ -97,8 +95,6 @@ export default class EventItem extends Component {
     * @param {Array} savedEventsIds
     */
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
-      console.log('Add to favorites: ' + addToFavorites);
-      console.log(this.state.rowData);
 
       setFavorite(this.state.rowData, addToFavorites, savedEventsIds);
 
@@ -418,7 +414,7 @@ export default class EventItem extends Component {
          </View>
       );
    }
-   
+
    /**
     * Renders the total view
     */

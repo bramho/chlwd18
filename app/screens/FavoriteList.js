@@ -77,7 +77,7 @@ export default class FavoriteList extends Component {
             getStorageData(storageKey).then((data) => {
 
                storageData = JSON.parse(data);
-               console.log(storageData);
+
                if (storageData.length === 0) {
                   this.setState({
                      error: <ErrorNotification errorNumber={1} />,
@@ -143,8 +143,6 @@ export default class FavoriteList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
-                  console.log(favoritesIds);
-
                   this.setState({
                      isLoading: false,
                   });
@@ -162,7 +160,6 @@ export default class FavoriteList extends Component {
       var index = favoritesIds.indexOf(item.id);
 
       newData = this.state.data;
-      console.log(newData);
       newData.splice(index, 1);
 
       this.setState({data: newData});
@@ -178,8 +175,6 @@ export default class FavoriteList extends Component {
     * @param {String} notificationText
     */
    setNotification(notificationText) {
-
-      console.log(notificationText);
 
       this.setState({notification: <StatusBarAlert
         visible={true}
