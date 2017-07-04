@@ -1,37 +1,52 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, } from 'react-native';
-import { getData } from './helpers/DataAPI';
+import React, { Component, TouchableOpacity } from 'react';
+import { Router, Actions } from 'react-native-router-flux';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+import Scenes from './Scenes';
+
+import OnBoarding from './screens/OnBoarding';
+
+import { checkStorageKey, setStorageData, setCategoriesData, removeItemFromStorage } from './helpers/Storage';
+import { statusBar } from './helpers/StatusBar';
+
+const ONBOARDING_STORAGE_KEY = 'onBoardingComplete';
 
 export default class Main extends Component {
+
    constructor(props) {
       super(props);
+
+      this.state = {
+
+      }
    }
 
-   componentWillMount() {
-      // Call getData(api_link_url)
+   componentDidMount() {
+      statusBar('translucent');
+
+      checkStorageKey('savedEvents').then((isValidKey) => {
+         if (!isValidKey) {
+            setStorageData('savedEvents', []);
+         }
+      });
+
+      // removeItemFromStorage(ONBOARDING_STORAGE_KEY);
+
+      checkStorageKey(ONBOARDING_STORAGE_KEY).then((isValidKey) => {
+         if (!isValidKey) {
+            Actions.onBoarding();
+         }
+      });
+
+      // Work around for BackAndroid message until there is a fix. (Issue #1842 - React-Native-Router-Flux)
+      console.ignoredYellowBox = ['Warning: BackAndroid'];
+
+      setCategoriesData();
+
    }
 
    render() {
-     return (
-       <View style={styles.container}>
-            <Text style={styles.welcome}>
-              Hoi
-            </Text>
-       </View>
-     );
+      return(
+         <Router scenes={Scenes} />
+      );
    }
 }

@@ -8,8 +8,20 @@
   },
   "dependencies": {
     "firebase": "^3.7.2",
-    "react": "15.4.2",
-    "react-native": "0.42.0"
+    "moment": "^2.18.1",
+    "react": "^16.0.0-alpha.6",
+    "react-native": "^0.45.1",
+    "react-native-app-intro": "^1.1.5",
+    "react-native-browser": "^0.6.2",
+    "react-native-datepicker": "^1.5.1",
+    "react-native-i18n": "^1.0.0",
+    "react-native-maps": "^0.15.2",
+    "react-native-router-flux": "3.38.0",
+    "react-native-searchbar": "^1.8.0",
+    "react-native-statusbar-alert": "^0.2.0",
+    "react-native-swipeout": "^2.1.1",
+    "react-native-swiper": "^1.5.4",
+    "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
@@ -19,5 +31,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./app/assets/fonts"
+    ]
   }
 }

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">chlwd18</string>
+    <string name="app_name">LWD 2018</string>
+    <color name="red">#F02C32</color>
 </resources>
