@@ -26,11 +26,13 @@ export default Maps = StyleSheet.create({
      overflow:'hidden',
      position: 'relative',
      top:-60,
+
    },
    buttonMultiple: {
        width: 1*vw-40,
        marginHorizontal: 20,
        paddingHorizontal:40,
+       left:-20
    },
    buttonContent: {
       position: 'relative',
@@ -67,6 +69,9 @@ export default Maps = StyleSheet.create({
    },
    buttonText: {
       color:COLOR.WHITE
+   },
+   tag: {
+      backgroundColor: COLOR.BLUEGRAY,
    },
    overlay: {
       position: 'absolute',

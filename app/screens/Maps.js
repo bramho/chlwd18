@@ -5,7 +5,7 @@ import MapView from 'react-native-maps';
 
 import { getTranslation, setLocale } from '../helpers/Translations.js';
 import Api from '../helpers/Api';
-import { General, MapsStyle} from '../assets/styles/General';
+import { General, MapsStyle, ListViewStyle} from '../assets/styles/General';
 
 import Pointer from '../assets/images/pointer.png';
 import PointerActive from '../assets/images/pointerActive.png';
@@ -25,7 +25,7 @@ var params = {
    maxPrice:'',
 }
 
-const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lc?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
+const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number="+params.number+"&pageNumber="+params.pageNumber+"&sort="+params.sort+"&from="+params.from+"&until="+params.until+"&category="+params.category+"&location="+params.location+"&minprice="+params.minPrice+"&maxprice="+params.maxPrice+"&type=-";
 
 const imgLink = "https://www.vanplan.nl/contentfiles/";
 
@@ -186,7 +186,7 @@ export default class Maps extends Component {
              <TouchableOpacity
                onPress={(e)=>this.onItemPress(eventData.id)}
                key={index}
-               style={[MapsStyle.button,this.state.activeEvent.events.length > 1 ? MapsStyle.buttonMultiple : '']}
+               style={[MapsStyle.button,this.state.activeEvent.events.length > 1 ? MapsStyle.buttonMultiple : null]}
              >
              <View style={[MapsStyle.buttonContent,]}>
 
@@ -196,6 +196,19 @@ export default class Maps extends Component {
                <Text style={[General.h3,MapsStyle.buttonText]}>
                   {eventData.title}
                </Text>
+            <Text numberOfLines={2} style={ListViewStyle.description}>
+               {eventData.subTitle}}
+            </Text>
+         <View style={ListViewStyle.categoriesContainer}>
+            {eventData.tags.map((tag,index) => (
+               <View key={index} style={[ListViewStyle.categoryItemContainer,MapsStyle.tag]}>
+                  <Text style={[ListViewStyle.categoryItem]}>
+                     {'#'+tag.name}
+                  </Text>
+               </View>
+            ))}
+
+         </View>
              </View>
              </TouchableOpacity>
              ))}
