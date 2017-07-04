@@ -145,7 +145,6 @@ const scenes = Actions.create(
                <Scene
                  key="eventItemFavorites"
                  component={EventItem}
-                 hideNavBar = {false}
                  navigationBarStyle={MenuStyle.transparentNavbar}
                  backTitle={getTranslation('navBarBackTitle')}
                  backButtonTextStyle={MenuStyle.backButtonTextStyle}

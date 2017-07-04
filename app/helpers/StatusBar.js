@@ -1,6 +1,10 @@
 import { StatusBar } from 'react-native';
 import { platform } from './Platform';
 
+/**
+ * Sets statusbar color
+ * @param  {Object} view      Current view
+ */
 export function statusBar(view) {
    switch (view) {
       case 'translucent':

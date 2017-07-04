@@ -69,10 +69,12 @@ class FilterModal extends Component {
     * @param  {date}    Selected date
     */
    onUntilDateChange = (date) => {
-      console.log(moment(date).toISOString());
       this.setState({untilDate: moment(date).toDate()});
    };
 
+   /**
+    * Toggles datepicker for 'fromDate'
+    */
    toggleFromDate() {
       if (this.state.showDatePicker) {
          this.setState({showDatePicker: false})
@@ -81,10 +83,13 @@ class FilterModal extends Component {
       }
 
       if(Platform.OS === 'android') {
-            this.pickDateAndroid(this.state.date);
+         this.pickDateAndroid(this.state.date);
       }
    }
 
+   /**
+    * Toggles datepicker for 'untilDate'
+    */
    toggleUntilDate() {
       if (this.state.showUntilDatePicker) {
          this.setState({showUntilDatePicker: false})
@@ -92,8 +97,7 @@ class FilterModal extends Component {
          this.setState({showDatePicker: false, showUntilDatePicker: true})
       }
       if(Platform.OS === 'android') {
-         console.log(this.state.untilDate);
-            this.pickDateAndroid(this.state.untilDate,true);
+         this.pickDateAndroid(this.state.untilDate,true);
       }
    }
 
@@ -121,6 +125,7 @@ class FilterModal extends Component {
        }
 
    }
+
    /**
     * Goes one scene back and send new props with it
     */
@@ -194,8 +199,6 @@ class FilterModal extends Component {
     * @return {ScrollView}    ScrollView with filter modal content
     */
    _renderContent() {
-
-
       if (this.state.hasCategories && !this.state.isSliding) {
 
          categoriesArray = [];

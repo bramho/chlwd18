@@ -4,20 +4,15 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
 import StatusBarAlert from 'react-native-statusbar-alert';
 
-import Icon from '../helpers/Icons';
-
 var moment = require('moment');
-var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
-
 import ErrorNotification from '../components/ErrorNotification';
 import PopUpNotification from '../components/PopUpNotification';
-
 import Row from '../components/EventRow';
 import SectionHeader from '../components/SectionHeader';
 
-
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -26,6 +21,7 @@ import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
+var COLOR = require('../assets/styles/COLOR');
 
 /**
  * Apilink for calling data for the listview
@@ -90,8 +86,6 @@ export default class EventsList extends Component {
          var untilDateFormat = moment(props.until).toISOString();
 
          const newApiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018?apiversion=v1&paper=lc&apitype=agenda&number=10&pageNumber=1&sort="+props.sort+"&from="+fromDateFormat+"&until="+untilDateFormat+"&category="+props.categoryId+"&location=&minprice=&maxprice="+props.maxPrice+"&type=-";
-
-         console.log(newApiLink);
 
          this.setState({
             isLoading: true,
@@ -323,10 +317,7 @@ export default class EventsList extends Component {
     * @param {Object} rowData    Data containing row information
     */
    addOrRemoveFavorite (rowData) {
-
       var index = favoritesIds.indexOf(rowData.id);
-
-      console.log('Saved events index: ' + index);
 
       if (index === -1) {
          setFavorite(rowData, true, favoritesIds);

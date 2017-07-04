@@ -8,7 +8,7 @@ import API from './Api';
  */
 export function setStorageData(key, data) {
    try {
-      console.log('storing data with key ' + key + ' and data ' + data);
+      console.log('Storing data: ' + data + ' for key: ' + key);
 
       AsyncStorage.setItem(key, JSON.stringify(data));
    } catch (error) {
@@ -16,6 +16,11 @@ export function setStorageData(key, data) {
    }
 }
 
+/**
+ * Sets id of each favorite in an Array
+ * @param  {Object}  favorites      List of favorites
+ * @return {Array}                  Array of favorite ids
+ */
 export const setFavoriteIds = async (favorites) => {
    var favoritesIds = [];
 
@@ -40,15 +45,11 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
          getStorageData('savedEvents').then((data) => {
             savedEvents = JSON.parse(data);
 
-            console.log('savedEventsIds: ');
-            console.log(savedEventsIds);
-
             // Checks if itemId already exists within the savedEvents
             index = savedEventsIds.indexOf(item.id);
-            console.log('Index: ' + index);
 
             if (index === -1) {
-               console.log('Adding item: ' + item.id);
+               console.log('Adding item with id: ' + item.id);
                savedEvents.push(item);
                savedEventsIds.push(item.id);
                setStorageData('savedEvents', savedEvents);
@@ -56,7 +57,7 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
                return savedEventsIds;
 
             } else {
-               console.log('Removing item: ' + item.id);
+               console.log('Removing item with id: ' + item.id);
                savedEvents.splice(index, 1);
                savedEventsIds.splice(index, 1);
                setStorageData('savedEvents', savedEvents);
@@ -72,8 +73,11 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
    });
 }
 
+/**
+ * Adds categories to local storage
+ */
 export const setCategoriesData = async () => {
-   const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/lc/';
+   const CATEGORIESURL = 'https://www.vanplan.nl/viewapi/v1/category/2018/';
 
    checkStorageKey('categoriesData').then((isValidKey) => {
 
@@ -107,10 +111,7 @@ export const checkFavorite = async (itemId) => {
             // Checks if itemId already exists within the savedEvents
             if (savedEvents.indexOf(itemId) === -1) {
                returnValue = true;
-               console.log('Return value in if ' + returnValue);
             }
-
-            console.log('Return value after if ' + returnValue);
 
          });
       }
@@ -131,8 +132,6 @@ export const getStorageData = async (key) => {
    try {
 
       await AsyncStorage.getItem(key).then((value) => {
-         // console.log(value);
-
          returnValue = value;
       });
 
@@ -154,7 +153,6 @@ export const checkStorageKey = async (key) => {
    try {
 
       await AsyncStorage.getItem(key).then((value) => {
-         // console.log(value);
          returnValue = (value !== null) ? true : false;
       });
 
