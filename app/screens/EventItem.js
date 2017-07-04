@@ -15,11 +15,7 @@ import { shareItem } from '../helpers/Share';
 
 import { General, EventStyle, ComponentStyle, ListViewStyle, Tags, Buttons } from '../assets/styles/General';
 
-/**
- * Apilink for calling data for the listview
- */
 const apiLink = "https://www.vanplan.nl/viewapi/v1/agenda/lf2018/";
-
 const imgLink = "https://2018.vanplan.nl/contentfiles/";
 
 var favorite;
@@ -76,10 +72,17 @@ export default class EventItem extends Component {
       });
    }
 
+   /**
+    * Stores references from each row in a rowRefs array
+    * @param  {Ref} rowRef    Refrence from a row
+    */
    storeRowRefs(rowRef) {
       this.rowRefs.push(rowRef);
    }
 
+   /**
+    * Opens share widget for iOS and Android
+    */
    shareEvent() {
       shareItem(
          this.state.data.title,
@@ -88,6 +91,11 @@ export default class EventItem extends Component {
       );
    }
 
+   /**
+    * Add or removes item to of from favorites and updates the favorite icon
+    * @param {Bool} addToFavorites
+    * @param {Array} savedEventsIds
+    */
    addOrRemoveFavorite (addToFavorites, savedEventsIds) {
       console.log('Add to favorites: ' + addToFavorites);
       console.log(this.state.rowData);
@@ -138,11 +146,11 @@ export default class EventItem extends Component {
             });
          });
    }
+
    /**
     * Renders the header of the event
     */
    _renderHeader() {
-
       return (
          <Animated.View style={EventStyle.header}>
            <Animated.Image
@@ -163,9 +171,12 @@ export default class EventItem extends Component {
            </View>
          </Animated.View>
       );
-
    }
 
+   /**
+    * Opens webmodal for specified url
+    * @param  {String} url       Url to ticket page
+    */
    openUrl(url) {
       Actions.webModal({url: url});
    }
@@ -407,6 +418,7 @@ export default class EventItem extends Component {
          </View>
       );
    }
+   
    /**
     * Renders the total view
     */
