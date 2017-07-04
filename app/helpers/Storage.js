@@ -43,6 +43,8 @@ export const setFavorite = async (item, addToFavorites, savedEventsIds) => {
             console.log('savedEventsIds: ');
             console.log(savedEventsIds);
 
+            console.log(item);
+
             // Checks if itemId already exists within the savedEvents
             index = savedEventsIds.indexOf(item.id);
             console.log('Index: ' + index);

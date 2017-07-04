@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, FlatList,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
+import Swipeout from 'react-native-swipeout';
 
 import LoadingIcon from '../components/LoadingIcon';
-
 import ErrorNotification from '../components/ErrorNotification';
 import SectionHeader from '../components/SectionHeader';
 import Row from '../components/EventRow';
@@ -13,7 +13,7 @@ import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
 import { filterData } from '../helpers/Filters';
 import { formatDate } from '../helpers/FormatDate';
-import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage } from '../helpers/Storage';
+import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavoriteIds, setFavorite } from '../helpers/Storage';
 import { statusBar } from '../helpers/StatusBar';
 
 var COLOR = require('../assets/styles/COLOR');
@@ -49,6 +49,8 @@ export default class FavoriteList extends Component {
    componentDidMount() {
       this.fetchData();
 
+      this.setFavorites();
+
       statusBar();
    }
 
@@ -60,7 +62,7 @@ export default class FavoriteList extends Component {
 
       var storageKey = 'savedEvents';
 
-      //removeItemFromStorage(storageKey);
+      // removeItemFromStorage(storageKey);
 
       checkStorageKey(storageKey).then((isValidKey) => {
 
@@ -82,6 +84,8 @@ export default class FavoriteList extends Component {
                   empty: false,
                   rawData: storageData,
                });
+
+
             })
             .catch((error) => {
                this.setState({
@@ -109,35 +113,9 @@ export default class FavoriteList extends Component {
          data: filteredData,
       });
    }
+
    onItemPress(id, data) {
       Actions.eventItemFavorites({eventId:id, rowData:data})
-   }
-       /**
-        * Gets favorites from local storage and assigns them to a favorites variable.
-        */
-       setFavorites() {
-          this.setState({
-             isLoading: true
-          });
-          checkStorageKey('savedEvents').then((isValidKey) => {
-
-             if (isValidKey) {
-                getStorageData('savedEvents').then((data) => {
-                   savedEvents = JSON.parse(data);
-
-                   favorites = savedEvents;
-
-                   setFavoriteIds(favorites).then((result) => {
-                      favoritesIds = result;
-
-
-                      this.setState({
-                         isLoading: false
-                      });
-                   });
-                });
-             }
-          });
    }
 
    /**
@@ -158,9 +136,10 @@ export default class FavoriteList extends Component {
                setFavoriteIds(favorites).then((result) => {
                   favoritesIds = result;
 
+                  console.log(favoritesIds);
 
                   this.setState({
-                     isLoading: false
+                     isLoading: false,
                   });
                });
             });
@@ -168,20 +147,18 @@ export default class FavoriteList extends Component {
       });
    }
 
-   setFavoriteButton(id, isReset) {
+   removeFromFavorite (item) {
+      var index = favoritesIds.indexOf(item.id);
 
-   }
+      newData = this.state.data;
+      console.log(newData);
+      newData.splice(index, 1);
 
-   addOrRemoveFavorite (id) {
-      console.log(id);
+      this.setState({data: newData});
 
-      var index = favoritesIds.indexOf(id);
+      setFavorite(item, false, favoritesIds);
 
-      if (index === -1) {
-         setFavorite(id, true, favoritesIds);
-      } else {
-         setFavorite(id, false, favoritesIds);
-      }
+      // favoritesIds.splice(index, 1);
    }
 
    _onRefresh() {
@@ -193,12 +170,30 @@ export default class FavoriteList extends Component {
 
    }
 
+   _renderItem = (itemData) => {
+      var trashIcon = <Icon name="delete" size={30} color={COLOR.WHITE} />;
+
+      var swipeOutBtnRight = [
+         {
+            component: <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>{trashIcon}</View>,
+            backgroundColor: COLOR.RED,
+            underlayColor: COLOR.RED,
+            onPress: () => {this.removeFromFavorite(itemData)},
+         }
+      ]
+      return (
+         <Swipeout right={swipeOutBtnRight} backgroundColor='transparent' buttonWidth={100}>
+            <Row {...itemData} />
+         </Swipeout>
+      )
+   }
+
    render() {
       var currentView = (this.state.isLoading) ? <LoadingIcon /> :
       <FlatList
          style={ListViewStyle.container}
          data={this.state.data}
-         renderItem={(data) => <Row {...data.item} />}
+         renderItem={({item}) => this._renderItem(item)}
          ItemSeparatorComponent={()=><View style={ListViewStyle.separator} /> }
          keyExtractor={(item, index) => item.id}
          renderFooter={() =><View style={ListViewStyle.footer} />}
@@ -206,7 +201,8 @@ export default class FavoriteList extends Component {
          onRefresh={this._onRefresh.bind(this)}
       />
 
-   currentView = (this.state.error === "") ? currentView : this.state.error;
+      currentView = (this.state.error === "") ? currentView : this.state.error;
+
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
