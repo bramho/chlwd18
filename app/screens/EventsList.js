@@ -4,20 +4,15 @@ import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
 import StatusBarAlert from 'react-native-statusbar-alert';
 
-import Icon from '../helpers/Icons';
-
 var moment = require('moment');
-var COLOR = require('../assets/styles/COLOR');
 
 import LoadingIcon from '../components/LoadingIcon';
-
 import ErrorNotification from '../components/ErrorNotification';
 import PopUpNotification from '../components/PopUpNotification';
-
 import Row from '../components/EventRow';
 import SectionHeader from '../components/SectionHeader';
 
-
+import Icon from '../helpers/Icons';
 import { statusBar } from '../helpers/StatusBar';
 import Api from '../helpers/Api';
 import { getTranslation } from '../helpers/Translations';
@@ -26,6 +21,7 @@ import { formatDate } from '../helpers/FormatDate';
 import { setStorageData, getStorageData, checkStorageKey, removeItemFromStorage, setFavorite, setFavoriteIds } from '../helpers/Storage';
 
 import { General, ListViewStyle, ComponentStyle } from '../assets/styles/General';
+var COLOR = require('../assets/styles/COLOR');
 
 /**
  * Apilink for calling data for the listview

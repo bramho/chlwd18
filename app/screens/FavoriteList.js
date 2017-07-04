@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, FlatList,TextInput, TouchableOpacity, AsyncStorage, RefreshControl} from 'react-native';
 import { Scene, Actions } from 'react-native-router-flux';
 import Swipeout from 'react-native-swipeout';
+import StatusBarAlert from 'react-native-statusbar-alert';
 
 import LoadingIcon from '../components/LoadingIcon';
 import ErrorNotification from '../components/ErrorNotification';
@@ -54,6 +55,11 @@ export default class FavoriteList extends Component {
       statusBar();
    }
 
+   componentWillUnmound() {
+      // This prevents memory leaks when a user leaves the component while a timeout is running
+      clearTimeout();
+   }
+
    /**
     * Fetches data from Api and returns the result
     * @return [data] Data returned from Api
@@ -62,6 +68,7 @@ export default class FavoriteList extends Component {
 
       var storageKey = 'savedEvents';
 
+      // Use this to clear the favorite local storage.
       // removeItemFromStorage(storageKey);
 
       checkStorageKey(storageKey).then((isValidKey) => {
@@ -147,6 +154,10 @@ export default class FavoriteList extends Component {
       });
    }
 
+   /**
+    * Removes item from favorite list
+    * @param  {Object} item   Item to be deleted
+    */
    removeFromFavorite (item) {
       var index = favoritesIds.indexOf(item.id);
 
@@ -156,11 +167,42 @@ export default class FavoriteList extends Component {
 
       this.setState({data: newData});
 
-      setFavorite(item, false, favoritesIds);
+      let notificationText = 'Evenement is verwijderd uit jou favorieten';
+      this.setNotification(notificationText);
 
-      // favoritesIds.splice(index, 1);
+      setFavorite(item, false, favoritesIds);
    }
 
+   /**
+    * Sets notification for user feedback
+    * @param {String} notificationText
+    */
+   setNotification(notificationText) {
+
+      console.log(notificationText);
+
+      this.setState({notification: <StatusBarAlert
+        visible={true}
+        message={notificationText}
+        backgroundColor={COLOR.RED}
+        color="white"
+        statusbarHeight={15}
+      />});
+
+      setTimeout(() => {   this.setState({notification: <StatusBarAlert
+                                 visible={false}
+                                 statusbarHeight={0}
+                                 backgroundColor={COLOR.RED}
+                              />
+                           });
+                           clearTimeout()
+                        }, 4000);
+
+   }
+
+   /**
+    * Refreshes the scene
+    */
    _onRefresh() {
       this.setState({refreshing: true});
 
@@ -170,6 +212,11 @@ export default class FavoriteList extends Component {
 
    }
 
+   /**
+    * Renders Swipeout Item for a row
+    * @param  {Object} itemData     Row item
+    * @return {Swipeout}            Swipeout row-wrapper
+    */
    _renderItem = (itemData) => {
       var trashIcon = <Icon name="delete" size={30} color={COLOR.WHITE} />;
 
@@ -206,15 +253,13 @@ export default class FavoriteList extends Component {
       return (
          <View style={General.container}>
             <View style={ComponentStyle.headerContainer}>
-
-
                <View style={ComponentStyle.headerTitleContainer}>
                   <Text style={[General.h4, ComponentStyle.headerTitle]}>
                      {getTranslation('favoritesMenuItem')}
                   </Text>
                </View>
-
             </View>
+            {this.state.notification}
             {currentView}
          </View>
       )
