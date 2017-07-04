@@ -16,7 +16,6 @@ const imgLink = "https://www.vanplan.nl/contentfiles/";
 
 const Row = (props) => (
    <TouchableOpacity onPress={function(){onItemPress(props.id, props)}.bind(this)}>
-   {console.log(props)}
    <View style={ListViewStyle.row}>
       <View style={ListViewStyle.pic}>
          <Image source={{ uri: imgLink+props.image_uri}} style={ListViewStyle.photo} />
